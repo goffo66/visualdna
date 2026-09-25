@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Photographer Visual DNA Deck</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+    body { background-color: #0f1115; color: #f0f3f8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 16px 12px; }
+    header { width: 100%; max-width: 420px; display: flex; justify-content: space-between; align-items: center; padding: 8px 4px; z-index: 10; }
+    .title-group { display: flex; flex-direction: column; }
+    .app-title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; color: #ffffff; }
+    .app-subtitle { font-size: 0.75rem; color: #8a94a6; text-transform: uppercase; letter-spacing: 0.08em; }
+    .counter-badge { background: rgba(255, 255, 255, 0.1); padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; font-family: monospace; color: #d0d7de; }
+    
+    .card-stack { position: relative; width: 100%; max-width: 380px; height: 60vh; max-height: 520px; display: flex; align-items: center; justify-content: center; margin: auto 0; }
+    .card { position: absolute; width: 100%; height: 100%; border-radius: 16px; overflow: hidden; background: #181b21; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 12px 32px rgba(0,0,0,0.4); display: flex; flex-direction: column; transition: transform 0.25s ease, opacity 0.25s ease; touch-action: none; cursor: grab; }
+    .card:active { cursor: grabbing; }
+    
+    .image-container { position: relative; width: 100%; flex: 1; background-color: #050608; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .image-container img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+    
+    .card-info { padding: 14px 16px; background: linear-gradient(180deg, #181b21 0%, #121418 100%); display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+    .meta-primary { display: flex; flex-direction: column; gap: 2px; }
+    .photo-title { font-size: 0.95rem; font-weight: 600; color: #ffffff; }
+    .photo-author { font-size: 0.8rem; color: #9aa5b5; }
+    .photo-year { font-size: 0.75rem; color: #647082; font-family: monospace; }
+    
+    .badge-indicator { position: absolute; top: 20px; padding: 6px 16px; border-radius: 8px; font-weight: 800; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0; transition: opacity 0.1s ease; z-index: 5; pointer-events: none; }
+    .badge-like { right: 20px; border: 2px solid #2da44e; color: #2da44e; background: rgba(0, 0, 0, 0.6); transform: rotate(12deg); }
+    .badge-pass { left: 20px; border: 2px solid #cf222e; color: #cf222e; background: rgba(0, 0, 0, 0.6); transform: rotate(-12deg); }
+    
+    .controls { width: 100%; max-width: 380px; display: flex; justify-content: center; gap: 24px; padding: 12px 0; z-index: 10; }
+    .btn { width: 64px; height: 64px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.1); background: #181b21; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; cursor: pointer; transition: all 0.15s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .btn:active { transform: scale(0.92); }
+    .btn-pass { color: #f85149; border-color: rgba(248, 81, 73, 0.3); }
+    .btn-like { color: #3fb950; border-color: rgba(63, 185, 80, 0.3); }
+
+    .results-container { display: none; width: 100%; max-width: 420px; height: 100%; overflow-y: auto; flex-direction: column; gap: 20px; padding: 12px 4px; }
+    .results-card { background: #181b21; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+    .archetype-header { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #8a94a6; }
+    .archetype-title { font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-top: 2px; }
+    .archetype-desc { font-size: 0.9rem; line-height: 1.5; color: #c0c8d4; }
+    .metric-row { display: flex; flex-direction: column; gap: 6px; }
+    .metric-label { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; color: #a0aec0; }
+    .progress-bar { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.08); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: #38bdf8; border-radius: 4px; transition: width 0.6s ease; }
+    .restart-btn { width: 100%; padding: 14px; background: #2563eb; color: #ffffff; border: none; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="title-group">
+      <span class="app-title">VISUAL DNA</span>
+      <span class="app-subtitle">Aesthetic Taste Engine</span>
+    </div>
+    <div class="counter-badge" id="counter">1 / 24</div>
+  </header>
+
+  <main class="card-stack" id="stack">
+    <!-- Cards render dynamically -->
+  </main>
+
+  <div class="controls" id="controls">
+    <button class="btn btn-pass" id="passBtn">✕</button>
+    <button class="btn btn-like" id="likeBtn">♥</button>
+  </div>
+
+  <div class="results-container" id="results">
+    <div class="results-card">
+      <div>
+        <div class="archetype-header">Your Primary Archetype</div>
+        <div class="archetype-title" id="archetypeTitle">Analyzing...</div>
+      </div>
+      <div class="archetype-desc" id="archetypeDesc">...</div>
+      <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.08);">
+      <div style="font-weight: 600; font-size: 0.9rem; color: #ffffff;">Aesthetic DNA Profile</div>
+      
+      <div class="metric-row">
+        <div class="metric-label"><span>Framing & Perspective</span><span id="focalVal">0% Wide</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="focalBar" style="width: 50%;"></div></div>
+      </div>
+      
+      <div class="metric-row">
+        <div class="metric-label"><span>Shadow & Contrast</span><span id="contrastVal">0% High</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="contrastBar" style="width: 50%;"></div></div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-label"><span>Subject Dynamic</span><span id="subjectVal">0% Candid</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="subjectBar" style="width: 50%;"></div></div>
+      </div>
+
+      <button class="restart-btn" onclick="location.reload()">Start New Session</button>
+    </div>
+  </div>
+
+  <script>
+    const DECK = [
+      { id: 1, title: "Urban Geometry & Shadow", artist: "Classic Archive", year: "Street", url: "https://picsum.photos/id/1015/800/1000", tags: { focal: "wide", contrast: "high", subject: "candid" } },
+      { id: 2, title: "Dramatic Chiaroscuro Portrait", artist: "Studio Collection", year: "Portrait", url: "https://picsum.photos/id/1025/800/1000", tags: { focal: "tele", contrast: "high", subject: "portrait" } },
+      { id: 3, title: "Minimalist Architectural Line", artist: "Urban Series", year: "Architecture", url: "https://picsum.photos/id/1031/800/1000", tags: { focal: "wide", contrast: "low", subject: "architecture" } },
+      { id: 4, title: "Intimate Grain & Character", artist: "Mono Archive", year: "Portrait", url: "https://picsum.photos/id/1062/800/1000", tags: { focal: "tele", contrast: "high", subject: "portrait" } },
+      { id: 5, title: "Candid City Crossing", artist: "Metropolitan Life", year: "Street", url: "https://picsum.photos/id/1074/800/1000", tags: { focal: "wide", contrast: "high", subject: "candid" } },
+      { id: 6, title: "Atmospheric Mountain Ridge", artist: "Landscape Series", year: "Vista", url: "https://picsum.photos/id/1018/800/1000", tags: { focal: "tele", contrast: "high", subject: "landscape" } },
+      { id: 7, title: "High-Contrast Shadow Silhouette", artist: "Candid Archive", year: "Street", url: "https://picsum.photos/id/1005/800/1000", tags: { focal: "tele", contrast: "high", subject: "portrait" } },
+      { id: 8, title: "Night Alley Lighting", artist: "Nocturne Series", year: "Street", url: "https://picsum.photos/id/1050/800/1000", tags: { focal: "wide", contrast: "high", subject: "candid" } },
+      { id: 9, title: "Geometric Facade & Perspective", artist: "Structural Form", year: "Architecture", url: "https://picsum.photos/id/1040/800/1000", tags: { focal: "tele", contrast: "high", subject: "architecture" } },
+      { id: 10, title: "Soft Light Natural Character", artist: "Environmental Study", year: "Portrait", url: "https://picsum.photos/id/1027/800/1000", tags: { focal: "wide", contrast: "low", subject: "portrait" } },
+      { id: 11, title: "Isolated Ridge Peak", artist: "Alpine Archive", year: "Landscape", url: "https://picsum.photos/id/1036/800/1000", tags: { focal: "tele", contrast: "high", subject: "landscape" } },
+      { id: 12, title: "Industrial Movement & Motion", artist: "Urban Industrial", year: "Candid", url: "https://picsum.photos/id/1053/800/1000", tags: { focal: "wide", contrast: "high", subject: "candid" } },
+      { id: 13, title: "Low-Contrast Rain Texture", artist: "Atmosphere Series", year: "Street", url: "https://picsum.photos/id/1056/800/1000", tags: { focal: "wide", contrast: "low", subject: "candid" } },
+      { id: 14, title: "Misty Lake Horizon", artist: "Tonal Landscape", year: "Vista", url: "https://picsum.photos/id/1069/800/1000", tags: { focal: "tele", contrast: "low", subject: "landscape" } },
+      { id: 15, title: "Decisive Moment Geometry", artist: "Street Perspective", year: "Street", url: "https://picsum.photos/id/1081/800/1000", tags: { focal: "wide", contrast: "high", subject: "candid" } },
+      { id: 16, title: "High-Key Natural Light Portrait", artist: "Studio Collection", year: "Portrait", url: "https://picsum.photos/id/1024/800/1000", tags: { focal: "tele", contrast: "high", subject: "portrait" } },
+      { id: 17, title: "Monolithic Tower Perspective", artist: "Urban Architecture", year: "Architecture", url: "https://picsum.photos/id/1076/800/1000", tags: { focal: "wide", contrast: "high", subject: "architecture" } },
+      { id: 18, title: "Sweeping Valley Vista", artist: "Natural Form", year: "Landscape", url: "https://picsum.photos/id/1043/800/1000", tags: { focal: "wide", contrast: "high", subject: "landscape" } },
+      { id: 19, title: "Environmental Portrait Study", artist: "Humanity Archive", year: "Portrait", url: "https://picsum.photos/id/1062/800/1000", tags: { focal: "tele", contrast: "low", subject: "portrait" } },
+      { id: 20, title: "Abstract Light Play", artist: "Modern Minimal", year: "Abstract", url: "https://picsum.photos/id/1048/800/1000", tags: { focal: "tele", contrast: "high", subject: "architecture" } },
+      { id: 21, title: "Glass & Steel Reflection", artist: "Metropolitan Form", year: "Architecture", url: "https://picsum.photos/id/1078/800/1000", tags: { focal: "wide", contrast: "high", subject: "architecture" } },
+      { id: 22, title: "Layered Street Shadows", artist: "Decisive Moment", year: "Street", url: "https://picsum.photos/id/1083/800/1000", tags: { focal: "wide", contrast: "high", subject: "candid" } },
+      { id: 23, title: "Foggy Woodland Isolation", artist: "Nature Series", year: "Landscape", url: "https://picsum.photos/id/1044/800/1000", tags: { focal: "tele", contrast: "high", subject: "landscape" } },
+      { id: 24, title: "Candid Pedestrian Silhouette", artist: "Urban Life", year: "Street", url: "https://picsum.photos/id/1001/800/1000", tags: { focal: "wide", contrast: "high", subject: "candid" } }
+    ];
+
+    let currentIndex = 0;
+    let isAnimating = false;
+    const cardElements = [];
+    const scores = { wide: 0, tele: 0, highContrast: 0, lowContrast: 0, candid: 0, nonCandid: 0, totalLikes: 0 };
+
+    const stackEl = document.getElementById('stack');
+    const counterEl = document.getElementById('counter');
+
+    function createCard(item, index) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.zIndex = DECK.length - index;
+      
+      card.innerHTML = `
+        <div class="badge-indicator badge-like">LIKE</div>
+        <div class="badge-indicator badge-pass">PASS</div>
+        <div class="image-container">
+          <img src="${item.url}" alt="${item.title}" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100%\\' height=\\'100%\\' viewBox=\\'0 0 400 600\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%231f242d\\'/><text x=\\'50%\\' y=\\'50%\\' fill=\\'%238a94a6\\' font-family=\\'sans-serif\\' font-size=\\'18\\' text-anchor=\\'middle\\'>Visual Profile Card</text></svg>';">
+        </div>
+        <div class="card-info">
+          <div class="meta-primary">
+            <span class="photo-title">${item.title}</span>
+            <span class="photo-author">${item.artist}</span>
+          </div>
+          <span class="photo-year">${item.year}</span>
+        </div>
+      `;
+
+      initTouch(card, item, index);
+      return card;
+    }
+
+    function renderDeck() {
+      DECK.forEach((item, i) => {
+        const card = createCard(item, i);
+        cardElements.push(card);
+        stackEl.appendChild(card);
+      });
+    }
+
+    function initTouch(card, item, index) {
+      let startX = 0, currentX = 0, isDragging = false;
+      const likeBadge = card.querySelector('.badge-like');
+      const passBadge = card.querySelector('.badge-pass');
+
+      const onStart = (e) => {
+        if (index !== currentIndex || isAnimating) return;
+        isDragging = true;
+        startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        card.style.transition = 'none';
+      };
+
+      const onMove = (e) => {
+        if (!isDragging) return;
+        currentX = (e.type.includes('touch') ? e.touches[0].clientX : e.clientX) - startX;
+        const rotate = currentX * 0.08;
+        card.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
+
+        if (currentX > 30) {
+          likeBadge.style.opacity = Math.min(currentX / 100, 1);
+          passBadge.style.opacity = 0;
+        } else if (currentX < -30) {
+          passBadge.style.opacity = Math.min(-currentX / 100, 1);
+          likeBadge.style.opacity = 0;
+        } else {
+          likeBadge.style.opacity = 0;
+          passBadge.style.opacity = 0;
+        }
+      };
+
+      const onEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+
+        if (currentX > 90) {
+          swipeCard(card, 'right', item);
+        } else if (currentX < -90) {
+          swipeCard(card, 'left', item);
+        } else {
+          card.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+          card.style.transform = 'translateX(0) rotate(0)';
+          likeBadge.style.opacity = 0;
+          passBadge.style.opacity = 0;
+        }
+      };
+
+      card.addEventListener('mousedown', onStart);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onEnd);
+      card.addEventListener('touchstart', onStart, { passive: true });
+      window.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', onEnd);
+    }
+
+    function swipeCard(card, direction, item) {
+      if (isAnimating || !card) return;
+      isAnimating = true;
+
+      const likeBadge = card.querySelector('.badge-like');
+      const passBadge = card.querySelector('.badge-pass');
+      
+      if (direction === 'right') {
+        if (likeBadge) likeBadge.style.opacity = 1;
+        scores.totalLikes++;
+        if (item.tags.focal === 'wide') scores.wide++; else scores.tele++;
+        if (item.tags.contrast === 'high') scores.highContrast++; else scores.lowContrast++;
+        if (item.tags.subject === 'candid') scores.candid++; else scores.nonCandid++;
+      } else {
+        if (passBadge) passBadge.style.opacity = 1;
+      }
+
+      card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+      card.style.transform = `translateX(${direction === 'right' ? 500 : -500}px) rotate(${direction === 'right' ? 25 : -25}deg)`;
+      card.style.opacity = '0';
+
+      setTimeout(() => {
+        card.remove();
+        currentIndex++;
+        isAnimating = false;
+
+        if (currentIndex < DECK.length) {
+          counterEl.innerText = `${currentIndex + 1} / ${DECK.length}`;
+        } else {
+          showResults();
+        }
+      }, 280);
+    }
+
+    document.getElementById('passBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (currentIndex < DECK.length && !isAnimating) {
+        swipeCard(cardElements[currentIndex], 'left', DECK[currentIndex]);
+      }
+    });
+
+    document.getElementById('likeBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (currentIndex < DECK.length && !isAnimating) {
+        swipeCard(cardElements[currentIndex], 'right', DECK[currentIndex]);
+      }
+    });
+
+    function showResults() {
+      document.getElementById('controls').style.display = 'none';
+      stackEl.style.display = 'none';
+      counterEl.style.display = 'none';
+      
+      const resultsEl = document.getElementById('results');
+      resultsEl.style.display = 'flex';
+
+      const total = Math.max(scores.totalLikes, 1);
+      const widePct = Math.round((scores.wide / total) * 100);
+      const highContrastPct = Math.round((scores.highContrast / total) * 100);
+      const candidPct = Math.round((scores.candid / total) * 100);
+
+      document.getElementById('focalVal').innerText = `${widePct}% Wide Perspective`;
+      document.getElementById('focalBar').style.width = `${widePct}%`;
+
+      document.getElementById('contrastVal').innerText = `${highContrastPct}% High Contrast`;
+      document.getElementById('contrastBar').style.width = `${highContrastPct}%`;
+
+      document.getElementById('subjectVal').innerText = `${candidPct}% Candid / Unposed`;
+      document.getElementById('subjectBar').style.width = `${candidPct}%`;
+
+      let title = "The Environmental Observer";
+      let desc = "You are drawn to wide perspectives that place the viewer inside the frame, favoring strong shadow contrast and authentic, unposed human interaction.";
+
+      if (highContrastPct > 60 && candidPct > 60) {
+        title = "The High-Contrast Street Documentarian";
+        desc = "Your taste aligns strongly with classic mid-century documentary photography: deep shadow tonality, wide optical perspectives, and candid geometry.";
+      } else if (widePct < 40 && highContrastPct > 50) {
+        title = "The Tonal Isolationist";
+        desc = "You favor tight focal compression, isolating individual subjects or details with dramatic chiaroscuro lighting and strong tonal separation.";
+      } else if (candidPct < 40) {
+        title = "The Architectural & Form Minimalist";
+        desc = "You gravitate towards structured, deliberate compositions with clean geometry, spatial discipline, and controlled form over candid motion.";
+      }
+
+      document.getElementById('archetypeTitle').innerText = title;
+      document.getElementById('archetypeDesc').innerText = desc;
+    }
+
+    renderDeck();
+  </script>
+</body>
+</html>
