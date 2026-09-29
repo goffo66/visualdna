@@ -135,18 +135,35 @@
     </div>
 
     <script>
-        const categories = ["architecture", "creative", "human", "nature", "street"];
-        
-        // Generate 50 images array sequentially across the 5 categories (10 images each)
+        // Exact flat-folder prefix mapping with correct Title Case
+        const configs = [
+            { cat: 'architecture', prefix: 'Arch' },
+            { cat: 'creative', prefix: 'Creative' },
+            { cat: 'human', prefix: 'Human' },
+            { cat: 'nature', prefix: 'Nat' },
+            { cat: 'street', prefix: 'Street' }
+        ];
+
         let images = [];
         let idCounter = 1;
-        categories.forEach(cat => {
-            for (let i = 1; i <= 10; i++) {
+
+        configs.forEach(c => {
+            // Black & White items (1 to 5)
+            for (let i = 1; i <= 5; i++) {
                 images.push({
                     id: idCounter++,
-                    src: `images/${cat}/${i}.jpg`,
-                    category: cat,
-                    tone: i % 2 === 0 ? 'dark' : 'light'
+                    src: `images/${c.prefix}_bw_${i}.jpg`,
+                    category: c.cat,
+                    tone: 'dark'
+                });
+            }
+            // Color items (1 to 5)
+            for (let i = 1; i <= 5; i++) {
+                images.push({
+                    id: idCounter++,
+                    src: `images/${c.prefix}_col_${i}.jpg`,
+                    category: c.cat,
+                    tone: 'light'
                 });
             }
         });
@@ -171,7 +188,7 @@
             const imgData = images[currentIndex];
             container.innerHTML = `
                 <div class="card">
-                    <img src="${imgData.src}" alt="Visual DNA sample" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><rect width=\'100\' height=\'100\' fill=\'%23222\'/><text x=\'50%\' y=\'50%\' fill=\'%23666\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\' font-size=\'14\'>Missing</text></svg>'">
+                    <img src="${imgData.src}" alt="Visual DNA sample" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><rect width=\'100\' height=\'100\' fill=\'%23222\'/><text x=\'50%\' y=\'50%\' fill=\'%23666\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\' font-size=\'12\'>Missing: ${imgData.src}</text></svg>'">
                 </div>
             `;
         }
@@ -180,7 +197,6 @@
             if (currentIndex >= images.length) return;
             const imgData = images[currentIndex];
             
-            // Tally score
             scores.categories[imgData.category] += weight;
             scores.tones[imgData.tone] += weight;
 
@@ -192,7 +208,6 @@
             document.getElementById('actionButtons').style.display = 'none';
             const container = document.getElementById('cardContainer');
             
-            // Find top category
             let topCat = Object.keys(scores.categories).reduce((a, b) => scores.categories[a] > scores.categories[b] ? a : b);
             let topTone = scores.tones.dark > scores.tones.light ? "High Contrast / Moody" : "Balanced / Luminous";
 
@@ -206,7 +221,6 @@
             `;
         }
 
-        // Initialize on load
         window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
