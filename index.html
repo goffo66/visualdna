@@ -163,7 +163,7 @@
             gap: 16px;
             margin-top: 10px;
             text-align: left;
-            padding-bottom: 20px;
+            padding-bottom: 10px;
         }
         .graph-item {
             display: flex;
@@ -191,11 +191,29 @@
             border-radius: 6px;
             transition: width 0.5s ease;
         }
+        .restart-btn {
+            margin: 20px 0 30px 0;
+            background: #27272a;
+            color: #f1f1f3;
+            border: 1px solid #3f3f46;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .restart-btn:hover {
+            background: #3f3f46;
+            border-color: #52525b;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
+        <header id="appHeader">
             <h1>Visual DNA</h1>
             <div class="top-progress-bar">
                 <div class="top-progress-fill" id="topProgressFill"></div>
@@ -265,7 +283,7 @@
             const topFill = document.getElementById('topProgressFill');
             
             if (currentIndex >= images.length) {
-                document.querySelector('header').style.display = 'none';
+                document.getElementById('appHeader').style.display = 'none';
                 showResults();
                 return;
             }
@@ -355,8 +373,18 @@
                     <div class="graph-container">
                         ${graphHTML}
                     </div>
+                    <button class="restart-btn" onclick="restartQuiz()">Take Test Again</button>
                 </div>
             `;
+        }
+
+        function restartQuiz() {
+            currentIndex = 0;
+            scores = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
+            shuffleArray(images);
+            document.getElementById('appHeader').style.display = 'block';
+            document.getElementById('actionButtons').style.display = 'flex';
+            renderCard();
         }
 
         window.addEventListener('DOMContentLoaded', initApp);
