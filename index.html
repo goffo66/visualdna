@@ -3,70 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visual DNA</title>
+    <title>VISUAL DNA</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #0f0f11;
-            color: #f1f1f3;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             min-height: 100vh;
-            padding: 20px;
             overflow: hidden;
         }
-        .header {
+        #app-container {
             width: 100%;
-            max-width: 400px;
+            max-width: 430px;
+            height: 100vh;
+            max-height: 932px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            padding-top: 10px;
-        }
-        .progress-bar-container {
-            width: 100%;
-            height: 4px;
-            background: #27272a;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            background: #3b82f6;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        .counter {
-            font-size: 12px;
-            color: #a1a1aa;
-            text-align: right;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .card-container {
             position: relative;
-            width: 100%;
-            max-width: 400px;
-            height: 520px;
-            background: #18181b;
-            border-radius: 16px;
+            background: #111;
+        }
+        .header {
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: #888;
+            border-bottom: 1px solid #222;
+        }
+        .card-area {
+            flex: 1;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .card {
+            width: 85%;
+            height: 75%;
+            border-radius: 12px;
+            overflow: hidden;
             position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: #222;
         }
         .card img {
             width: 100%;
@@ -75,250 +60,206 @@
         }
         .controls {
             display: flex;
-            gap: 30px;
-            margin-bottom: 20px;
+            justify-content: space-around;
+            padding: 20px 0;
+            background: #111;
         }
         .btn {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 24px;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            transition: transform 0.1s ease, background 0.2s ease;
         }
-        .btn:active { transform: scale(0.92); }
-        .btn-pass { background: #18181b; border: 2px solid #ef4444; color: #ef4444; font-size: 28px; }
-        .btn-like { background: #18181b; border: 2px solid #22c55e; color: #22c55e; font-size: 28px; }
+        .btn-no { background: #222; color: #ff4757; }
+        .btn-yes { background: #222; color: #2ed573; }
         
-        /* Results Screen Styles */
-        .results-screen {
-            display: none;
-            width: 100%;
-            max-width: 450px;
-            height: 100%;
-            flex-direction: column;
-            justify-content: flex-start;
-            padding: 20px 10px;
+        /* Dashboard styling */
+        .dashboard {
+            padding: 25px;
             overflow-y: auto;
+            height: 100%;
+            background: #0b0b0b;
+            box-sizing: border-box;
         }
-        .results-screen h2 { font-size: 24px; margin-bottom: 12px; color: #fff; }
-        .summary-box {
-            background: #18181b;
-            padding: 16px;
-            border-radius: 12px;
+        .dashboard h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        .dashboard p.subtitle {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+        .score-group {
             margin-bottom: 20px;
-            font-size: 14px;
-            line-height: 1.5;
-            color: #d4d4d8;
-            border-left: 4px solid #3b82f6;
         }
-        .bar-group { margin-bottom: 14px; }
-        .bar-label {
+        .score-label-row {
             display: flex;
             justify-content: space-between;
             font-size: 13px;
-            margin-bottom: 5px;
-            color: #a1a1aa;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .bar-track {
-            width: 100%;
+        .score-track {
+            background: #222;
             height: 8px;
-            background: #27272a;
             border-radius: 4px;
             overflow: hidden;
         }
-        .bar-fill {
+        .score-fill {
+            background: #fff;
             height: 100%;
-            background: #3b82f6;
             width: 0%;
-            transition: width 1s ease-out;
+            transition: width 1s cubic-bezier(0.1, 1, 0.1, 1);
+        }
+        .profile-summary {
+            margin-top: 35px;
+            padding: 20px;
+            background: #161616;
+            border-radius: 8px;
+            border-left: 3px solid #fff;
+        }
+        .profile-summary h3 {
+            margin-top: 0;
+            font-size: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .profile-summary p {
+            color: #aaa;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 0;
         }
     </style>
 </head>
 <body>
 
-    <div class="header" id="quiz-header">
-        <div class="counter" id="counter">Image 1 of 50</div>
-        <div class="progress-bar-container">
-            <div class="progress-bar-fill" id="progress-bar"></div>
-        </div>
+<div id="app-container">
+    <div class="header">VISUAL DNA</div>
+    <div class="card-area" id="card-area">
+        <!-- Cards dynamically injected -->
     </div>
-
-    <div class="card-container" id="card-container">
-        <!-- Cards will be injected via JS -->
-    </div>
-
-    <div class="results-screen" id="results-screen">
-        <h2>Your Visual DNA</h2>
-        <div class="summary-box" id="summary-text">Analyzing your preference patterns...</div>
-        
-        <div style="font-size: 15px; font-weight: bold; margin-bottom: 12px; color: #fff;">Subject Preferences</div>
-        <div id="subject-bars"></div>
-
-        <div style="font-size: 15px; font-weight: bold; margin: 20px 0 12px 0; color: #fff;">Tone Preference</div>
-        <div id="tone-bars"></div>
-    </div>
-
     <div class="controls" id="controls">
-        <button class="btn btn-pass" id="pass-btn">&#10005;</button>
-        <button class="btn btn-like" id="like-btn">&#9829;</button>
+        <button class="btn btn-no" onclick="handleVote(false)">✕</button>
+        <button class="btn btn-yes" onclick="handleVote(true)">♥</button>
     </div>
+</div>
 
-    <script>
-        // 50 Images mapped across 5 subjects and 2 tones (BW / Color)
-        // Adjust filenames/paths as structured in your /images folder
-        const subjects = ['architecture', 'human', 'street', 'nature', 'creative'];
-        const tones = ['bw', 'color'];
+<script>
+    const images = Array.from({ length: 50 }, (_, i) => ({
+        id: i + 1,
+        src: `images/img${i + 1}.jpg`,
+        category: i % 5, 
+        tone: i % 2      
+    }));
+
+    let currentIndex = 0;
+    let scores = { cats: [0,0,0,0,0], tones: [0,0], total: 0 };
+
+    const categoryNames = [
+        "Street & Geometry", 
+        "Portrait & Candid", 
+        "Architecture & Form", 
+        "Minimal & Negative Space", 
+        "Shadow & High Contrast"
+    ];
+
+    const toneNames = ["Deep Monochrome", "Ambient Luminous"];
+
+    function initApp() {
+        renderCard();
+    }
+
+    function renderCard() {
+        const area = document.getElementById('card-area');
+        if (currentIndex >= images.length) {
+            triggerComplete();
+            return;
+        }
         
-        let deck = [];
-        let currentIndex = 0;
-        let results = {
-            architecture: { bw: 0, color: 0, total: 0 },
-            human: { bw: 0, color: 0, total: 0 },
-            street: { bw: 0, color: 0, total: 0 },
-            nature: { bw: 0, color: 0, total: 0 },
-            creative: { bw: 0, color: 0, total: 0 }
-        };
+        const imgData = images[currentIndex];
+        area.innerHTML = `
+            <div class="card">
+                <img src="${imgData.src}" alt="Visual DNA Item">
+            </div>
+        `;
+    }
 
-        // Generate the 50 items (5 subjects * 2 tones * 5 variants each)
-        subjects.forEach(sub => {
-            tones.forEach(t => {
-                for (let i = 1; i <= 5; i++) {
-                    deck.push({
-                        src: `images/${sub}-${t}-${i}.jpg`,
-                        subject: sub,
-                        tone: t
-                    });
-                }
-            });
-        });
-
-        // Shuffle deck for a random presentation order
-        deck.sort(() => Math.random() - 0.5);
-
-        const cardContainer = document.getElementById('card-container');
-        const counterEl = document.getElementById('counter');
-        const progressBar = document.getElementById('progress-bar');
-        const resultsScreen = document.getElementById('results-screen');
-        const quizHeader = document.getElementById('quiz-header');
-        const controls = document.getElementById('controls');
-        const summaryText = document.getElementById('summary-text');
-
-        function initCard() {
-            if (currentIndex >= deck.length) {
-                showResults();
-                return;
-            }
-
-            counterEl.innerText = `Image ${currentIndex + 1} of 50`;
-            progressBar.style.width = `${((currentIndex) / 50) * 100}%`;
-
-            cardContainer.innerHTML = '';
-            const item = deck[currentIndex];
-            
-            const card = document.createElement('div');
-            card.className = 'card';
-            
-            const img = document.createElement('img');
-            img.src = item.src;
-            img.alt = `${item.subject} (${item.tone})`;
-            
-            // Fallback placeholder if image filename differs slightly during testing
-            img.onerror = () => {
-                card.style.background = '#27272a';
-                card.innerHTML = `<span style="color:#a1a1aa; padding:20px; text-align:center;">${item.subject}<br>(${item.tone.toUpperCase()})</span>`;
-            };
-
-            card.appendChild(img);
-            cardContainer.appendChild(card);
+    function handleVote(liked) {
+        if (currentIndex >= images.length) return;
+        
+        if (liked) {
+            const imgData = images[currentIndex];
+            scores.cats[imgData.category]++;
+            scores.tones[imgData.tone]++;
+            scores.total++;
         }
+        
+        currentIndex++;
+        renderCard();
+    }
 
-        function handleChoice(liked) {
-            if (currentIndex >= deck.length) return;
-            
-            const item = deck[currentIndex];
-            if (liked) {
-                results[item.subject][item.tone]++;
-                results[item.subject].total++;
-            }
+    function triggerComplete() {
+        alert("Deck Complete! Scoring Ready.");
+        renderDashboard();
+    }
 
-            currentIndex++;
-            initCard();
-        }
-
-        function showResults() {
-            quizHeader.style.display = 'none';
-            cardContainer.style.display = 'none';
-            controls.style.display = 'none';
-            resultsScreen.style.display = 'flex';
-
-            // Calculate totals
-            let totalLikes = 0;
-            let totalBw = 0;
-            let totalColor = 0;
-            let subjectTotals = {};
-
-            subjects.forEach(sub => {
-                let subTotal = results[sub].bw + results[sub].color;
-                subjectTotals[sub] = subTotal;
-                totalLikes += subTotal;
-                totalBw += results[sub].bw;
-                totalColor += results[sub].color;
-            });
-
-            // Find top subject
-            let topSubject = Object.keys(subjectTotals).reduce((a, b) => subjectTotals[a] > subjectTotals[b] ? a : b);
-            let dominantTone = totalBw > totalColor ? "Monochrome (Black & White)" : "Color";
-
-            summaryText.innerHTML = `Your selections reveal a clear affinity for <b>${topSubject.toUpperCase()}</b> compositions, with a distinct visual lean toward <b>${dominantTone}</b> aesthetics. You balanced architectural structure and mood effectively across your selections.`;
-
-            // Render Subject Bars
-            let subjectBarsHtml = '';
-            subjects.forEach(sub => {
-                let maxPossiblePerSubject = 10; // 5 bw + 5 color
-                let pct = Math.round((subjectTotals[sub] / maxPossiblePerSubject) * 100);
-                subjectBarsHtml += `
-                    <div class="bar-group">
-                        <div class="bar-label"><span>${sub.charAt(0).toUpperCase() + sub.slice(1)}</span><span>${pct}%</span></div>
-                        <div class="bar-track"><div class="bar-fill" style="width: ${pct}%"></div></div>
+    function renderDashboard() {
+        const container = document.getElementById('app-container');
+        const maxPerCat = 10; 
+        
+        let catHtml = '';
+        for(let i=0; i<5; i++) {
+            let pct = Math.round((scores.cats[i] / maxPerCat) * 100);
+            catHtml += `
+                <div class="score-group">
+                    <div class="score-label-row">
+                        <span>${categoryNames[i]}</span>
+                        <span>${pct}%</span>
                     </div>
-                `;
-            });
-            document.getElementById('subject-bars').innerHTML = subjectBarsHtml;
-
-            // Render Tone Bars
-            let totalPossibleTone = 25; // 5 subjects * 5 images each
-            let bwPct = Math.round((totalBw / totalPossibleTone) * 100);
-            let colorPct = Math.round((totalColor / totalPossibleTone) * 100);
-
-            let toneBarsHtml = `
-                <div class="bar-group">
-                    <div class="bar-label"><span>Black & White</span><span>${bwPct}%</span></div>
-                    <div class="bar-track"><div class="bar-fill" style="width: ${bwPct}%; background: #a1a1aa;"></div></div>
-                </div>
-                <div class="bar-group">
-                    <div class="bar-label"><span>Color</span><span>${colorPct}%</span></div>
-                    <div class="bar-track"><div class="bar-fill" style="width: ${colorPct}%; background: #3b82f6;"></div></div>
+                    <div class="score-track">
+                        <div class="score-fill" style="width: ${pct}%"></div>
+                    </div>
                 </div>
             `;
-            document.getElementById('tone-bars').innerHTML = toneBarsHtml;
         }
 
-        document.getElementById('pass-btn').addEventListener('click', () => handleChoice(false));
-        document.getElementById('like-btn').addEventListener('click', () => handleChoice(true));
+        let dominantTone = scores.tones[0] >= scores.tones[1] ? toneNames[0] : toneNames[1];
+        let topCatIndex = scores.cats.indexOf(Math.max(...scores.cats));
 
-        // Keyboard navigation support
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') handleChoice(false);
-            if (e.key === 'ArrowRight') handleChoice(true);
-        });
+        container.innerHTML = `
+            <div class="dashboard">
+                <h2>YOUR VISUAL DNA</h2>
+                <p class="subtitle">Preference Analysis Complete • ${scores.total} Selections Recorded</p>
+                
+                <div style="margin-top: 10px;">
+                    ${catHtml}
+                </div>
 
-        // Kick off the first card
-        initCard();
-    </script>
+                <div class="profile-summary">
+                    <h3>Primary Aesthetic Profile</h3>
+                    <p>Your choices heavily favor <strong>${categoryNames[topCatIndex]}</strong> executed primarily through an <strong>${dominantTone}</strong> treatment style. You lean toward structured geometry and strong contrast definition.</p>
+                </div>
+            </div>
+        `;
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') handleVote(false);
+        if (e.key === 'ArrowRight') handleVote(true);
+    });
+
+    initApp();
+</script>
+
 </body>
 </html>
