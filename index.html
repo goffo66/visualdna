@@ -2,41 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Visual DNA</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        html, body {
             background-color: #0f0f11;
             color: #f1f1f3;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            touch-action: manipulation;
+            position: fixed;
         }
         .container {
             width: 100%;
             max-width: 480px;
-            height: 100vh;
+            height: 100%;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
-            padding: 20px;
-            position: relative;
+            padding: 15px 20px;
+            justify-content: space-between;
         }
         header {
             text-align: center;
-            padding: 10px 0;
+            padding: 5px 0;
+            flex-shrink: 0;
         }
         h1 {
-            font-size: 1.1rem;
+            font-size: 1rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             color: #888;
             font-weight: 500;
+        }
+        .top-progress-bar {
+            width: 100%;
+            height: 3px;
+            background: #27272a;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .top-progress-fill {
+            height: 100%;
+            background: #3b82f6;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .progress-text {
+            font-size: 0.8rem;
+            color: #52525b;
+            margin-top: 6px;
+            letter-spacing: 1px;
         }
         .card-container {
             flex: 1;
@@ -46,11 +65,12 @@
             position: relative;
             width: 100%;
             margin: 10px 0;
+            overflow: hidden;
         }
         .card {
             width: 100%;
             height: 100%;
-            max-height: 540px;
+            max-height: 520px;
             background: #18181b;
             border-radius: 16px;
             overflow: hidden;
@@ -58,65 +78,118 @@
             display: flex;
             flex-direction: column;
             position: absolute;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            top: 0;
+            left: 0;
             cursor: grab;
+            transform: translate3d(0, 0, 0);
         }
         .card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            flex: 1;
+            display: block;
             pointer-events: none;
         }
         .actions {
             display: flex;
-            gap: 15px;
-            padding: 20px 0;
+            gap: 20px;
+            padding: 10px 0;
             height: 90px;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
         }
-        button {
-            flex: 1;
+        .icon-btn {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
             border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             transition: transform 0.1s ease, background 0.2s;
-            color: white;
-            padding: 15px;
+            background: #18181b;
         }
-        button:active {
-            transform: scale(0.96);
+        .icon-btn:active {
+            transform: scale(0.90);
         }
         .btn-left {
-            background: #27272a;
+            border: 2px solid #3f3f46;
         }
         .btn-left:hover {
-            background: #3f3f46;
+            background: #27272a;
+            border-color: #ef4444;
+        }
+        .btn-left svg {
+            fill: #ef4444;
+            width: 26px;
+            height: 26px;
         }
         .btn-right {
-            background: #3b82f6;
+            border: 2px solid #3f3f46;
         }
         .btn-right:hover {
-            background: #2563eb;
+            background: #27272a;
+            border-color: #10b981;
+        }
+        .btn-right svg {
+            fill: #10b981;
+            width: 28px;
+            height: 28px;
         }
         .results {
             display: none;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             text-align: center;
             height: 100%;
-            padding: 20px;
+            padding: 10px 0;
+            overflow-y: auto;
+            width: 100%;
         }
         .results h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
-        .results p {
-            font-size: 1.1rem;
-            color: #a1a1aa;
-            margin-bottom: 10px;
+        .graph-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 10px;
+            text-align: left;
+            padding-bottom: 20px;
+        }
+        .graph-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .graph-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #d4d4d8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .bar-background {
+            width: 100%;
+            height: 12px;
+            background: #27272a;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            background: #10b981;
+            border-radius: 6px;
+            transition: width 0.5s ease;
         }
     </style>
 </head>
@@ -124,6 +197,10 @@
     <div class="container">
         <header>
             <h1>Visual DNA</h1>
+            <div class="top-progress-bar">
+                <div class="top-progress-fill" id="topProgressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Image 1 of 50</div>
         </header>
         
         <div class="card-container" id="cardContainer">
@@ -131,8 +208,14 @@
         </div>
 
         <div class="actions" id="actionButtons">
-            <button class="btn-left" onclick="handleChoice(0)">Less of this</button>
-            <button class="btn-right" onclick="handleChoice(1)">More of this</button>
+            <!-- Cross / Pass (Neutral 0) -->
+            <button class="icon-btn btn-left" onclick="handleChoice(0)" title="Pass">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+            <!-- Heart / Like (+1) -->
+            <button class="icon-btn btn-right" onclick="handleChoice(1)" title="More of this">
+                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </button>
         </div>
     </div>
 
@@ -150,20 +233,10 @@
 
         configs.forEach(c => {
             for (let i = 1; i <= 5; i++) {
-                images.push({
-                    id: idCounter++,
-                    src: `images/${c.prefix}_bw_${i}.jpg`,
-                    category: c.cat,
-                    tone: 'dark'
-                });
+                images.push({ id: idCounter++, src: `images/${c.prefix}_bw_${i}.jpg`, category: c.cat });
             }
             for (let i = 1; i <= 5; i++) {
-                images.push({
-                    id: idCounter++,
-                    src: `images/${c.prefix}_col_${i}.jpg`,
-                    category: c.cat,
-                    tone: 'light'
-                });
+                images.push({ id: idCounter++, src: `images/${c.prefix}_col_${i}.jpg`, category: c.cat });
             }
         });
 
@@ -177,10 +250,10 @@
         shuffleArray(images);
 
         let currentIndex = 0;
-        let scores = {
-            categories: { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 },
-            tones: { light: 0, dark: 0 }
-        };
+        let scores = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
+        let categoryCounts = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
+
+        images.forEach(img => { categoryCounts[img.category]++; });
 
         function initApp() {
             renderCard();
@@ -188,10 +261,19 @@
 
         function renderCard() {
             const container = document.getElementById('cardContainer');
+            const progressEl = document.getElementById('progressText');
+            const topFill = document.getElementById('topProgressFill');
+            
             if (currentIndex >= images.length) {
+                document.querySelector('header').style.display = 'none';
                 showResults();
                 return;
             }
+
+            const currentNum = currentIndex + 1;
+            const totalNum = images.length;
+            progressEl.textContent = `Image ${currentNum} of ${totalNum}`;
+            topFill.style.width = `${(currentNum / totalNum) * 100}%`;
 
             const imgData = images[currentIndex];
             container.innerHTML = `
@@ -222,12 +304,11 @@
                 let diffX = endX - startX;
                 let diffY = endY - startY;
 
-                // Ensure it's a deliberate horizontal swipe rather than a scroll
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
                     if (diffX > 0) {
-                        handleChoice(1); // Swiped Right -> More of this
+                        handleChoice(1);  // Swipe Right -> Like (+1)
                     } else {
-                        handleChoice(0); // Swiped Left -> Less of this
+                        handleChoice(0);  // Swipe Left -> Neutral Pass (0)
                     }
                 }
             }, { passive: true });
@@ -237,8 +318,7 @@
             if (currentIndex >= images.length) return;
             const imgData = images[currentIndex];
             
-            scores.categories[imgData.category] += weight;
-            scores.tones[imgData.tone] += weight;
+            scores[imgData.category] += weight;
 
             currentIndex++;
             renderCard();
@@ -248,15 +328,33 @@
             document.getElementById('actionButtons').style.display = 'none';
             const container = document.getElementById('cardContainer');
             
-            let topCat = Object.keys(scores.categories).reduce((a, b) => scores.categories[a] > scores.categories[b] ? a : b);
-            let topTone = scores.tones.dark > scores.tones.light ? "High Contrast / Moody" : "Balanced / Luminous";
+            let graphHTML = '';
+            let sortedCategories = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+
+            sortedCategories.forEach(cat => {
+                let totalAvailable = categoryCounts[cat];
+                let likes = scores[cat];
+                let percentage = totalAvailable > 0 ? Math.round((likes / totalAvailable) * 100) : 0;
+
+                graphHTML += `
+                    <div class="graph-item">
+                        <div class="graph-label">
+                            <span>${cat}</span>
+                            <span>${likes} / ${totalAvailable} (${percentage}%)</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill" style="width: ${percentage}%;"></div>
+                        </div>
+                    </div>
+                `;
+            });
 
             container.innerHTML = `
                 <div class="results" style="display: flex;">
-                    <h2>Your Visual DNA</h2>
-                    <p><strong>Primary Aesthetic:</strong> ${topCat.toUpperCase()}</p>
-                    <p><strong>Preferred Tone:</strong> ${topTone}</p>
-                    <p style="margin-top: 20px; font-size: 0.9rem; color: #71717a;">Analysis complete based on your selections.</p>
+                    <h2>Your Visual DNA Profile</h2>
+                    <div class="graph-container">
+                        ${graphHTML}
+                    </div>
                 </div>
             `;
         }
