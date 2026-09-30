@@ -151,17 +151,48 @@
             width: 100%;
         }
         .results h2 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
+        
+        /* Toggle Switch Styling */
+        .toggle-container {
+            display: flex;
+            background: #27272a;
+            border-radius: 25px;
+            padding: 4px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 320px;
+        }
+        .toggle-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #a1a1aa;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .toggle-btn.active {
+            background: #3b82f6;
+            color: #f1f1f3;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
         .graph-container {
             width: 100%;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            margin-top: 10px;
+            margin-top: 5px;
             text-align: left;
             padding-bottom: 10px;
         }
@@ -169,27 +200,44 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
+            background: #18181b;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #27272a;
         }
         .graph-label {
             display: flex;
             justify-content: space-between;
             font-size: 0.85rem;
-            color: #d4d4d8;
+            color: #f1f1f3;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .graph-stats {
+            font-size: 0.75rem;
+            color: #71717a;
+            font-weight: normal;
         }
         .bar-background {
             width: 100%;
-            height: 12px;
+            height: 10px;
             background: #27272a;
-            border-radius: 6px;
+            border-radius: 5px;
             overflow: hidden;
+            margin-top: 2px;
         }
         .bar-fill {
             height: 100%;
             background: #10b981;
-            border-radius: 6px;
+            border-radius: 5px;
             transition: width 0.5s ease;
+        }
+        .category-desc {
+            font-size: 0.8rem;
+            color: #a1a1aa;
+            line-height: 1.4;
+            margin-top: 4px;
         }
         .restart-btn {
             margin: 20px 0 30px 0;
@@ -239,12 +287,30 @@
 
     <script>
         const configs = [
-            { cat: 'architecture', prefix: 'Arch' },
-            { cat: 'creative', prefix: 'Creative' },
-            { cat: 'human', prefix: 'Human' },
-            { cat: 'nature', prefix: 'Nat' },
-            { cat: 'street', prefix: 'Street' }
+            { cat: 'architecture', prefix: 'Arch', name: 'Architecture' },
+            { cat: 'creative', prefix: 'Creative', name: 'Creative' },
+            { cat: 'human', prefix: 'Human', name: 'Human' },
+            { cat: 'nature', prefix: 'Nat', name: 'Nature' },
+            { cat: 'street', prefix: 'Street', name: 'Street' }
         ];
+
+        // Content dictionaries for the toggle
+        const insights = {
+            maker: {
+                architecture: "Clean lines, controlled perspective, strong geometry. Try wide lenses (14–24mm) and careful vertical alignment. Explore: Julius Shulman, Hélène Binet.",
+                creative: "Playful framing, abstraction, colour experiments. Any lens works; lean into unusual angles or intentional blur. Explore: Ernst Haas, Sara Moon.",
+                human: "Expression, gesture, psychological charge. Favour 35mm or 50mm; natural light or soft window light. Explore: Jane Bown, Alec Soth.",
+                nature: "Texture, atmosphere, patience. Macro or telephoto (100mm–300mm); early light is your friend. Explore: Sebastião Salgado, Eliot Porter.",
+                street: "Timing, proximity, instinct. Classic 28mm–35mm; shoot from the hip or move fast. Explore: Garry Winogrand, Daidō Moriyama."
+            },
+            viewer: {
+                architecture: "You’re drawn to order, balance, and clean structure. If you enjoyed these, explore: Shulman, Binet.",
+                creative: "You enjoy playful, imaginative images that bend reality. Try: Haas, Moon.",
+                human: "You respond to emotion, expression, and human stories. Explore: Bown, Soth.",
+                nature: "You’re pulled toward calm, texture, and atmosphere. Try: Salgado, Porter.",
+                street: "You like energy, spontaneity, and real-world moments. Explore: Winogrand, Moriyama."
+            }
+        };
 
         let images = [];
         let idCounter = 1;
@@ -279,6 +345,8 @@
             nature: { bw: 0, col: 0 }, 
             street: { bw: 0, col: 0 } 
         };
+
+        let currentPerspective = 'maker'; // Default view
 
         images.forEach(img => { categoryCounts[img.category]++; });
 
@@ -347,7 +415,6 @@
             
             scores[imgData.category] += weight;
 
-            // Track monochrome vs color preference on positive choices
             if (weight > 0) {
                 if (imgData.src.includes('_bw_')) {
                     styleScores.global.bw++;
@@ -362,11 +429,19 @@
             renderCard();
         }
 
-        function showResults() {
-            document.getElementById('actionButtons').style.display = 'none';
-            const container = document.getElementById('cardContainer');
+        function setPerspective(perspective) {
+            currentPerspective = perspective;
             
-            let graphHTML = '';
+            // Update button active states
+            document.getElementById('btnMaker').classList.toggle('active', perspective === 'maker');
+            document.getElementById('btnViewer').classList.toggle('active', perspective === 'viewer');
+            
+            // Re-render only the graph container list
+            document.getElementById('graphContainer').innerHTML = generateGraphHTML();
+        }
+
+        function generateGraphHTML() {
+            let html = '';
 
             // 1. Global Monochrome vs Color breakdown
             let totalBwLiked = styleScores.global.bw;
@@ -375,47 +450,66 @@
             let bwPercent = totalStyleLiked > 0 ? Math.round((totalBwLiked / totalStyleLiked) * 100) : 0;
             let colPercent = totalStyleLiked > 0 ? (100 - bwPercent) : 0;
 
-            graphHTML += `
+            html += `
                 <div class="graph-item">
                     <div class="graph-label">
                         <span>Overall Style (B&W vs Color)</span>
-                        <span>B&W: ${bwPercent}% | Color: ${colPercent}%</span>
+                        <span class="graph-stats">B&W: ${bwPercent}% | Color: ${colPercent}%</span>
                     </div>
                     <div class="bar-background" style="display: flex;">
-                        <div class="bar-fill" style="width: ${bwPercent}%; background: #a1a1aa; border-radius: 6px 0 0 6px;" title="Monochrome"></div>
-                        <div class="bar-fill" style="width: ${colPercent}%; background: #3b82f6; border-radius: 0 6px 6px 0;" title="Color"></div>
+                        <div class="bar-fill" style="width: ${bwPercent}%; background: #a1a1aa; border-radius: 5px 0 0 5px;" title="Monochrome"></div>
+                        <div class="bar-fill" style="width: ${colPercent}%; background: #3b82f6; border-radius: 0 5px 5px 0;" title="Color"></div>
                     </div>
                 </div>
-                <hr style="border: 0; border-top: 1px solid #27272a; margin: 5px 0;">
             `;
 
-            // 2. Category Breakdowns
+            // 2. Category Breakdowns with dynamic descriptions
             let sortedCategories = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
 
             sortedCategories.forEach(cat => {
                 let totalAvailable = categoryCounts[cat];
                 let likes = scores[cat];
                 let percentage = totalAvailable > 0 ? Math.round((likes / totalAvailable) * 100) : 0;
+                let catConfig = configs.find(c => c.cat === cat);
+                let catDisplayName = catConfig ? catConfig.name : cat;
+                let descriptionText = insights[currentPerspective][cat];
 
-                graphHTML += `
+                html += `
                     <div class="graph-item">
                         <div class="graph-label">
-                            <span>${cat}</span>
-                            <span>${likes} / ${totalAvailable} (${percentage}%)</span>
+                            <span>${catDisplayName}</span>
+                            <span class="graph-stats">${likes} / ${totalAvailable} (${percentage}%)</span>
                         </div>
                         <div class="bar-background">
                             <div class="bar-fill" style="width: ${percentage}%;"></div>
+                        </div>
+                        <div class="category-desc">
+                            ${descriptionText}
                         </div>
                     </div>
                 `;
             });
 
+            return html;
+        }
+
+        function showResults() {
+            document.getElementById('actionButtons').style.display = 'none';
+            const container = document.getElementById('cardContainer');
+
             container.innerHTML = `
                 <div class="results" style="display: flex;">
                     <h2>Your Visual DNA Profile</h2>
-                    <div class="graph-container">
-                        ${graphHTML}
+                    
+                    <div class="toggle-container">
+                        <button class="toggle-btn active" id="btnMaker" onclick="setPerspective('maker')">Image Maker</button>
+                        <button class="toggle-btn" id="btnViewer" onclick="setPerspective('viewer')">Image Viewer</button>
                     </div>
+
+                    <div class="graph-container" id="graphContainer">
+                        ${generateGraphHTML()}
+                    </div>
+                    
                     <button class="restart-btn" onclick="restartQuiz()">Take Test Again</button>
                 </div>
             `;
@@ -423,6 +517,7 @@
 
         function restartQuiz() {
             currentIndex = 0;
+            currentPerspective = 'maker';
             scores = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
             styleScores = { 
                 global: { bw: 0, col: 0 }, 
