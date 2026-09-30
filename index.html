@@ -270,6 +270,15 @@
         let currentIndex = 0;
         let scores = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
         let categoryCounts = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
+        
+        let styleScores = { 
+            global: { bw: 0, col: 0 }, 
+            architecture: { bw: 0, col: 0 }, 
+            creative: { bw: 0, col: 0 }, 
+            human: { bw: 0, col: 0 }, 
+            nature: { bw: 0, col: 0 }, 
+            street: { bw: 0, col: 0 } 
+        };
 
         images.forEach(img => { categoryCounts[img.category]++; });
 
@@ -338,6 +347,17 @@
             
             scores[imgData.category] += weight;
 
+            // Track monochrome vs color preference on positive choices
+            if (weight > 0) {
+                if (imgData.src.includes('_bw_')) {
+                    styleScores.global.bw++;
+                    styleScores[imgData.category].bw++;
+                } else if (imgData.src.includes('_col_')) {
+                    styleScores.global.col++;
+                    styleScores[imgData.category].col++;
+                }
+            }
+
             currentIndex++;
             renderCard();
         }
@@ -347,6 +367,29 @@
             const container = document.getElementById('cardContainer');
             
             let graphHTML = '';
+
+            // 1. Global Monochrome vs Color breakdown
+            let totalBwLiked = styleScores.global.bw;
+            let totalColLiked = styleScores.global.col;
+            let totalStyleLiked = totalBwLiked + totalColLiked;
+            let bwPercent = totalStyleLiked > 0 ? Math.round((totalBwLiked / totalStyleLiked) * 100) : 0;
+            let colPercent = totalStyleLiked > 0 ? (100 - bwPercent) : 0;
+
+            graphHTML += `
+                <div class="graph-item">
+                    <div class="graph-label">
+                        <span>Overall Style (B&W vs Color)</span>
+                        <span>B&W: ${bwPercent}% | Color: ${colPercent}%</span>
+                    </div>
+                    <div class="bar-background" style="display: flex;">
+                        <div class="bar-fill" style="width: ${bwPercent}%; background: #a1a1aa; border-radius: 6px 0 0 6px;" title="Monochrome"></div>
+                        <div class="bar-fill" style="width: ${colPercent}%; background: #3b82f6; border-radius: 0 6px 6px 0;" title="Color"></div>
+                    </div>
+                </div>
+                <hr style="border: 0; border-top: 1px solid #27272a; margin: 5px 0;">
+            `;
+
+            // 2. Category Breakdowns
             let sortedCategories = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
 
             sortedCategories.forEach(cat => {
@@ -381,6 +424,14 @@
         function restartQuiz() {
             currentIndex = 0;
             scores = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
+            styleScores = { 
+                global: { bw: 0, col: 0 }, 
+                architecture: { bw: 0, col: 0 }, 
+                creative: { bw: 0, col: 0 }, 
+                human: { bw: 0, col: 0 }, 
+                nature: { bw: 0, col: 0 }, 
+                street: { bw: 0, col: 0 } 
+            };
             shuffleArray(images);
             document.getElementById('appHeader').style.display = 'block';
             document.getElementById('actionButtons').style.display = 'flex';
