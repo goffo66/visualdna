@@ -673,6 +673,11 @@
             renderCard();
         }
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const startBtn = document.getElementById('start-test-btn');
+    const splashScreen = document.getElementById('splash-screen');
+
         window.addEventListener('DOMContentLoaded', initApp);
     </script>
 
@@ -691,5 +696,21 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-</body>
+</<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const startBtn = document.getElementById('start-test-btn');
+    const splashScreen = document.getElementById('splash-screen');
+
+    if (startBtn && splashScreen) {
+      startBtn.addEventListener('click', function() {
+        splashScreen.style.opacity = '0';
+        splashScreen.style.transition = 'opacity 0.4s ease';
+        setTimeout(() => {
+          splashScreen.style.display = 'none';
+        }, 400);
+      });
+    }
+  });
+</script>
+body>
 </html>
