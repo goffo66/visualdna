@@ -7,8 +7,6 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body {
-
-
             background-color: #0f0f11;
             color: #f1f1f3;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -260,103 +258,102 @@
             border-color: #52525b;
         }
 
-/* Full-screen dark overlay */
-.splash-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #121212;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  overflow-y: auto;
-  padding: 20px;
-}
+        /* Full-screen dark overlay */
+        .splash-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: #121212;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+          overflow-y: auto;
+          padding: 20px;
+        }
 
-.splash-content {
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-  color: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin: auto;
-}
+        .splash-content {
+          max-width: 400px;
+          width: 100%;
+          text-align: center;
+          color: #ffffff;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          margin: auto;
+        }
 
-.splash-content h1 {
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  margin: 0;
-}
+        .splash-content h1 {
+          font-size: 28px;
+          font-weight: 800;
+          letter-spacing: 2px;
+          margin: 0;
+        }
 
-.splash-content h2 {
-  font-size: 18px;
-  font-weight: 400;
-  color: #aaaaaa;
-  margin-top: -10px;
-  margin-bottom: 10px;
-}
+        .splash-content h2 {
+          font-size: 18px;
+          font-weight: 400;
+          color: #aaaaaa;
+          margin-top: -10px;
+          margin-bottom: 10px;
+        }
 
-/* Central Card */
-.visual-guide-card {
-  background-color: #1e1e1e;
-  border: 1px solid #333333;
-  border-radius: 16px;
-  padding: 20px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
+        /* Central Card */
+        .visual-guide-card {
+          background-color: #1e1e1e;
+          border: 1px solid #333333;
+          border-radius: 16px;
+          padding: 20px;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+        }
 
-.portrait-container {
-  width: 180px;
-  height: 220px;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: #000;
-}
+        .portrait-container {
+          width: 180px;
+          height: 220px;
+          border-radius: 8px;
+          overflow: hidden;
+          background-color: #000;
+        }
 
-.portrait-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+        .portrait-container img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
 
-/* Gentle reminder sitting above the button */
-.splash-instructions {
-  font-size: 14px;
-  color: #cccccc;
-  line-height: 1.4;
-  margin: 0 10px;
-}
+        /* Gentle reminder sitting above the button */
+        .splash-instructions {
+          font-size: 14px;
+          color: #cccccc;
+          line-height: 1.4;
+          margin: 0 10px;
+        }
 
-/* Prominent Green Start Button at the very bottom */
-.start-btn {
-  background-color: #2ecc71;
-  color: #ffffff;
-  border: none;
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  width: 100%;
-  transition: background-color 0.2s ease;
-  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
-}
+        /* Prominent Green Start Button at the very bottom */
+        .start-btn {
+          background-color: #2ecc71;
+          color: #ffffff;
+          border: none;
+          border-radius: 12px;
+          padding: 16px;
+          font-size: 18px;
+          font-weight: 700;
+          cursor: pointer;
+          width: 100%;
+          transition: background-color 0.2s ease;
+          box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+        }
 
-.start-btn:hover {
-  background-color: #27ae60;
-}
-
+        .start-btn:hover {
+          background-color: #27ae60;
+        }
     </style>
 </head>
 <body>
@@ -400,84 +397,262 @@
   </div>
 </div>
 
-    <div class="container">
-        <header id="appHeader">
-            <h1>Visual DNA</h1>
-            <div class="top-progress-bar">
-                <div class="top-progress-fill" id="topProgressFill"></div>
-            </div>
-            <div class="progress-text" id="progressText">Image 1 of 50</div>
-        </header>
-        
-        <div class="card-container" id="cardContainer">
-            <!-- Dynamic card injection -->
+<div class="container">
+    <header id="appHeader">
+        <h1>Visual DNA</h1>
+        <div class="top-progress-bar">
+            <div class="top-progress-fill" id="topProgressFill"></div>
         </div>
-
-        <div class="actions" id="actionButtons">
-            <!-- Cross / Pass (Neutral 0) -->
-            <button class="icon-btn btn-left" onclick="handleChoice(0)" title="Pass">
-                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-            </button>
-            <!-- Heart / Like (+1) -->
-            <button class="icon-btn btn-right" onclick="handleChoice(1)" title="More of this">
-                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            </button>
-        </div>
+        <div class="progress-text" id="progressText">Image 1 of 50</div>
+    </header>
+    
+    <div class="card-container" id="cardContainer">
+        <!-- Dynamic card injection -->
     </div>
 
-    <script>
-        const configs = [
-            { cat: 'architecture', prefix: 'Arch', name: 'Architecture' },
-            { cat: 'creative', prefix: 'Creative', name: 'Creative' },
-            { cat: 'human', prefix: 'Human', name: 'Human' },
-            { cat: 'nature', prefix: 'Nat', name: 'Nature' },
-            { cat: 'street', prefix: 'Street', name: 'Street' }
-        ];
+    <div class="actions" id="actionButtons">
+        <!-- Cross / Pass (Neutral 0) -->
+        <button class="icon-btn btn-left" onclick="handleChoice(0)" title="Pass">
+            <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+        <!-- Heart / Like (+1) -->
+        <button class="icon-btn btn-right" onclick="handleChoice(1)" title="More of this">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </button>
+    </div>
+</div>
 
-        // Content dictionaries for the toggle
-        const insights = {
-            maker: {
-                architecture: "Clean lines, controlled perspective, strong geometry. Try wide lenses (14–24mm) and careful vertical alignment. Explore: Julius Shulman, Hélène Binet.",
-                creative: "Playful framing, abstraction, colour experiments. Any lens works; lean into unusual angles or intentional blur. Explore: Ernst Haas, Sara Moon.",
-                human: "Expression, gesture, psychological charge. Favour 35mm or 50mm; natural light or soft window light. Explore: Jane Bown, Alec Soth.",
-                nature: "Texture, atmosphere, patience. Macro or telephoto (100mm–300mm); early light is your friend. Explore: Sebastião Salgado, Eliot Porter.",
-                street: "Timing, proximity, instinct. Classic 28mm–35mm; shoot from the hip or move fast. Explore: Garry Winogrand, Daidō Moriyama."
-            },
-            viewer: {
-                architecture: "You’re drawn to order, balance, and clean structure. If you enjoyed these, explore: Shulman, Binet.",
-                creative: "You enjoy playful, imaginative images that bend reality. Try: Haas, Moon.",
-                human: "You respond to emotion, expression, and human stories. Explore: Bown, Soth.",
-                nature: "You’re pulled toward calm, texture, and atmosphere. Try: Salgado, Porter.",
-                street: "You like energy, spontaneity, and real-world moments. Explore: Winogrand, Moriyama."
+<script>
+    const configs = [
+        { cat: 'architecture', prefix: 'Arch', name: 'Architecture' },
+        { cat: 'creative', prefix: 'Creative', name: 'Creative' },
+        { cat: 'human', prefix: 'Human', name: 'Human' },
+        { cat: 'nature', prefix: 'Nat', name: 'Nature' },
+        { cat: 'street', prefix: 'Street', name: 'Street' }
+    ];
+
+    // Content dictionaries for the toggle
+    const insights = {
+        maker: {
+            architecture: "Clean lines, controlled perspective, strong geometry. Try wide lenses (14–24mm) and careful vertical alignment. Explore: Julius Shulman, Hélène Binet.",
+            creative: "Playful framing, abstraction, colour experiments. Any lens works; lean into unusual angles or intentional blur. Explore: Ernst Haas, Sara Moon.",
+            human: "Expression, gesture, psychological charge. Favour 35mm or 50mm; natural light or soft window light. Explore: Jane Bown, Alec Soth.",
+            nature: "Texture, atmosphere, patience. Macro or telephoto (100mm–300mm); early light is your friend. Explore: Sebastião Salgado, Eliot Porter.",
+            street: "Timing, proximity, instinct. Classic 28mm–35mm; shoot from the hip or move fast. Explore: Garry Winogrand, Daidō Moriyama."
+        },
+        viewer: {
+            architecture: "You’re drawn to order, balance, and clean structure. If you enjoyed these, explore: Shulman, Binet.",
+            creative: "You enjoy playful, imaginative images that bend reality. Try: Haas, Moon.",
+            human: "You respond to emotion, expression, and human stories. Explore: Bown, Soth.",
+            nature: "You’re pulled toward calm, texture, and atmosphere. Try: Salgado, Porter.",
+            street: "You like energy, spontaneity, and real-world moments. Explore: Winogrand, Moriyama."
+        }
+    };
+
+    let images = [];
+    let idCounter = 1;
+
+    configs.forEach(c => {
+        for (let i = 1; i <= 5; i++) {
+            images.push({ id: idCounter++, src: `images/${c.prefix}_bw_${i}.jpg`, category: c.cat });
+        }
+        for (let i = 1; i <= 5; i++) {
+            images.push({ id: idCounter++, src: `images/${c.prefix}_col_${i}.jpg`, category: c.cat });
+        }
+    });
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    shuffleArray(images);
+
+    let currentIndex = 0;
+    let scores = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
+    let categoryCounts = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
+    
+    let styleScores = { 
+        global: { bw: 0, col: 0 }, 
+        architecture: { bw: 0, col: 0 }, 
+        creative: { bw: 0, col: 0 }, 
+        human: { bw: 0, col: 0 }, 
+        nature: { bw: 0, col: 0 }, 
+        street: { bw: 0, col: 0 } 
+    };
+
+    let currentPerspective = 'maker'; // Default view
+
+    images.forEach(img => { categoryCounts[img.category]++; });
+
+    function initApp() {
+        renderCard();
+    }
+
+    function renderCard() {
+        const container = document.getElementById('cardContainer');
+        const progressEl = document.getElementById('progressText');
+        const topFill = document.getElementById('topProgressFill');
+        
+        if (currentIndex >= images.length) {
+            document.getElementById('appHeader').style.display = 'none';
+            showResults();
+            return;
+        }
+
+        const currentNum = currentIndex + 1;
+        const totalNum = images.length;
+        progressEl.textContent = `Image ${currentNum} of ${totalNum}`;
+        topFill.style.width = `${(currentNum / totalNum) * 100}%`;
+
+        const imgData = images[currentIndex];
+        container.innerHTML = `
+            <div class="card" id="activeCard">
+                <img src="${imgData.src}" alt="Visual DNA sample" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><rect width=\'100\' height=\'100\' fill=\'%23222\'/><text x=\'50%\' y=\'50%\' fill=\'red\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\' font-size=\'12\'>Missing: ${imgData.src}</text></svg>'">
+            </div>
+        `;
+
+        setupSwipeHandlers();
+    }
+
+    function setupSwipeHandlers() {
+        const card = document.getElementById('activeCard');
+        if (!card) return;
+
+        let startX = 0;
+        let startY = 0;
+
+        card.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }, { passive: true });
+
+        card.addEventListener('touchend', (e) => {
+            let endX = e.changedTouches[0].clientX;
+            let endY = e.changedTouches[0].clientY;
+
+            let diffX = endX - startX;
+            let diffY = endY - startY;
+
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    handleChoice(1);  // Swipe Right -> Like (+1)
+                } else {
+                    handleChoice(0);  // Swipe Left -> Neutral Pass (0)
+                }
             }
-        };
+        }, { passive: true });
+    }
 
-        let images = [];
-        let idCounter = 1;
+    function handleChoice(weight) {
+        if (currentIndex >= images.length) return;
+        const imgData = images[currentIndex];
+        
+        scores[imgData.category] += weight;
 
-        configs.forEach(c => {
-            for (let i = 1; i <= 5; i++) {
-                images.push({ id: idCounter++, src: `images/${c.prefix}_bw_${i}.jpg`, category: c.cat });
-            }
-            for (let i = 1; i <= 5; i++) {
-                images.push({ id: idCounter++, src: `images/${c.prefix}_col_${i}.jpg`, category: c.cat });
-            }
-        });
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+        if (weight > 0) {
+            if (imgData.src.includes('_bw_')) {
+                styleScores.global.bw++;
+                styleScores[imgData.category].bw++;
+            } else if (imgData.src.includes('_col_')) {
+                styleScores.global.col++;
+                styleScores[imgData.category].col++;
             }
         }
 
-        shuffleArray(images);
+        currentIndex++;
+        renderCard();
+    }
 
-        let currentIndex = 0;
-        let scores = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
-        let categoryCounts = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
+    function setPerspective(perspective) {
+        currentPerspective = perspective;
         
-        let styleScores = { 
+        document.getElementById('btnMaker').classList.toggle('active', perspective === 'maker');
+        document.getElementById('btnViewer').classList.toggle('active', perspective === 'viewer');
+        
+        document.getElementById('graphContainer').innerHTML = generateGraphHTML();
+    }
+
+    function generateGraphHTML() {
+        let html = '';
+
+        let totalBwLiked = styleScores.global.bw;
+        let totalColLiked = styleScores.global.col;
+        let totalStyleLiked = totalBwLiked + totalColLiked;
+        let bwPercent = totalStyleLiked > 0 ? Math.round((totalBwLiked / totalStyleLiked) * 100) : 0;
+        let colPercent = totalStyleLiked > 0 ? (100 - bwPercent) : 0;
+
+        html += `
+            <div class="graph-item">
+                <div class="graph-label">
+                    <span>Overall Style (B&W vs Color)</span>
+                    <span class="graph-stats">B&W: ${bwPercent}% | Color: ${colPercent}%</span>
+                </div>
+                <div class="bar-background" style="display: flex;">
+                    <div class="bar-fill" style="width: ${bwPercent}%; background: #a1a1aa; border-radius: 5px 0 0 5px;" title="Monochrome"></div>
+                    <div class="bar-fill" style="width: ${colPercent}%; background: #3b82f6; border-radius: 0 5px 5px 0;" title="Color"></div>
+                </div>
+            </div>
+        `;
+
+        let sortedCategories = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+
+        sortedCategories.forEach(cat => {
+            let totalAvailable = categoryCounts[cat];
+            let likes = scores[cat];
+            let percentage = totalAvailable > 0 ? Math.round((likes / totalAvailable) * 100) : 0;
+            let catConfig = configs.find(c => c.cat === cat);
+            let catDisplayName = catConfig ? catConfig.name : cat;
+            let descriptionText = insights[currentPerspective][cat];
+
+            html += `
+                <div class="graph-item">
+                    <div class="graph-label">
+                        <span>${catDisplayName}</span>
+                        <span class="graph-stats">${likes} / ${totalAvailable} (${percentage}%)</span>
+                    </div>
+                    <div class="bar-background">
+                        <div class="bar-fill" style="width: ${percentage}%;"></div>
+                    </div>
+                    <div class="category-desc">
+                        ${descriptionText}
+                    </div>
+                </div>
+            `;
+        });
+
+        return html;
+    }
+
+    function showResults() {
+        document.getElementById('actionButtons').style.display = 'none';
+        const container = document.getElementById('cardContainer');
+
+        container.innerHTML = `
+            <div class="results" style="display: flex;">
+                <h2>Your Visual DNA Profile</h2>
+                
+                <div class="toggle-container">
+                    <button class="toggle-btn active" id="btnMaker" onclick="setPerspective('maker')">Image Maker</button>
+                    <button class="toggle-btn" id="btnViewer" onclick="setPerspective('viewer')">Image Viewer</button>
+                </div>
+
+                <div class="graph-container" id="graphContainer">
+                    ${generateGraphHTML()}
+                </div>
+                
+                <button class="restart-btn" onclick="restartQuiz()">Take Test Again</button>
+            </div>
+        `;
+    }
+
+    function restartQuiz() {
+        currentIndex = 0;
+        currentPerspective = 'maker';
+        scores = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
+        styleScores = { 
             global: { bw: 0, col: 0 }, 
             architecture: { bw: 0, col: 0 }, 
             creative: { bw: 0, col: 0 }, 
@@ -485,232 +660,29 @@
             nature: { bw: 0, col: 0 }, 
             street: { bw: 0, col: 0 } 
         };
-
-        let currentPerspective = 'maker'; // Default view
-
-        images.forEach(img => { categoryCounts[img.category]++; });
-
-        function initApp() {
-            renderCard();
-        }
-
-        function renderCard() {
-            const container = document.getElementById('cardContainer');
-            const progressEl = document.getElementById('progressText');
-            const topFill = document.getElementById('topProgressFill');
-            
-            if (currentIndex >= images.length) {
-                document.getElementById('appHeader').style.display = 'none';
-                showResults();
-                return;
-            }
-
-            const currentNum = currentIndex + 1;
-            const totalNum = images.length;
-            progressEl.textContent = `Image ${currentNum} of ${totalNum}`;
-            topFill.style.width = `${(currentNum / totalNum) * 100}%`;
-
-            const imgData = images[currentIndex];
-            container.innerHTML = `
-                <div class="card" id="activeCard">
-                    <img src="${imgData.src}" alt="Visual DNA sample" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><rect width=\'100\' height=\'100\' fill=\'%23222\'/><text x=\'50%\' y=\'50%\' fill=\'red\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\' font-size=\'12\'>Missing: ${imgData.src}</text></svg>'">
-                </div>
-            `;
-
-            setupSwipeHandlers();
-        }
-
-        function setupSwipeHandlers() {
-            const card = document.getElementById('activeCard');
-            if (!card) return;
-
-            let startX = 0;
-            let startY = 0;
-
-            card.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-            }, { passive: true });
-
-            card.addEventListener('touchend', (e) => {
-                let endX = e.changedTouches[0].clientX;
-                let endY = e.changedTouches[0].clientY;
-
-                let diffX = endX - startX;
-                let diffY = endY - startY;
-
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
-                    if (diffX > 0) {
-                        handleChoice(1);  // Swipe Right -> Like (+1)
-                    } else {
-                        handleChoice(0);  // Swipe Left -> Neutral Pass (0)
-                    }
-                }
-            }, { passive: true });
-        }
-
-        function handleChoice(weight) {
-            if (currentIndex >= images.length) return;
-            const imgData = images[currentIndex];
-            
-            scores[imgData.category] += weight;
-
-            if (weight > 0) {
-                if (imgData.src.includes('_bw_')) {
-                    styleScores.global.bw++;
-                    styleScores[imgData.category].bw++;
-                } else if (imgData.src.includes('_col_')) {
-                    styleScores.global.col++;
-                    styleScores[imgData.category].col++;
-                }
-            }
-
-            currentIndex++;
-            renderCard();
-        }
-
-        function setPerspective(perspective) {
-            currentPerspective = perspective;
-            
-            // Update button active states
-            document.getElementById('btnMaker').classList.toggle('active', perspective === 'maker');
-            document.getElementById('btnViewer').classList.toggle('active', perspective === 'viewer');
-            
-            // Re-render only the graph container list
-            document.getElementById('graphContainer').innerHTML = generateGraphHTML();
-        }
-
-        function generateGraphHTML() {
-            let html = '';
-
-            // 1. Global Monochrome vs Color breakdown
-            let totalBwLiked = styleScores.global.bw;
-            let totalColLiked = styleScores.global.col;
-            let totalStyleLiked = totalBwLiked + totalColLiked;
-            let bwPercent = totalStyleLiked > 0 ? Math.round((totalBwLiked / totalStyleLiked) * 100) : 0;
-            let colPercent = totalStyleLiked > 0 ? (100 - bwPercent) : 0;
-
-            html += `
-                <div class="graph-item">
-                    <div class="graph-label">
-                        <span>Overall Style (B&W vs Color)</span>
-                        <span class="graph-stats">B&W: ${bwPercent}% | Color: ${colPercent}%</span>
-                    </div>
-                    <div class="bar-background" style="display: flex;">
-                        <div class="bar-fill" style="width: ${bwPercent}%; background: #a1a1aa; border-radius: 5px 0 0 5px;" title="Monochrome"></div>
-                        <div class="bar-fill" style="width: ${colPercent}%; background: #3b82f6; border-radius: 0 5px 5px 0;" title="Color"></div>
-                    </div>
-                </div>
-            `;
-
-            // 2. Category Breakdowns with dynamic descriptions
-            let sortedCategories = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
-
-            sortedCategories.forEach(cat => {
-                let totalAvailable = categoryCounts[cat];
-                let likes = scores[cat];
-                let percentage = totalAvailable > 0 ? Math.round((likes / totalAvailable) * 100) : 0;
-                let catConfig = configs.find(c => c.cat === cat);
-                let catDisplayName = catConfig ? catConfig.name : cat;
-                let descriptionText = insights[currentPerspective][cat];
-
-                html += `
-                    <div class="graph-item">
-                        <div class="graph-label">
-                            <span>${catDisplayName}</span>
-                            <span class="graph-stats">${likes} / ${totalAvailable} (${percentage}%)</span>
-                        </div>
-                        <div class="bar-background">
-                            <div class="bar-fill" style="width: ${percentage}%;"></div>
-                        </div>
-                        <div class="category-desc">
-                            ${descriptionText}
-                        </div>
-                    </div>
-                `;
-            });
-
-            return html;
-        }
-
-        function showResults() {
-            document.getElementById('actionButtons').style.display = 'none';
-            const container = document.getElementById('cardContainer');
-
-            container.innerHTML = `
-                <div class="results" style="display: flex;">
-                    <h2>Your Visual DNA Profile</h2>
-                    
-                    <div class="toggle-container">
-                        <button class="toggle-btn active" id="btnMaker" onclick="setPerspective('maker')">Image Maker</button>
-                        <button class="toggle-btn" id="btnViewer" onclick="setPerspective('viewer')">Image Viewer</button>
-                    </div>
-
-                    <div class="graph-container" id="graphContainer">
-                        ${generateGraphHTML()}
-                    </div>
-                    
-                    <button class="restart-btn" onclick="restartQuiz()">Take Test Again</button>
-                </div>
-            `;
-        }
-
-        function restartQuiz() {
-            currentIndex = 0;
-            currentPerspective = 'maker';
-            scores = { architecture: 0, creative: 0, human: 0, nature: 0, street: 0 };
-            styleScores = { 
-                global: { bw: 0, col: 0 }, 
-                architecture: { bw: 0, col: 0 }, 
-                creative: { bw: 0, col: 0 }, 
-                human: { bw: 0, col: 0 }, 
-                nature: { bw: 0, col: 0 }, 
-                street: { bw: 0, col: 0 } 
-            };
-            shuffleArray(images);
-            document.getElementById('appHeader').style.display = 'block';
-            document.getElementById('actionButtons').style.display = 'flex';
-            renderCard();
-        }
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const startBtn = document.getElementById('start-test-btn');
-    const splashScreen = document.getElementById('splash-screen');
-
-        window.addEventListener('DOMContentLoaded', initApp);
-    </script>
-
-document.addEventListener('DOMContentLoaded', function() {
-  const startBtn = document.getElementById('start-test-btn');
-  const splashScreen = document.getElementById('splash-screen');
-
-  if (startBtn && splashScreen) {
-    startBtn.addEventListener('click', function() {
-      splashScreen.style.opacity = '0';
-      splashScreen.style.transition = 'opacity 0.4s ease';
-      setTimeout(() => {
-        splashScreen.style.display = 'none';
-      }, 400);
-    });
-  }
-});
-
-</<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const startBtn = document.getElementById('start-test-btn');
-    const splashScreen = document.getElementById('splash-screen');
-
-    if (startBtn && splashScreen) {
-      startBtn.addEventListener('click', function() {
-        splashScreen.style.opacity = '0';
-        splashScreen.style.transition = 'opacity 0.4s ease';
-        setTimeout(() => {
-          splashScreen.style.display = 'none';
-        }, 400);
-      });
+        shuffleArray(images);
+        document.getElementById('appHeader').style.display = 'block';
+        document.getElementById('actionButtons').style.display = 'flex';
+        renderCard();
     }
-  });
+
+    // Initialize App and Splash Screen Handler
+    window.addEventListener('DOMContentLoaded', function() {
+        initApp();
+
+        const startBtn = document.getElementById('start-test-btn');
+        const splashScreen = document.getElementById('splash-screen');
+
+        if (startBtn && splashScreen) {
+            startBtn.addEventListener('click', function() {
+                splashScreen.style.opacity = '0';
+                splashScreen.style.transition = 'opacity 0.4s ease';
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                }, 400);
+            });
+        }
+    });
 </script>
-body>
+</body>
 </html>
