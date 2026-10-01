@@ -294,52 +294,52 @@
           align-items: center;
           z-index: 9999;
           overflow-y: auto;
-          padding: 20px;
+          padding: 15px;
         }
 
         .splash-content {
-          max-width: 400px;
+          max-width: 380px;
           width: 100%;
           text-align: center;
           color: #ffffff;
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
           display: flex;
           flex-direction: column;
-          gap: 16px;
+          gap: 12px;
           margin: auto;
         }
 
         .splash-content h1 {
-          font-size: 28px;
+          font-size: 24px;
           font-weight: 800;
           letter-spacing: 2px;
           margin: 0;
         }
 
         .splash-content h2 {
-          font-size: 18px;
+          font-size: 15px;
           font-weight: 400;
           color: #aaaaaa;
-          margin-top: -10px;
-          margin-bottom: 5px;
+          margin-top: -6px;
+          margin-bottom: 2px;
         }
 
         .visual-guide-card {
           background-color: #18181b;
           border: 1px solid #27272a;
-          border-radius: 16px;
-          padding: 16px;
+          border-radius: 14px;
+          padding: 12px;
           position: relative;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 10px;
+          gap: 8px;
           box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .portrait-container {
           width: 100%;
-          height: 220px;
+          height: 170px;
           border-radius: 10px;
           overflow: hidden;
           background: linear-gradient(135deg, #1c1c24 0%, #111115 100%);
@@ -351,28 +351,29 @@
         }
 
         .splash-instructions {
-          font-size: 14px;
+          font-size: 13px;
           color: #cccccc;
-          line-height: 1.4;
-          margin: 0 5px;
+          line-height: 1.35;
+          margin: 0 4px;
         }
 
         .start-btn {
-          background-color: #2ecc71;
+          background-color: #10b981;
           color: #ffffff;
           border: none;
-          border-radius: 12px;
-          padding: 16px;
-          font-size: 18px;
+          border-radius: 14px;
+          padding: 14px;
+          font-size: 16px;
           font-weight: 700;
           cursor: pointer;
           width: 100%;
           transition: background-color 0.2s ease;
-          box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+          letter-spacing: 1px;
         }
 
         .start-btn:hover {
-          background-color: #27ae60;
+          background-color: #059669;
         }
     </style>
 </head>
@@ -389,15 +390,15 @@
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; height: 100%; padding: 0 25px; position: relative;">
           <!-- Left Swipe / Pass Indicator -->
           <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2;">
-            <div style="width: 44px; height: 44px; border-radius: 50%; background: #27272a; border: 2px solid #3f3f46; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
-              <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: #ef4444;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: #27272a; border: 2px solid #3f3f46; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+              <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: #ef4444;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
             </div>
-            <span style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #71717a; font-weight: 600;">Swipe Left</span>
+            <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: #71717a; font-weight: 600;">Swipe Left</span>
           </div>
 
           <!-- Center Graphic / Viewfinder Icon -->
           <div style="position: absolute; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; opacity: 0.35;">
-            <svg viewBox="0 0 24 24" style="width: 40px; height: 40px; stroke: #f1f1f3; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;">
+            <svg viewBox="0 0 24 24" style="width: 36px; height: 36px; stroke: #f1f1f3; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;">
               <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
               <circle cx="12" cy="13" r="4"/>
             </svg>
@@ -405,10 +406,10 @@
 
           <!-- Right Swipe / Like Indicator -->
           <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2;">
-            <div style="width: 44px; height: 44px; border-radius: 50%; background: #27272a; border: 2px solid #3f3f46; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
-              <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: #10b981;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: #27272a; border: 2px solid #3f3f46; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+              <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: #10b981;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             </div>
-            <span style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #71717a; font-weight: 600;">Swipe Right</span>
+            <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: #71717a; font-weight: 600;">Swipe Right</span>
           </div>
         </div>
       </div>
