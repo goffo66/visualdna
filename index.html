@@ -396,9 +396,9 @@
             <span style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: #71717a; font-weight: 600;">Swipe Left</span>
           </div>
 
-          <!-- Center Graphic / Viewfinder Icon -->
-          <div <img src="images/guide.jpg" alt="Guide" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;" />
-style="position: absolute; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; opacity: 0.35;">
+          <!-- Center Graphic / Guide Image -->
+          <div style="position: absolute; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; width: 100%; height: 100%;">
+              <img src="images/guide.jpg" alt="Guide" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;" />
           </div>
 
           <!-- Right Swipe / Like Indicator -->
@@ -644,7 +644,7 @@ style="position: absolute; left: 50%; transform: translateX(-50%); display: flex
     }
 
     function showResults() {
-        document.getElementById('actionButtons').style.display = 'none';
+        document.getElementById('appHeader').style.display = 'none';
         const container = document.getElementById('cardContainer');
 
         container.innerHTML = `
