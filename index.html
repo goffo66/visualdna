@@ -90,6 +90,31 @@
             display: block;
             pointer-events: none;
         }
+        .card-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #1e1e24;
+            color: #a1a1aa;
+            padding: 20px;
+            text-align: center;
+            gap: 10px;
+        }
+        .card-fallback span {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #f1f1f3;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .card-fallback p {
+            font-size: 0.8rem;
+            color: #71717a;
+            word-break: break-all;
+        }
         .actions {
             display: flex;
             gap: 20px;
@@ -157,7 +182,6 @@
             text-transform: uppercase;
         }
         
-        /* Toggle Switch Styling */
         .toggle-container {
             display: flex;
             background: #27272a;
@@ -258,7 +282,6 @@
             border-color: #52525b;
         }
 
-        /* Full-screen dark overlay */
         .splash-overlay {
           position: fixed;
           top: 0;
@@ -298,45 +321,40 @@
           font-weight: 400;
           color: #aaaaaa;
           margin-top: -10px;
-          margin-bottom: 10px;
+          margin-bottom: 5px;
         }
 
-        /* Central Card */
         .visual-guide-card {
-          background-color: #1e1e1e;
-          border: 1px solid #333333;
+          background-color: #18181b;
+          border: 1px solid #27272a;
           border-radius: 16px;
-          padding: 20px;
+          padding: 16px;
           position: relative;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 10px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .portrait-container {
-          width: 180px;
-          height: 220px;
-          border-radius: 8px;
+          width: 100%;
+          height: 200px;
+          border-radius: 10px;
           overflow: hidden;
           background-color: #27272a;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #a1a1aa;
-          font-size: 0.85rem;
-          letter-spacing: 1px;
         }
 
-        /* Gentle reminder sitting above the button */
         .splash-instructions {
           font-size: 14px;
           color: #cccccc;
           line-height: 1.4;
-          margin: 0 10px;
+          margin: 0 5px;
         }
 
-        /* Prominent Green Start Button at the very bottom */
         .start-btn {
           background-color: #2ecc71;
           color: #ffffff;
@@ -361,27 +379,28 @@
 <!-- Splash Screen Overlay -->
 <div id="splash-screen" class="splash-overlay">
   <div class="splash-content">
-    
-    <!-- Title & Subtitle -->
     <h1>VISUAL DNA</h1>
     <h2>in 60 seconds</h2>
 
-    <!-- Central Visual Guide Card -->
     <div class="visual-guide-card">
-      <!-- Replaced external/SVG image dependency with a clean CSS-styled container -->
       <div class="portrait-container">
-        Sample Image
+        <!-- Clean architectural/street monochrome SVG placeholder graphic -->
+        <svg viewBox="0 0 300 200" width="100%" height="100%" style="display:block;">
+            <rect width="300" height="200" fill="#18181b"/>
+            <!-- Minimalist artistic geometric lines -->
+            <path d="M50 160 L120 90 L180 140 L240 70 L270 160 Z" fill="#27272a"/>
+            <circle cx="210" cy="70" r="18" fill="#3f3f46" opacity="0.6"/>
+            <path d="M0 160 Q 150 120 300 160 L300 200 L0 200 Z" fill="#111113"/>
+            <text x="150" y="105" fill="#71717a" font-size="12" font-family="sans-serif" text-anchor="middle" letter-spacing="2">VISUAL DNA</text>
+        </svg>
       </div>
     </div>
 
-    <!-- Gentle Reminder / Invitation Text -->
     <p class="splash-instructions">
       Take about 60 seconds. Go with your first instinct — swipe left or tap cross if it's not for you, swipe right or tap heart if it resonates.
     </p>
 
-    <!-- Start Button at the Very Bottom -->
     <button id="start-test-btn" class="start-btn">START TEST</button>
-
   </div>
 </div>
 
@@ -399,11 +418,9 @@
     </div>
 
     <div class="actions" id="actionButtons">
-        <!-- Cross / Pass (Neutral 0) -->
         <button class="icon-btn btn-left" onclick="handleChoice(0)" title="Pass">
             <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
-        <!-- Heart / Like (+1) -->
         <button class="icon-btn btn-right" onclick="handleChoice(1)" title="More of this">
             <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
         </button>
@@ -419,7 +436,6 @@
         { cat: 'street', prefix: 'Street', name: 'Street' }
     ];
 
-    // Content dictionaries for the toggle
     const insights = {
         maker: {
             architecture: "Clean lines, controlled perspective, strong geometry. Try wide lenses (14–24mm) and careful vertical alignment. Explore: Julius Shulman, Hélène Binet.",
@@ -442,10 +458,10 @@
 
     configs.forEach(c => {
         for (let i = 1; i <= 5; i++) {
-            images.push({ id: idCounter++, src: `images/${c.prefix}_bw_${i}.jpg`, category: c.cat });
+            images.push({ id: idCounter++, src: `images/${c.prefix}_bw_${i}.jpg`, category: c.cat, label: `${c.name} B&W #${i}` });
         }
         for (let i = 1; i <= 5; i++) {
-            images.push({ id: idCounter++, src: `images/${c.prefix}_col_${i}.jpg`, category: c.cat });
+            images.push({ id: idCounter++, src: `images/${c.prefix}_col_${i}.jpg`, category: c.cat, label: `${c.name} Color #${i}` });
         }
     });
 
@@ -471,7 +487,7 @@
         street: { bw: 0, col: 0 } 
     };
 
-    let currentPerspective = 'maker'; // Default view
+    let currentPerspective = 'maker';
 
     images.forEach(img => { categoryCounts[img.category]++; });
 
@@ -498,7 +514,7 @@
         const imgData = images[currentIndex];
         container.innerHTML = `
             <div class="card" id="activeCard">
-                <img src="${imgData.src}" alt="Visual DNA sample" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><rect width=\'100\' height=\'100\' fill=\'%23222\'/><text x=\'50%\' y=\'50%\' fill=\'red\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\' font-size=\'12\'>Missing: ${imgData.src}</text></svg>'">
+                <img src="${imgData.src}" alt="${imgData.label}" onerror="this.parentElement.innerHTML='<div class=\'card-fallback\'><span>${imgData.label}</span><p>Missing file: ${imgData.src}</p></div>'">
             </div>
         `;
 
@@ -526,9 +542,9 @@
 
             if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
                 if (diffX > 0) {
-                    handleChoice(1);  // Swipe Right -> Like (+1)
+                    handleChoice(1);
                 } else {
-                    handleChoice(0);  // Swipe Left -> Neutral Pass (0)
+                    handleChoice(0);
                 }
             }
         }, { passive: true });
@@ -556,16 +572,13 @@
 
     function setPerspective(perspective) {
         currentPerspective = perspective;
-        
         document.getElementById('btnMaker').classList.toggle('active', perspective === 'maker');
         document.getElementById('btnViewer').classList.toggle('active', perspective === 'viewer');
-        
         document.getElementById('graphContainer').innerHTML = generateGraphHTML();
     }
 
     function generateGraphHTML() {
         let html = '';
-
         let totalBwLiked = styleScores.global.bw;
         let totalColLiked = styleScores.global.col;
         let totalStyleLiked = totalBwLiked + totalColLiked;
@@ -654,12 +667,11 @@
         renderCard();
     }
 
-    // Initialize App and Splash Screen Handler
     window.addEventListener('DOMContentLoaded', function() {
         initApp();
 
         const startBtn = document.getElementById('start-test-btn');
-        const splashScreen =लेक्ट्रify = document.getElementById('splash-screen');
+        const splashScreen = document.getElementById('splash-screen');
 
         if (startBtn && splashScreen) {
             startBtn.addEventListener('click', function() {
