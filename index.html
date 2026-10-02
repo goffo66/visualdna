@@ -455,17 +455,17 @@
     const insights = {
         maker: {
             architecture: "Deep focus, tripod-steady and geometrically precise. You correct verticals, chase graphic lines and symmetry, and use dawn/dusk light to reveal texture and form. Explore: Julius Shulman, Hélène Binet, Simon Kennedy, Fernando Guerra.",
-            creative: "Technique is the image. You use shallow focus, intentional blur, multiple exposure and prisms, where bold colour grading and post-production are planned as part of the shot. Explore Ernst Haas, Sara Moon, Harry Callahan, Ellen Carey.",
+            creative: "Technique is the image. You use shallow focus, intentional blur, multiple exposure and prisms, where bold colour grading and post-production are planned as part of the shot. Explore: Ernst Haas, Sara Moon, Harry Callahan, Ellen Carey.",
             human: "Sharp on the nearest eye with soft, directional light and a flattering 85-135mm separation at f/2-f/4. You freeze fleeting expression with fast, continuous focus. Explore: Jane Bown, Alec Soth, Martin Parr, Boris Mikhailov.",
-            nature: "Two modes: f/11-f/16 on a tripod for sweeping, polarised landscapes, and long telephoto / 100mm macro at 1/1000s+ shot low and tight for wildlife and tiny detail. Explore: Sebastião Salgado, Eliot Porter, Tom Mangelsen, Ansel Adams",
-            street: "Quick and unobtrusive on a 28/35mm, zone-focused at f/5.6-f/11 with Auto-ISO. You layer foreground and background to catch an unposed, decisive moment in available light. Explore: Garry Winogrand, Daidõ Moriyama, Bruce Gilden, Alex Webb."
+            nature: "Two modes: f/11-f/16 on a tripod for sweeping, polarised landscapes, and long telephoto / 100mm macro at 1/1000s+ shot low and tight for wildlife and tiny detail. Explore: Sebastião Salgado, Eliot Porter, Tom Mangelsen, Ansel Adams.",
+            street: "Quick and unobtrusive on a 28/35mm, zone-focused at f/5.6-f/11 with Auto-ISO. You layer foreground and background to catch an unposed, decisive moment in available light. Explore: Garry Winogrand, Daidō Moriyama, Bruce Gilden, Alex Webb."
         },
         viewer: {
             architecture: "You enjoy order and design. You appreciate clean lines, bold structures, and the way light plays across a building, and you find beauty in the spaces around you. Explore: Julius Shulman, Hélène Binet, Simon Kennedy, Fernando Guerra.",
-            creative: "You enjoy the imaginative stuff. You like images that are playful, surreal, or dreamlike — photos that make you stop, smile, and see the world differently. Explore Ernst Haas, Sara Moon, Harry Callahan, Ellen Carey.",
+            creative: "You enjoy the imaginative stuff. You like images that are playful, surreal, or dreamlike — photos that make you stop, smile, and see the world differently. Explore: Ernst Haas, Sara Moon, Harry Callahan, Ellen Carey.",
             human: "You enjoy people and their stories. You connect with faces, emotion, and authentic moments, and you're moved by images that make you feel something. Explore: Jane Bown, Alec Soth, Martin Parr, Boris Mikhailov.",
-            nature: "You enjoy calm and wonder. You love sweeping landscapes, close-up wildlife, and weather — images that give you a breath of fresh air and remind you of the planet. Explore: Sebastião Salgado, Eliot Porter, Tom Mangelsen, Ansel Adams",
-            street: "You enjoy the immediacy of real life unfolding. Fleeting gestures, social tension and everyday theatre intrigue you — you like images that feel spontaneous, alive and unfiltered. Explore: Garry Winogrand, Daidõ Moriyama, Bruce Gilden, Alex Webb."
+            nature: "You enjoy calm and wonder. You love sweeping landscapes, close-up wildlife, and weather — images that give you a breath of fresh air and remind you of the planet. Explore: Sebastião Salgado, Eliot Porter, Tom Mangelsen, Ansel Adams.",
+            street: "You enjoy the immediacy of real life unfolding. Fleeting gestures, social tension and everyday theatre intrigue you — you like images that feel spontaneous, alive and unfiltered. Explore: Garry Winogrand, Daidō Moriyama, Bruce Gilden, Alex Webb."
         }
     };
 
@@ -477,7 +477,7 @@
             images.push({ id: idCounter++, src: `images/${c.prefix}_bw_${i}.jpg`, category: c.cat, label: `${c.name} B&W #${i}` });
         }
         for (let i = 1; i <= 5; i++) {
-            images.push({ id: idCounter++, src: `images/${c.prefix}_col_${i}.jpg`, category: c.cat, label: `${c.name} Color #${i}` });
+            images.push({ id: idCounter++, src: `images/${c.prefix}_col_${i}.jpg`, category: c.cat, label: `${c.name} Colour #${i}` });
         }
     });
 
@@ -623,12 +623,12 @@
         html += `
             <div class="graph-item">
                 <div class="graph-label">
-                    <span>Overall Style (B&W vs Color)</span>
-                    <span class="graph-stats">B&W: ${bwPercent}% | Color: ${colPercent}%</span>
+                    <span>Overall Style (B&W vs Colour)</span>
+                    <span class="graph-stats">B&W: ${bwPercent}% | Colour: ${colPercent}%</span>
                 </div>
                 <div class="bar-background" style="display: flex;">
                     <div class="bar-fill" style="width: ${bwPercent}%; background: #a1a1aa; border-radius: 5px 0 0 5px;" title="Monochrome"></div>
-                    <div class="bar-fill" style="width: ${colPercent}%; background: #3b82f6; border-radius: 0 5px 5px 0;" title="Color"></div>
+                    <div class="bar-fill" style="width: ${colPercent}%; background: #3b82f6; border-radius: 0 5px 5px 0;" title="Colour"></div>
                 </div>
             </div>
         `;
