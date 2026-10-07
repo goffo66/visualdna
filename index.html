@@ -634,7 +634,8 @@
 
 fetch("https://usebasin.com/f/9192c6e4727d", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json",
+“Accept”: “application/json” },
     body: JSON.stringify({ bwPercent, colPercent })
 }).catch(() => {});
 
