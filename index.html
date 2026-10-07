@@ -632,6 +632,12 @@
         let bwPercent = totalStyleLiked > 0 ? Math.round((totalBwLiked / totalStyleLiked) * 100) : 0;
         let colPercent = totalStyleLiked > 0 ? (100 - bwPercent) : 0;
 
+fetch("https://usebasin.com/f/9192c6e4727d", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ bwPercent, colPercent })
+}).catch(() => {});
+
         html += `
             <div class="graph-item">
                 <div class="graph-label">
