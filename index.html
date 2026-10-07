@@ -14,7 +14,7 @@
             height: 100%;
             overflow: hidden;
             position: fixed;
-            touch-action: manipulation;
+            touch-action: none;
         }
         .container {
             width: 100%;
@@ -37,7 +37,9 @@
             width: 100%; height: 100%; max-height: 520px; aspect-ratio: 9 / 16;
             background: #18181b; border-radius: 16px; overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column;
+            cursor: grab; user-select: none; transition: transform 0.2s ease, opacity 0.2s ease;
         }
+        .card:active { cursor: grabbing; }
         .card img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
         .card-fallback { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #1e1e24; color: #a1a1aa; padding: 20px; text-align: center; gap: 10px; }
         .card-fallback span { font-size: 1.1rem; font-weight: 600; color: #f1f1f3; letter-spacing: 1px; text-transform: uppercase; }
@@ -85,7 +87,7 @@
       </div>
     </div>
     <p class="splash-instructions">
-      Take about 60 seconds. Go with your first instinct — tap left to pass, tap right if it resonates.
+      Take about 60 seconds. Go with your first instinct — swipe left to pass, swipe right if it resonates.
     </p>
     <button id="start-test-btn" class="start-btn" onclick="startQuizDirectly()">START TEST</button>
   </div>
@@ -103,10 +105,10 @@
     <div class="card-container" id="cardContainer"></div>
 
     <div class="actions" id="actionButtons">
-        <button class="icon-btn btn-left" onclick="handleChoice(0)" title="Pass">
+        <button class="icon-btn btn-left" onclick="handleChoiceAnimation(0)" title="Pass">
             <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
-        <button class="icon-btn btn-right" onclick="handleChoice(1)" title="More of this">
+        <button class="icon-btn btn-right" onclick="handleChoiceAnimation(1)" title="More of this">
             <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
         </button>
     </div>
@@ -205,6 +207,79 @@
                 <img src="${imgData.src}" alt="${imgData.label}" onerror="this.parentElement.innerHTML='<div class=\'card-fallback\'><span>${imgData.label}</span><p>${imgData.src}</p></div>'">
             </div>
         `;
+
+        initCardSwipe();
+    }
+
+    function initCardSwipe() {
+        const card = document.getElementById('activeCard');
+        if (!card) return;
+
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        function onTouchStart(e) {
+            isDragging = true;
+            startX = e.touches ? e.touches[0].clientX : e.clientX;
+            card.style.transition = 'none';
+        }
+
+        function onTouchMove(e) {
+            if (!isDragging) return;
+            const x = e.touches ? e.touches[0].clientX : e.clientX;
+            currentX = x - startX;
+            const rotation = currentX * 0.05;
+            card.style.transform = `translate(${currentX}px, 0px) rotate(${rotation}deg)`;
+        }
+
+        function onTouchEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            card.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+
+            if (currentX > 100) {
+                // Swiped Right (Like)
+                card.style.transform = `translate(500px, 0px) rotate(30deg)`;
+                card.style.opacity = '0';
+                setTimeout(() => handleChoice(1), 200);
+            } else if (currentX < -100) {
+                // Swiped Left (Pass)
+                card.style.transform = `translate(-500px, 0px) rotate(-30deg)`;
+                card.style.opacity = '0';
+                setTimeout(() => handleChoice(0), 200);
+            } else {
+                // Snap back
+                card.style.transform = 'translate(0px, 0px) rotate(0deg)';
+            }
+            currentX = 0;
+        }
+
+        card.addEventListener('touchstart', onTouchStart, { passive: true });
+        card.addEventListener('touchmove', onTouchMove, { passive: true });
+        card.addEventListener('touchend', onTouchEnd);
+
+        card.addEventListener('mousedown', onTouchStart);
+        window.addEventListener('mousemove', onTouchMove);
+        window.addEventListener('mouseup', onTouchEnd);
+    }
+
+    function handleChoiceAnimation(weight) {
+        const card = document.getElementById('activeCard');
+        if (!card) {
+            handleChoice(weight);
+            return;
+        }
+
+        card.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+        const dir = weight > 0 ? 500 : -500;
+        const rot = weight > 0 ? 30 : -30;
+        card.style.transform = `translate(${dir}px, 0px) rotate(${rot}deg)`;
+        card.style.opacity = '0';
+
+        setTimeout(() => {
+            handleChoice(weight);
+        }, 200);
     }
 
     function handleChoice(weight) {
