@@ -304,7 +304,6 @@
         document.getElementById('graphContainer').innerHTML = generateGraphHTML();
     }
 
-    // 1. Track the selected rating globally
     let selectedRating = "Not provided";
 
     function generateGraphHTML() {
@@ -314,27 +313,6 @@
         let totalStyleLiked = totalBwLiked + totalColLiked;
         let bwPercent = totalStyleLiked > 0 ? Math.round((totalBwLiked / totalStyleLiked) * 100) : 0;
         let colPercent = totalStyleLiked > 0 ? (100 - bwPercent) : 0;
-
-        let telemetryData = { 
-            bwPercent, 
-            colPercent,
-            userRating: selectedRating 
-        };
-        
-        Object.keys(scores).forEach(cat => {
-            let totalAvailable = categoryCounts[cat];
-            let likes = scores[cat];
-            telemetryData[cat + '_likes'] = likes;
-            telemetryData[cat + '_percent'] = totalAvailable > 0 ? Math.round((likes / totalAvailable) * 100) : 0;
-        });
-
-        try {
-            fetch("https://usebasin.com/f/9192c6e4727d", {
-                method: "POST",
-                headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                body: JSON.stringify(telemetryData)
-            }).catch(() => {});
-        } catch (e) {}
 
         html += `
             <div class="graph-item">
@@ -371,6 +349,35 @@
         return html;
     }
 
+    function sendTelemetry() {
+        let totalBwLiked = styleScores.global.bw;
+        let totalColLiked = styleScores.global.col;
+        let totalStyleLiked = totalBwLiked + totalColLiked;
+        let bwPercent = totalStyleLiked > 0 ? Math.round((totalBwLiked / totalStyleLiked) * 100) : 0;
+        let colPercent = totalStyleLiked > 0 ? (100 - bwPercent) : 0;
+
+        let telemetryData = { 
+            bwPercent, 
+            colPercent,
+            userRating: selectedRating 
+        };
+        
+        Object.keys(scores).forEach(cat => {
+            let totalAvailable = categoryCounts[cat];
+            let likes = scores[cat];
+            telemetryData[cat + '_likes'] = likes;
+            telemetryData[cat + '_percent'] = totalAvailable > 0 ? Math.round((likes / totalAvailable) * 100) : 0;
+        });
+
+        try {
+            fetch("https://usebasin.com/f/9192c6e4727d", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                body: JSON.stringify(telemetryData)
+            }).catch(() => {});
+        } catch (e) {}
+    }
+
     function showResults() {
         document.getElementById('cardContainer').innerHTML = `
             <div class="results" id="completion-screen" style="display: flex;">
@@ -401,7 +408,6 @@
             </div>
         `;
 
-        // 2. Attach listeners to the rating buttons with clear visual scaling feedback
         document.querySelectorAll('.rating-btn').forEach(button => {
             button.addEventListener('click', (e) => {
                 document.querySelectorAll('.rating-btn').forEach(btn => {
@@ -411,13 +417,16 @@
                 e.currentTarget.style.transform = 'scale(1.15)';
                 e.currentTarget.style.borderColor = '#c59b27';
                 selectedRating = e.currentTarget.getAttribute('data-rating');
+                
+                sendTelemetry();
             });
         });
 
-        // 3. Handle the graceful exit flow for the "Finish & Close" button with friendly phrasing
         const exitBtn = document.getElementById('exit-btn');
         if (exitBtn) {
             exitBtn.addEventListener('click', () => {
+                sendTelemetry();
+                
                 const completionScreen = document.getElementById('completion-screen');
                 if (completionScreen) {
                     completionScreen.innerHTML = `
