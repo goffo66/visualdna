@@ -421,28 +421,57 @@
                     ${generateGraphHTML()}
                 </div>
 
-                <div id="completion-screen" class="completion-container" style="display: block;">
-                    <h2>Test Complete</h2>
-                    <p>Thank you for exploring your visual DNA.</p>
-                    
-                    <div class="feedback-section">
-                        <p class="feedback-prompt">How did you enjoy the test?</p>
-                        <div class="smiley-row">
-                            <button class="smiley-btn" data-score="1" title="Not really">😞</button>
-                            <button class="smiley-btn" data-score="2" title="It was okay">😐</button>
-                            <button class="smiley-btn" data-score="3" title="Good">😊</button>
-                            <button class="smiley-btn" data-score="4" title="Really liked it">😁</button>
-                            <button class="smiley-btn" data-score="5" title="Loved it!">🤩</button>
-                        </div>
-                    </div>
-                    
-                    <div class="final-message">
-                        <p><em>Your intuitive choices have been recorded. You may close this window.</em></p>
-                    </div>
-                </div>
-            </div>
-        `;
+<div id="end-screen" class="screen" style="display: none;">
+    <h2>Test Complete</h2>
+    <p>How did you find the experience?</p>
+    
+    <div class="rating-options" style="display: flex; justify-content: center; gap: 20px; font-size: 2.5rem; margin: 20px 0;">
+        <button class="rating-btn" data-rating="Didn't like it" style="background:none; border:none; cursor:pointer;">🙁</button>
+        <button class="rating-btn" data-rating="It was okay" style="background:none; border:none; cursor:pointer;">😐</button>
+        <button class="rating-btn" data-rating="Really liked it" style="background:none; border:none; cursor:pointer;">😊</button>
+    </div>
+    
+    <!-- Graceful exit / finish button to solve the dead-end issue -->
+    <button id="exit-btn" class="primary-btn" style="margin-top: 20px;">Finish & Close</button>
+</div>
+        </div>
 
+// 1. Track the selected rating
+let selectedRating = "Not provided";
+
+// 2. Attach listeners to the new 3-option rating buttons
+document.querySelectorAll('.rating-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        // Reset scale on all buttons, then enlarge the clicked one for visual feedback
+        document.querySelectorAll('.rating-btn').forEach(btn => btn.style.transform = 'scale(1)');
+        e.currentTarget.style.transform = 'scale(1.2)';
+        
+        // Capture the rating string
+        selectedRating = e.currentTarget.getAttribute('data-rating');
+    });
+});
+
+// 3. (Inside your submission function) Make sure 'userRating' is part of your payload:
+/*
+const payload = {
+    // ... your other category metrics ...
+    userRating: selectedRating 
+};
+*/
+
+// 4. Handle the graceful exit flow for the "Finish & Close" button
+const exitBtn = document.getElementById('exit-btn');
+if (exitBtn) {
+    exitBtn.addEventListener('click', () => {
+        const completionScreen = document.getElementById('completion-screen');
+        if (completionScreen) {
+            completionScreen.innerHTML = `
+                <h2>Thank You!</h2>
+                <p><em>Your intuitive choices have been recorded. You may now close this window or tab.</em></p>
+            `;
+        }
+    });
+}
         // Attach listeners to the dynamically injected smiley buttons
         document.querySelectorAll('.smiley-btn').forEach(button => {
             button.addEventListener('click', (e) => {
