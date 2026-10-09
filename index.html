@@ -414,7 +414,7 @@
             });
         });
 
-        // 3. Handle the graceful exit flow for the "Finish & Close" button
+        // 3. Handle the graceful exit flow for the "Finish & Close" button with friendly phrasing
         const exitBtn = document.getElementById('exit-btn');
         if (exitBtn) {
             exitBtn.addEventListener('click', () => {
@@ -422,7 +422,7 @@
                 if (completionScreen) {
                     completionScreen.innerHTML = `
                         <h2 style="margin-top: 40px;">Thank You!</h2>
-                        <p style="color: #a1a1aa; margin-top: 10px;"><em>Your intuitive choices have been recorded. You may now close this window or tab.</em></p>
+                        <p style="color: #a1a1aa; margin-top: 10px; line-height: 1.5;"><em>I hope this has been a useful experience.<br>You may now close this window or tab.</em></p>
                     `;
                 }
             });
