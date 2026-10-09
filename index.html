@@ -73,6 +73,61 @@
         .guide-image-container img { width: 100%; height: auto; display: block; }
         .splash-instructions { font-size: 12px; color: #cccccc; line-height: 1.35; }
         .start-btn { background-color: #10b981 !important; color: #ffffff !important; border: none !important; border-radius: 14px !important; padding: 14px !important; font-size: 16px !important; font-weight: 700 !important; cursor: pointer !important; width: 100% !important; letter-spacing: 1px !important; }
+
+.completion-container {
+    text-align: center;
+    padding: 2rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.feedback-section {
+    margin: 2rem 0;
+}
+
+.feedback-prompt {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+.smiley-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.smiley-btn {
+    background: transparent;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.smiley-btn:hover {
+    border-color: #333;
+    transform: scale(1.08);
+}
+
+.smiley-btn.selected {
+    border-color: #000;
+    background-color: #f0f0f0;
+    transform: scale(1.1);
+}
+
+.final-message {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: #777;
+}
+
     </style>
 </head>
 <body>
@@ -376,11 +431,52 @@
                 <div class="graph-container" id="graphContainer">
                     ${generateGraphHTML()}
                 </div>
-                
-                <button class="restart-btn" onclick="location.reload()">Take Test Again</button>
-            </div>
-        `;
-    }
+                <div id="completion-screen" class="completion-container" style="display: none;">
+    <h2>Test Complete</h2>
+    <p>Thank you for exploring your visual DNA.</p>
+    
+    <div class="feedback-section">
+        <p class="feedback-prompt">How did you enjoy the test?</p>
+        <div class="smiley-row">
+            <button class="smiley-btn" data-score="1" title="Not really">😞</button>
+            <button class="smiley-btn" data-score="2" title="It was okay">😐</button>
+            <button class="smiley-btn" data-score="3" title="Good">😊</button>
+            <button class="smiley-btn" data-score="4" title="Really liked it">😁</button>
+            <button class="smiley-btn" data-score="5" title="Loved it!">🤩</button>
+        </div>
+    </div>
+    
+
+ <div class="final-message">
+        <p><em>Your intuitive choices have been recorded. You may close this window.</em></p>
+    </div>
+</div>
+
+<script>
+// Add event listeners to the smiley buttons when the completion screen loads
+document.querySelectorAll('.smiley-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        // Remove selection from others and highlight the clicked one
+        document.querySelectorAll('.smiley-btn').forEach(btn => btn.classList.remove('selected'));
+        e.currentTarget.classList.add('selected');
+
+        const enjoymentScore = e.currentTarget.getAttribute('data-score');
+        
+        // Safely capture the score into your telemetry object if it exists
+        if (typeof telemetryData !== 'undefined') {
+            telemetryData.enjoyment = enjoymentScore;
+        }
+    });
+});
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+ 
