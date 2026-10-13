@@ -36,7 +36,6 @@
             overflow: hidden;
         }
 
-        /* Header Section */
         .header-container {
             display: flex;
             flex-direction: column;
@@ -108,12 +107,11 @@
             transition: width 0.2s ease;
         }
 
-        /* Card Stage */
         .stage-container {
             position: relative;
             width: 100%;
             max-width: 320px;
-            height: 400px;
+            height: 380px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -144,7 +142,7 @@
 
         .card-frame {
             width: 240px;
-            height: 370px;
+            height: 350px;
             background: var(--card-bg);
             border-radius: 24px;
             border: 4px solid #1E222D;
@@ -162,7 +160,6 @@
             display: block;
         }
 
-        /* Controls Area */
         .controls-container {
             display: flex;
             flex-direction: column;
@@ -173,7 +170,6 @@
             justify-content: center;
         }
 
-        /* Big Green Start Button */
         .primary-start-btn {
             background-color: var(--like-color);
             color: #FFFFFF;
@@ -185,14 +181,8 @@
             border: none;
             cursor: pointer;
             box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
-            transition: transform 0.15s ease, background-color 0.15s ease;
         }
 
-        .primary-start-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Swipe Buttons (Hidden during Splash, shown when Active) */
         .button-row {
             display: none;
             gap: 28px;
@@ -208,10 +198,8 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: transform 0.1s ease;
         }
 
-        .action-btn:active { transform: scale(0.9); }
         .btn-pass { background-color: var(--pass-color); color: white; }
         .btn-like { background-color: var(--like-color); color: white; }
 
@@ -229,10 +217,10 @@
             font-size: 0.8rem; 
             color: var(--text-muted); 
             margin-top: 4px;
+            display: none;
         }
         .sub-instruction strong { color: var(--text-primary); }
 
-        /* Results Screen */
         .results-modal {
             position: fixed;
             inset: 0;
@@ -295,7 +283,6 @@
 </head>
 <body>
 
-    <!-- Header -->
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
@@ -308,7 +295,6 @@
         </div>
     </div>
 
-    <!-- Interactive Card Stage -->
     <div class="stage-container">
         <div class="swipe-label left">
             <span class="arrow">&larr;</span>
@@ -325,12 +311,9 @@
         </div>
     </div>
 
-    <!-- Controls Area -->
     <div class="controls-container">
-        <!-- Initial Start State -->
         <button class="primary-start-btn" id="startBtn">START TEST</button>
 
-        <!-- Active Swipe Controls (Revealed after Start) -->
         <div class="button-row" id="buttonRow">
             <button class="action-btn btn-pass" id="btnPass" aria-label="Skip">
                 <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -339,16 +322,15 @@
                 <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
             </button>
         </div>
-        <div class="sub-instruction" id="subInstruction" style="display:none;">or use <strong>buttons</strong></div>
+        <div class="sub-instruction" id="subInstruction">or use <strong>buttons</strong></div>
     </div>
 
     <div class="footer-link">How we protect your test data</div>
 
-    <!-- Results Modal -->
     <div class="results-modal" id="resultsModal">
         <div class="results-card">
             <div class="results-title">Your Visual DNA</div>
-            <div class="results-stat"><span>Primary Style:</span> <strong id="resStyle">High Contrast</strong></div>
+            <div class="results-stat"><span>Primary Style:</span> <strong>High Contrast</strong></div>
             <div class="results-stat"><span>Monochrome Ratio:</span> <strong id="resBw">64% B&W</strong></div>
             <div class="results-stat"><span>Liked Images:</span> <strong id="resCount">0 / 6</strong></div>
             <button class="restart-btn" id="restartBtn">TEST AGAIN</button>
@@ -414,4 +396,24 @@
 
         function showResults() {
             document.getElementById('resCount').textContent = `${likedCount} / ${deck.length}`;
-            document.getElementById('
+            document.getElementById('resBw').textContent = `${Math.round((bwLikes / (likedCount || 1)) * 100)}% B&W`;
+            resultsModal.style.display = 'flex';
+        }
+
+        startBtn.onclick = startTest;
+        document.getElementById('btnPass').onclick = () => handleChoice(false);
+        document.getElementById('btnLike').onclick = () => handleChoice(true);
+        document.getElementById('restartBtn').onclick = () => {
+            currentIndex = 0;
+            likedCount = 0;
+            bwLikes = 0;
+            resultsModal.style.display = 'none';
+            startBtn.style.display = 'block';
+            buttonRow.style.display = 'none';
+            subInstruction.style.display = 'none';
+            progressContainer.style.display = 'none';
+            cardImg.src = deck[0].url;
+        };
+    </script>
+</body>
+</html>
