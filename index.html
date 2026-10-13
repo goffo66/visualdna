@@ -10,7 +10,6 @@
             --card-bg: #12151C;
             --text-primary: #F8FAFC;
             --text-muted: #94A3B8;
-            --accent-gold: #D97706;
             --accent-gold-light: #F59E0B;
             --pass-color: #EF4444;
             --like-color: #10B981;
@@ -92,7 +91,6 @@
             font-size: 1.35rem;
         }
 
-        /* Progress Bar (Hidden during splash) */
         .progress-bar-container {
             width: 240px;
             height: 4px;
@@ -154,8 +152,6 @@
             overflow: hidden;
             position: relative;
             z-index: 2;
-            touch-action: none;
-            cursor: grab;
             transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
@@ -163,51 +159,44 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            pointer-events: none;
+            display: block;
         }
 
-        .start-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(8, 9, 12, 0.65);
-            backdrop-filter: blur(4px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 3;
-            transition: opacity 0.3s ease;
-        }
-
-        .start-btn {
-            background: var(--accent-gold-light);
-            color: #000;
-            font-weight: 800;
-            font-size: 1rem;
-            padding: 14px 28px;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            letter-spacing: 1px;
-            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
-            transition: transform 0.15s ease;
-        }
-
-        .start-btn:active { transform: scale(0.95); }
-
-        /* Controls */
+        /* Controls Area */
         .controls-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
             max-width: 320px;
+            min-height: 85px;
+            justify-content: center;
         }
 
+        /* Big Green Start Button */
+        .primary-start-btn {
+            background-color: var(--like-color);
+            color: #FFFFFF;
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            padding: 16px 42px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+            transition: transform 0.15s ease, background-color 0.15s ease;
+        }
+
+        .primary-start-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Swipe Buttons (Hidden during Splash, shown when Active) */
         .button-row {
-            display: flex;
+            display: none;
             gap: 28px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .action-btn {
@@ -236,7 +225,11 @@
             stroke-linejoin: round;
         }
 
-        .sub-instruction { font-size: 0.8rem; color: var(--text-muted); }
+        .sub-instruction { 
+            font-size: 0.8rem; 
+            color: var(--text-muted); 
+            margin-top: 4px;
+        }
         .sub-instruction strong { color: var(--text-primary); }
 
         /* Results Screen */
@@ -280,16 +273,16 @@
 
         .restart-btn {
             margin-top: 20px;
-            background: transparent;
-            border: 1px solid var(--accent-gold-light);
-            color: var(--accent-gold-light);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: 700;
+            background: var(--like-color);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 800;
             cursor: pointer;
+            letter-spacing: 1px;
         }
 
-        /* Footer */
         .footer-link {
             font-size: 0.75rem;
             color: var(--text-muted);
@@ -306,7 +299,7 @@
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
-        <div class="slogan" id="sloganText">
+        <div class="slogan">
             IF YOU FEEL IT,
             <span class="action">SWIPE IT!</span>
         </div>
@@ -323,9 +316,6 @@
         </div>
 
         <div class="card-frame" id="cardFrame">
-            <div class="start-overlay" id="startOverlay">
-                <button class="start-btn" id="startBtn">START TEST</button>
-            </div>
             <img class="card-image" id="cardImg" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Test Photo">
         </div>
 
@@ -335,9 +325,13 @@
         </div>
     </div>
 
-    <!-- Controls -->
+    <!-- Controls Area -->
     <div class="controls-container">
-        <div class="button-row">
+        <!-- Initial Start State -->
+        <button class="primary-start-btn" id="startBtn">START TEST</button>
+
+        <!-- Active Swipe Controls (Revealed after Start) -->
+        <div class="button-row" id="buttonRow">
             <button class="action-btn btn-pass" id="btnPass" aria-label="Skip">
                 <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
@@ -345,7 +339,7 @@
                 <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
             </button>
         </div>
-        <div class="sub-instruction">or use <strong>buttons</strong></div>
+        <div class="sub-instruction" id="subInstruction" style="display:none;">or use <strong>buttons</strong></div>
     </div>
 
     <div class="footer-link">How we protect your test data</div>
@@ -356,38 +350,38 @@
             <div class="results-title">Your Visual DNA</div>
             <div class="results-stat"><span>Primary Style:</span> <strong id="resStyle">High Contrast</strong></div>
             <div class="results-stat"><span>Monochrome Ratio:</span> <strong id="resBw">64% B&W</strong></div>
-            <div class="results-stat"><span>Liked Images:</span> <strong id="resCount">0 / 20</strong></div>
+            <div class="results-stat"><span>Liked Images:</span> <strong id="resCount">0 / 6</strong></div>
             <button class="restart-btn" id="restartBtn">TEST AGAIN</button>
         </div>
     </div>
 
     <script>
         const deck = [
-            { url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80", bw: false, cat: "Landscape" },
-            { url: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=600&q=80", bw: true, cat: "Noir" },
-            { url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80", bw: false, cat: "Nature" },
-            { url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80", bw: true, cat: "Architecture" },
-            { url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80", bw: false, cat: "Street" },
-            { url: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80", bw: true, cat: "Portrait" }
+            { url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=600&q=80", bw: true },
+            { url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80", bw: true },
+            { url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80", bw: true }
         ];
 
         let currentIndex = 0;
         let likedCount = 0;
         let bwLikes = 0;
-        let testActive = false;
 
         const cardFrame = document.getElementById('cardFrame');
         const cardImg = document.getElementById('cardImg');
-        const startOverlay = document.getElementById('startOverlay');
         const startBtn = document.getElementById('startBtn');
+        const buttonRow = document.getElementById('buttonRow');
+        const subInstruction = document.getElementById('subInstruction');
         const progressContainer = document.getElementById('progressContainer');
         const progressFill = document.getElementById('progressFill');
         const resultsModal = document.getElementById('resultsModal');
 
         function startTest() {
-            testActive = true;
-            startOverlay.style.opacity = '0';
-            setTimeout(() => startOverlay.style.display = 'none', 300);
+            startBtn.style.display = 'none';
+            buttonRow.style.display = 'flex';
+            subInstruction.style.display = 'block';
             progressContainer.style.display = 'block';
             loadCard();
         }
@@ -397,22 +391,16 @@
                 showResults();
                 return;
             }
-            const item = deck[currentIndex];
-            cardImg.src = item.url;
+            cardImg.src = deck[currentIndex].url;
             progressFill.style.width = ((currentIndex / deck.length) * 100) + '%';
         }
 
         function handleChoice(liked) {
-            if (!testActive) {
-                startTest();
-                return;
-            }
             if (liked) {
                 likedCount++;
                 if (deck[currentIndex].bw) bwLikes++;
             }
             
-            // Animation
             cardFrame.style.transform = liked ? 'translateX(120px) rotate(15deg)' : 'translateX(-120px) rotate(-15deg)';
             cardFrame.style.opacity = '0';
 
@@ -426,23 +414,4 @@
 
         function showResults() {
             document.getElementById('resCount').textContent = `${likedCount} / ${deck.length}`;
-            document.getElementById('resBw').textContent = `${Math.round((bwLikes / (likedCount || 1)) * 100)}% B&W`;
-            resultsModal.style.display = 'flex';
-        }
-
-        startBtn.addEventListener('click', startTest);
-        document.getElementById('btnPass').addEventListener('click', () => handleChoice(false));
-        document.getElementById('btnLike').addEventListener('click', () => handleChoice(true));
-        document.getElementById('restartBtn').addEventListener('click', () => {
-            currentIndex = 0;
-            likedCount = 0;
-            bwLikes = 0;
-            resultsModal.style.display = 'none';
-            startOverlay.style.display = 'flex';
-            startOverlay.style.opacity = '1';
-            progressContainer.style.display = 'none';
-            testActive = false;
-        });
-    </script>
-</body>
-</html>
+            document.getElementById('
