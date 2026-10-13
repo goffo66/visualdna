@@ -45,7 +45,7 @@
             text-align: center;
             width: 100%;
             max-width: 400px;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .brand-title {
@@ -54,18 +54,11 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             line-height: 1;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
-        .brand-title .snap {
-            color: var(--text-primary);
-            font-weight: 900;
-        }
-
-        .brand-title .shot {
-            color: var(--accent-gold-light);
-            font-weight: 300;
-        }
+        .brand-title .snap { color: var(--text-primary); }
+        .brand-title .shot { color: var(--accent-gold-light); font-weight: 300; }
 
         .pill-badge {
             background: rgba(255, 255, 255, 0.05);
@@ -77,21 +70,18 @@
             letter-spacing: 1.5px;
             text-transform: uppercase;
             color: var(--text-primary);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             backdrop-filter: blur(10px);
         }
 
-        .pill-badge span {
-            color: var(--accent-gold-light);
-            font-style: italic;
-        }
+        .pill-badge span { color: var(--accent-gold-light); font-style: italic; }
 
         .slogan {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            line-height: 1.3;
+            line-height: 1.2;
             color: var(--text-primary);
         }
 
@@ -99,19 +89,37 @@
             font-style: italic;
             color: var(--accent-gold-light);
             display: block;
-            font-size: 1.4rem;
+            font-size: 1.35rem;
         }
 
-        /* Main Phone / Card Stage */
+        /* Progress Bar (Hidden during splash) */
+        .progress-bar-container {
+            width: 240px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin-top: 8px;
+            display: none;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-gold-light);
+            transition: width 0.2s ease;
+        }
+
+        /* Card Stage */
         .stage-container {
             position: relative;
             width: 100%;
             max-width: 320px;
-            height: 420px;
+            height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 15px 0;
+            margin: 10px 0;
         }
 
         .swipe-label {
@@ -127,8 +135,8 @@
             z-index: 1;
         }
 
-        .swipe-label.left { left: -10px; }
-        .swipe-label.right { right: -10px; }
+        .swipe-label.left { left: -5px; }
+        .swipe-label.right { right: -5px; }
 
         .swipe-label .arrow {
             font-size: 1.5rem;
@@ -138,7 +146,7 @@
 
         .card-frame {
             width: 240px;
-            height: 380px;
+            height: 370px;
             background: var(--card-bg);
             border-radius: 24px;
             border: 4px solid #1E222D;
@@ -146,16 +154,48 @@
             overflow: hidden;
             position: relative;
             z-index: 2;
+            touch-action: none;
+            cursor: grab;
+            transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
         .card-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
+            pointer-events: none;
         }
 
-        /* Controls Section */
+        .start-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(8, 9, 12, 0.65);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            transition: opacity 0.3s ease;
+        }
+
+        .start-btn {
+            background: var(--accent-gold-light);
+            color: #000;
+            font-weight: 800;
+            font-size: 1rem;
+            padding: 14px 28px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+            transition: transform 0.15s ease;
+        }
+
+        .start-btn:active { transform: scale(0.95); }
+
+        /* Controls */
         .controls-container {
             display: flex;
             flex-direction: column;
@@ -166,13 +206,13 @@
 
         .button-row {
             display: flex;
-            gap: 24px;
+            gap: 28px;
             margin-bottom: 8px;
         }
 
         .action-btn {
-            width: 56px;
-            height: 56px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             border: none;
             display: flex;
@@ -182,23 +222,13 @@
             transition: transform 0.1s ease;
         }
 
-        .action-btn:active {
-            transform: scale(0.92);
-        }
-
-        .btn-pass {
-            background-color: var(--pass-color);
-            color: white;
-        }
-
-        .btn-like {
-            background-color: var(--like-color);
-            color: white;
-        }
+        .action-btn:active { transform: scale(0.9); }
+        .btn-pass { background-color: var(--pass-color); color: white; }
+        .btn-like { background-color: var(--like-color); color: white; }
 
         .action-btn svg {
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             fill: none;
             stroke: currentColor;
             stroke-width: 2.5;
@@ -206,27 +236,67 @@
             stroke-linejoin: round;
         }
 
-        .sub-instruction {
-            font-size: 0.8rem;
-            color: var(--text-muted);
+        .sub-instruction { font-size: 0.8rem; color: var(--text-muted); }
+        .sub-instruction strong { color: var(--text-primary); }
+
+        /* Results Screen */
+        .results-modal {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-color);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            text-align: center;
         }
 
-        .sub-instruction strong {
+        .results-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            width: 100%;
+            max-width: 340px;
+        }
+
+        .results-title {
+            color: var(--accent-gold-light);
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .results-stat {
+            font-size: 0.95rem;
             color: var(--text-primary);
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
         }
 
-        /* Footer Link */
+        .restart-btn {
+            margin-top: 20px;
+            background: transparent;
+            border: 1px solid var(--accent-gold-light);
+            color: var(--accent-gold-light);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Footer */
         .footer-link {
             font-size: 0.75rem;
             color: var(--text-muted);
             text-decoration: underline;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 8px;
             opacity: 0.7;
-        }
-
-        .footer-link:hover {
-            opacity: 1;
         }
     </style>
 </head>
@@ -236,9 +306,12 @@
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
-        <div class="slogan">
+        <div class="slogan" id="sloganText">
             IF YOU FEEL IT,
             <span class="action">SWIPE IT!</span>
+        </div>
+        <div class="progress-bar-container" id="progressContainer">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
     </div>
 
@@ -249,8 +322,11 @@
             <span>Skip</span>
         </div>
 
-        <div class="card-frame">
-            <img class="card-image" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Sample Photography">
+        <div class="card-frame" id="cardFrame">
+            <div class="start-overlay" id="startOverlay">
+                <button class="start-btn" id="startBtn">START TEST</button>
+            </div>
+            <img class="card-image" id="cardImg" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Test Photo">
         </div>
 
         <div class="swipe-label right">
@@ -262,18 +338,111 @@
     <!-- Controls -->
     <div class="controls-container">
         <div class="button-row">
-            <button class="action-btn btn-pass" aria-label="Skip">
+            <button class="action-btn btn-pass" id="btnPass" aria-label="Skip">
                 <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <button class="action-btn btn-like" aria-label="Like">
+            <button class="action-btn btn-like" id="btnLike" aria-label="Like">
                 <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
             </button>
         </div>
         <div class="sub-instruction">or use <strong>buttons</strong></div>
     </div>
 
-    <!-- Discreet Privacy Link -->
     <div class="footer-link">How we protect your test data</div>
 
+    <!-- Results Modal -->
+    <div class="results-modal" id="resultsModal">
+        <div class="results-card">
+            <div class="results-title">Your Visual DNA</div>
+            <div class="results-stat"><span>Primary Style:</span> <strong id="resStyle">High Contrast</strong></div>
+            <div class="results-stat"><span>Monochrome Ratio:</span> <strong id="resBw">64% B&W</strong></div>
+            <div class="results-stat"><span>Liked Images:</span> <strong id="resCount">0 / 20</strong></div>
+            <button class="restart-btn" id="restartBtn">TEST AGAIN</button>
+        </div>
+    </div>
+
+    <script>
+        const deck = [
+            { url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80", bw: false, cat: "Landscape" },
+            { url: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=600&q=80", bw: true, cat: "Noir" },
+            { url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80", bw: false, cat: "Nature" },
+            { url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80", bw: true, cat: "Architecture" },
+            { url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80", bw: false, cat: "Street" },
+            { url: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80", bw: true, cat: "Portrait" }
+        ];
+
+        let currentIndex = 0;
+        let likedCount = 0;
+        let bwLikes = 0;
+        let testActive = false;
+
+        const cardFrame = document.getElementById('cardFrame');
+        const cardImg = document.getElementById('cardImg');
+        const startOverlay = document.getElementById('startOverlay');
+        const startBtn = document.getElementById('startBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const resultsModal = document.getElementById('resultsModal');
+
+        function startTest() {
+            testActive = true;
+            startOverlay.style.opacity = '0';
+            setTimeout(() => startOverlay.style.display = 'none', 300);
+            progressContainer.style.display = 'block';
+            loadCard();
+        }
+
+        function loadCard() {
+            if (currentIndex >= deck.length) {
+                showResults();
+                return;
+            }
+            const item = deck[currentIndex];
+            cardImg.src = item.url;
+            progressFill.style.width = ((currentIndex / deck.length) * 100) + '%';
+        }
+
+        function handleChoice(liked) {
+            if (!testActive) {
+                startTest();
+                return;
+            }
+            if (liked) {
+                likedCount++;
+                if (deck[currentIndex].bw) bwLikes++;
+            }
+            
+            // Animation
+            cardFrame.style.transform = liked ? 'translateX(120px) rotate(15deg)' : 'translateX(-120px) rotate(-15deg)';
+            cardFrame.style.opacity = '0';
+
+            setTimeout(() => {
+                currentIndex++;
+                cardFrame.style.transform = 'none';
+                cardFrame.style.opacity = '1';
+                loadCard();
+            }, 180);
+        }
+
+        function showResults() {
+            document.getElementById('resCount').textContent = `${likedCount} / ${deck.length}`;
+            document.getElementById('resBw').textContent = `${Math.round((bwLikes / (likedCount || 1)) * 100)}% B&W`;
+            resultsModal.style.display = 'flex';
+        }
+
+        startBtn.addEventListener('click', startTest);
+        document.getElementById('btnPass').addEventListener('click', () => handleChoice(false));
+        document.getElementById('btnLike').addEventListener('click', () => handleChoice(true));
+        document.getElementById('restartBtn').addEventListener('click', () => {
+            currentIndex = 0;
+            likedCount = 0;
+            bwLikes = 0;
+            resultsModal.style.display = 'none';
+            startOverlay.style.display = 'flex';
+            startOverlay.style.opacity = '1';
+            progressContainer.style.display = 'none';
+            testActive = false;
+        });
+    </script>
 </body>
 </html>
