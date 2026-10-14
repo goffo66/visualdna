@@ -654,18 +654,18 @@
 
         const descriptions = {
             viewer: {
-                Arch: "You enjoy order and design. You appreciate clean lines, bold structures, and the way light plays across a building.",
-                Creative: "You appreciate abstraction and imagination. You enjoy seeing the familiar presented in unexpected ways.",
-                Human: "You enjoy people and their stories. You connect with faces, emotion, and authentic moments.",
-                Nature: "You enjoy calm and wonder. You love sweeping landscapes, close-up wildlife, and weather.",
-                Street: "You enjoy the immediacy of real life unfolding. Fleeting gestures and everyday theatre intrigue you."
+                Arch: "You enjoy order and design. You appreciate clean lines, bold structures, and the way light plays across a building, and you find beauty in the spaces around you. Explore: Julius Shulman, Hélène Binet, Simon Kennedy, Fernando Guerra.",
+                Creative: "You enjoy the imaginative stuff. You like images that are playful, surreal, or dreamlike — photos that make you stop, smile, and see the world differently. Explore: Ernst Haas, Sara Moon, Harry Callahan, Ellen Carey.",
+                Human: "You enjoy people and their stories. You connect with faces, emotion, and authentic moments, and you're moved by images that make you feel something. Explore: Jane Bown, Alec Soth, Martin Parr, Boris Mikhailov.",
+                Nature: "You enjoy calm and wonder. You love sweeping landscapes, close-up wildlife, and weather — images that give you a breath of fresh air and remind you of the planet. Explore: Sebastião Salgado, Eliot Porter, Tom Mangelsen, Ansel Adams.",
+                Street: "You enjoy the immediacy of real life unfolding. Fleeting gestures, social tension and everyday theatre intrigue you — you like images that feel spontaneous, alive and unfiltered. Explore: Garry Winogrand, Daidō Moriyama, Bruce Gilden, Alex Webb."
             },
             photographer: {
-                Arch: "Geometry, perspective, verticals. Look for contrasting materials and dramatic shadows. Explore: Julius Shulman, Berenice Abbott.",
-                Creative: "Playful framing, abstraction, colour experiments. Any lens works; lean into unusual angles or intentional blur. Explore: Ernst Haas, Sarah Moon.",
-                Human: "Patience, empathy, lighting. Fast primes (35mm-85mm) or telephoto candid work best; connect with your subject. Explore: Henri Cartier-Bresson, Annie Leibovitz.",
-                Nature: "Texture, atmosphere, patience. Macro or telephoto (100mm-300mm); early light is your friend. Explore: Sebastião Salgado, Eliot Porter.",
-                Street: "Timing, proximity, instinct. Classic 28mm-35mm; shoot from the hip or move fast. Explore: Garry Winogrand, Daidō Moriyama."
+                Arch: "Deep focus, tripod-steady and geometrically precise. You correct verticals, chase graphic lines and symmetry, and use dawn/dusk light to reveal texture and form. Explore: Julius Shulman, Hélène Binet, Simon Kennedy, Fernando Guerra.",
+                Creative: "Technique is the image. You use shallow focus, intentional blur, multiple exposure and prisms, where bold colour grading and post-production are planned as part of the shot. Explore: Ernst Haas, Sara Moon, Harry Callahan, Ellen Carey.",
+                Human: "Sharp on the nearest eye with soft, directional light and a flattering 85-135mm separation at f/2-f/4. You freeze fleeting expression with fast, continuous focus. Explore: Jane Bown, Alec Soth, Martin Parr, Boris Mikhailov.",
+                Nature: "Two modes: f/11-f/16 on a tripod for sweeping, polarised landscapes, and long telephoto / 100mm macro at 1/1000s+ shot low and tight for wildlife and tiny detail. Explore: Sebastião Salgado, Eliot Porter, Tom Mangelsen, Ansel Adams.",
+                Street: "Quick and unobtrusive on a 28/35mm, zone-focused at f/5.6-f/11 with Auto-ISO. You layer foreground and background to catch an unposed, decisive moment in available light. Explore: Garry Winogrand, Daidō Moriyama, Bruce Gilden, Alex Webb."
             }
         };
 
@@ -702,7 +702,7 @@
                 </div>
             `;
 
-            // Category cards (Max 10 per category since there are 10 images per category in the 50 deck)
+            // Category cards (10 images per category = 10% per image)
             const catNames = {
                 Creative: 'Creative',
                 Nature: 'Nature',
@@ -713,7 +713,7 @@
 
             for (let key in catNames) {
                 let count = stats.cats[key] || 0;
-                let pct = count * 10; // 10 images per category = 10% per image
+                let pct = count * 10;
                 html += `
                     <div class="stat-card">
                         <div class="stat-card-header">
