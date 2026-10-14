@@ -128,18 +128,16 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            display: flex;
+            display: none; /* Hidden on Splash view */
             flex-direction: column;
             align-items: center;
             font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-muted);
             z-index: 1;
-            opacity: 0.4;
-            transition: opacity 0.3s ease;
+            opacity: 0.8;
         }
 
-        .swipe-label.active { opacity: 1; }
         .swipe-label.left { left: -22px; }
         .swipe-label.right { right: -22px; }
 
@@ -194,7 +192,7 @@
         }
 
         .button-row {
-            display: none;
+            display: none; /* Hidden on Splash view */
             gap: 28px;
             margin-bottom: 6px;
         }
@@ -227,7 +225,7 @@
         .sub-instruction { 
             font-size: 0.75rem; 
             color: var(--text-muted); 
-            display: none;
+            display: none; /* Hidden on Splash view */
         }
         .sub-instruction strong { color: var(--text-primary); }
 
@@ -312,7 +310,7 @@
         </div>
 
         <div class="card-frame" id="cardFrame">
-            <!-- Atmospheric Splash Placeholder Image -->
+            <!-- Neutral Castle Teaser for Splash Screen -->
             <img class="card-image" id="cardImg" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Splash Teaser">
         </div>
 
@@ -349,7 +347,7 @@
     </div>
 
     <script>
-        // Actual test deck (starts fresh with a different image than the splash teaser)
+        // Actual test deck (Curated photographic subjects)
         const deck = [
             { url: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=600&q=80", bw: true },
             { url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80", bw: true },
@@ -374,14 +372,18 @@
         const resultsModal = document.getElementById('resultsModal');
 
         window.triggerStartTest = function() {
+            // Hide Splash elements
             startBtn.style.display = 'none';
+            sloganEl.classList.add('hidden');
+
+            // Reveal Active Test UI
             buttonRow.style.display = 'flex';
             subInstruction.style.display = 'block';
             progressContainer.style.display = 'block';
-            sloganEl.classList.add('hidden');
-            labelLeft.classList.add('active');
-            labelRight.classList.add('active');
+            labelLeft.style.display = 'flex';
+            labelRight.style.display = 'flex';
 
+            // Start test sequence
             currentIndex = 0;
             likedCount = 0;
             bwLikes = 0;
@@ -426,11 +428,11 @@
             buttonRow.style.display = 'none';
             subInstruction.style.display = 'none';
             progressContainer.style.display = 'none';
+            labelLeft.style.display = 'none';
+            labelRight.style.display = 'none';
             sloganEl.classList.remove('hidden');
-            labelLeft.classList.remove('active');
-            labelRight.classList.remove('active');
             currentIndex = 0;
-            // Revert back to splash atmospheric placeholder image
+            // Revert back to neutral castle teaser image for Splash screen
             cardImg.src = "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80";
         };
 
