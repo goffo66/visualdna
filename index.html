@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA (Build v6.2)</title>
+    <title>SNAPSHOT! - Visual DNA (Build v6.3)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -178,23 +178,28 @@
             display: block;
         }
 
-        /* Polished Gesture Hint with high-contrast backing and solid arrowhead */
+        /* Restored original elegant curved path with drop-shadow for contrast */
         .gesture-hint {
             position: absolute;
-            top: 5px;
-            left: 5px;
-            width: 160px;
-            height: 160px;
-            opacity: 0.95;
+            top: 10px;
+            left: 10px;
+            width: 150px;
+            height: 150px;
+            opacity: 0.9;
             z-index: 3;
             transition: opacity 0.3s ease;
             pointer-events: none;
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.8));
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.85));
         }
 
         .gesture-hint svg {
             width: 100%;
             height: 100%;
+            fill: none;
+            stroke: #FFFFFF;
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .controls-container {
@@ -321,7 +326,7 @@
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
-        <div class="version-tag">Build v6.2</div>
+        <div class="version-tag">Build v6.3</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -333,12 +338,11 @@
     </div>
 
     <div class="stage-container">
-        <!-- Polished Curved Arrow with Solid Balanced Head & Drop Shadow -->
+        <!-- Restored Original Smooth Curved Arrow with Drop Shadow -->
         <div class="gesture-hint" id="gestureHint">
             <svg viewBox="0 0 120 120">
-                <path d="M 18,90 C 35,25 85,25 102,48" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
-                <!-- Solid filled professional arrowhead -->
-                <polygon points="90,42 106,47 98,62" fill="#FFFFFF"/>
+                <path d="M 15,95 C 30,35 80,30 105,50" />
+                <path d="M 92,38 L 107,52 L 90,62" />
             </svg>
         </div>
 
@@ -457,7 +461,7 @@
             resultsModal.style.display = 'none';
             startBtn.style.display = 'block';
             progressContainer.style.display = 'none';
-            gestureHint.style.opacity = '0.95';
+            gestureHint.style.opacity = '0.9';
             sloganEl.classList.remove('hidden');
             
             cardActive.style.transform = 'rotate(5deg) translateX(12px)';
