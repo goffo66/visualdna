@@ -691,8 +691,7 @@
             </div>
         </div>
     </div>
-
-    <script>
+ <script>
         const deck = [
             { url: "images/Arch_bw_1.jpg", cat: "Arch", bw: true },
             { url: "images/Arch_bw_2.jpg", cat: "Arch", bw: true },
@@ -789,7 +788,6 @@
             }
         };
 
-        // Fisher-Yates Shuffle
         function shuffleDeck(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -805,7 +803,6 @@
             cardActive.style.transform = 'none';
             progressContainer.style.display = 'block';
 
-            // Randomize deck on test start
             shuffleDeck(deck);
 
             currentIndex = 0;
@@ -860,14 +857,14 @@
                 Creative: "You enjoy the imaginative stuff. You like images that are playful, surreal, or dreamlike — photos that make you stop, smile, and see the world differently. Explore: Ernst Haas, Sara Moon, Harry Callahan, Ellen Carey.",
                 Human: "You enjoy people and their stories. You connect with faces, emotion, and authentic moments, and you're moved by images that make you feel something. Explore: Jane Bown, Alec Soth, Martin Parr, Boris Mikhailov.",
                 Nature: "You enjoy calm and wonder. You love sweeping landscapes, close-up wildlife, and weather — images that give you a breath of fresh air and remind you of the planet. Explore: Sebastião Salgado, Eliot Porter, Tom Mangelsen, Ansel Adams.",
-                Street: "You enjoy the immediacy of real life unfolding. Fleeting gestures, social tension and everyday theatre intrigue you — you like images that feel spontaneous, alive and unfiltered. Explore: Garry Winogrand, Daidõ Moriyama, Bruce Gilden, Alex Webb."
+                Street: "You enjoy the immediacy of real life unfolding. Fleeting gestures, social tension and everyday theatre intrigue you — you like images that feel spontaneous, alive and unfiltered. Explore: Garry Winogrand, Daidō Moriyama, Bruce Gilden, Alex Webb."
             },
             photographer: {
                 Arch: "Deep focus, tripod-steady and geometrically precise. You correct verticals, chase graphic lines and symmetry, and use dawn/dusk light to reveal texture and form. Explore: Julius Shulman, Hélène Binet, Simon Kennedy, Fernando Guerra.",
                 Creative: "Technique is the image. You use shallow focus, intentional blur, multiple exposure and prisms, where bold colour grading and post-production are planned as part of the shot. Explore: Ernst Haas, Sara Moon, Harry Callahan, Ellen Carey.",
                 Human: "Sharp on the nearest eye with soft, directional light and a flattering 85-135mm separation at f/2-f/4. You freeze fleeting expression with fast, continuous focus. Explore: Jane Bown, Alec Soth, Martin Parr, Boris Mikhailov.",
                 Nature: "Two modes: f/11-f/16 on a tripod for sweeping, polarised landscapes, and long telephoto / 100mm macro at 1/1000s+ shot low and tight for wildlife and tiny detail. Explore: Sebastião Salgado, Eliot Porter, Tom Mangelsen, Ansel Adams.",
-                Street: "Quick and unobtrusive on a 28/35mm, zone-focused at f/5.6-f/11 with Auto-ISO. You layer foreground and background to catch an unposed, decisive moment in available light. Explore: Garry Winogrand, Daidõ Moriyama, Bruce Gilden, Alex Webb."
+                Street: "Quick and unobtrusive on a 28/35mm, zone-focused at f/5.6-f/11 with Auto-ISO. You layer foreground and background to catch an unposed, decisive moment in available light. Explore: Garry Winogrand, Daidō Moriyama, Bruce Gilden, Alex Webb."
             }
         };
 
@@ -911,8 +908,15 @@
                 Human: 'Human'
             };
 
-            for (let key in catNames) {
-                let count = stats.cats[key] || 0;
+            // Convert category scores into an array and sort descending by score
+            let sortedCats = Object.keys(catNames).map(key => {
+                return { key: key, count: stats.cats[key] || 0 };
+            }).sort((a, b) => b.count - a.count);
+
+            // Render category cards in descending order of preference
+            sortedCats.forEach(item => {
+                let key = item.key;
+                let count = item.count;
                 let pct = count * 10;
                 html += `
                     <div class="stat-card">
@@ -926,7 +930,7 @@
                         <div class="stat-card-desc">${descriptions[currentMode][key]}</div>
                     </div>
                 `;
-            }
+            });
 
             container.innerHTML = html;
         }
@@ -952,5 +956,3 @@
             }
         });
     </script>
-</body>
-</html>
