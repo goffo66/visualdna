@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA (Build v7.1)</title>
+    <title>SNAPSHOT! - Visual DNA (Build v7.2)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -34,7 +34,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between; /* Spreads layout naturally top-to-bottom */
+            justify-content: space-between;
             padding: 24px 16px 20px 16px;
             overflow-x: hidden;
             touch-action: pan-y;
@@ -130,7 +130,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: auto 0; /* Centers stage comfortably in available vertical space */
+            margin: auto 0;
         }
 
         .card-stack {
@@ -548,7 +548,7 @@
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
-        <div class="version-tag">Build v7.1</div>
+        <div class="version-tag">Build v7.2</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -568,9 +568,9 @@
         </div>
 
         <div class="card-stack">
-            <!-- Static Background Card -->
+            <!-- Static Background Card (Shows Next Image) -->
             <div class="card-frame card-static">
-                <img class="card-image" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Stacked Teaser">
+                <img class="card-image" id="cardStaticImg" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Stacked Teaser">
             </div>
 
             <!-- Active Foreground Card -->
@@ -757,6 +757,7 @@
 
         const cardActive = document.getElementById('cardActive');
         const cardImg = document.getElementById('cardImg');
+        const cardStaticImg = document.getElementById('cardStaticImg');
         const startBtn = document.getElementById('startBtn');
         const progressContainer = document.getElementById('progressContainer');
         const progressFill = document.getElementById('progressFill');
@@ -808,7 +809,16 @@
                 showResults();
                 return;
             }
+            // Top card gets current image
             cardImg.src = deck[currentIndex].url;
+            
+            // Bottom card gets next image in deck so it's already waiting underneath
+            if (currentIndex + 1 < deck.length) {
+                cardStaticImg.src = deck[currentIndex + 1].url;
+            } else {
+                cardStaticImg.src = deck[currentIndex].url;
+            }
+
             progressFill.style.width = ((currentIndex / deck.length) * 100) + '%';
         }
 
@@ -821,15 +831,21 @@
                 stats.cats[deck[currentIndex].cat]++;
             }
             
-            cardActive.style.transform = liked ? 'translateX(100px) rotate(15deg)' : 'translateX(-100px) rotate(-15deg)';
+            // Smooth swipe transition out
+            cardActive.style.transition = 'transform 0.22s ease, opacity 0.22s ease';
+            cardActive.style.transform = liked ? 'translateX(120px) rotate(20deg)' : 'translateX(-120px) rotate(-20deg)';
             cardActive.style.opacity = '0';
 
             setTimeout(() => {
                 currentIndex++;
+                
+                // Snap top card back to center instantly while invisible, then update images
+                cardActive.style.transition = 'none';
                 cardActive.style.transform = 'none';
                 cardActive.style.opacity = '1';
+                
                 loadCard();
-            }, 180);
+            }, 230);
         };
 
         const descriptions = {
@@ -838,14 +854,14 @@
                 Creative: "You enjoy the imaginative stuff. You like images that are playful, surreal, or dreamlike — photos that make you stop, smile, and see the world differently. Explore: Ernst Haas, Sara Moon, Harry Callahan, Ellen Carey.",
                 Human: "You enjoy people and their stories. You connect with faces, emotion, and authentic moments, and you're moved by images that make you feel something. Explore: Jane Bown, Alec Soth, Martin Parr, Boris Mikhailov.",
                 Nature: "You enjoy calm and wonder. You love sweeping landscapes, close-up wildlife, and weather — images that give you a breath of fresh air and remind you of the planet. Explore: Sebastião Salgado, Eliot Porter, Tom Mangelsen, Ansel Adams.",
-                Street: "You enjoy the immediacy of real life unfolding. Fleeting gestures, social tension and everyday theatre intrigue you — you like images that feel spontaneous, alive and unfiltered. Explore: Garry Winogrand, Daidō Moriyama, Bruce Gilden, Alex Webb."
+                Street: "You enjoy the immediacy of real life unfolding. Fleeting gestures, social tension and everyday theatre intrigue you — you like images that feel spontaneous, alive and unfiltered. Explore: Garry Winogrand, Daidõ Moriyama, Bruce Gilden, Alex Webb."
             },
             photographer: {
                 Arch: "Deep focus, tripod-steady and geometrically precise. You correct verticals, chase graphic lines and symmetry, and use dawn/dusk light to reveal texture and form. Explore: Julius Shulman, Hélène Binet, Simon Kennedy, Fernando Guerra.",
                 Creative: "Technique is the image. You use shallow focus, intentional blur, multiple exposure and prisms, where bold colour grading and post-production are planned as part of the shot. Explore: Ernst Haas, Sara Moon, Harry Callahan, Ellen Carey.",
                 Human: "Sharp on the nearest eye with soft, directional light and a flattering 85-135mm separation at f/2-f/4. You freeze fleeting expression with fast, continuous focus. Explore: Jane Bown, Alec Soth, Martin Parr, Boris Mikhailov.",
                 Nature: "Two modes: f/11-f/16 on a tripod for sweeping, polarised landscapes, and long telephoto / 100mm macro at 1/1000s+ shot low and tight for wildlife and tiny detail. Explore: Sebastião Salgado, Eliot Porter, Tom Mangelsen, Ansel Adams.",
-                Street: "Quick and unobtrusive on a 28/35mm, zone-focused at f/5.6-f/11 with Auto-ISO. You layer foreground and background to catch an unposed, decisive moment in available light. Explore: Garry Winogrand, Daidō Moriyama, Bruce Gilden, Alex Webb."
+                Street: "Quick and unobtrusive on a 28/35mm, zone-focused at f/5.6-f/11 with Auto-ISO. You layer foreground and background to catch an unposed, decisive moment in available light. Explore: Garry Winogrand, Daidõ Moriyama, Bruce Gilden, Alex Webb."
             }
         };
 
@@ -866,7 +882,6 @@
             const container = document.getElementById('resultsContent');
             let html = '';
 
-            // Overall Style Card
             let bwPct = stats.likedTotal > 0 ? Math.round((stats.bwLikes / stats.likedTotal) * 100) : 0;
             let colPct = 100 - bwPct;
             html += `
@@ -882,7 +897,6 @@
                 </div>
             `;
 
-            // Category cards
             const catNames = {
                 Creative: 'Creative',
                 Nature: 'Nature',
