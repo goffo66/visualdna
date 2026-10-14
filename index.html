@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA</title>
+    <title>SNAPSHOT! - Visual DNA (v4)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -53,11 +53,20 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             line-height: 1;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .brand-title .snap { color: var(--text-primary); }
         .brand-title .shot { color: var(--accent-gold-light); font-weight: 300; }
+
+        .version-tag {
+            font-size: 0.55rem;
+            color: var(--accent-gold-light);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            opacity: 0.8;
+        }
 
         .pill-badge {
             background: rgba(255, 255, 255, 0.05);
@@ -128,7 +137,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            display: none; /* Hidden on Splash view */
+            display: none;
             flex-direction: column;
             align-items: center;
             font-size: 0.75rem;
@@ -192,7 +201,7 @@
         }
 
         .button-row {
-            display: none; /* Hidden on Splash view */
+            display: none;
             gap: 28px;
             margin-bottom: 6px;
         }
@@ -225,7 +234,7 @@
         .sub-instruction { 
             font-size: 0.75rem; 
             color: var(--text-muted); 
-            display: none; /* Hidden on Splash view */
+            display: none;
         }
         .sub-instruction strong { color: var(--text-primary); }
 
@@ -293,6 +302,7 @@
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
+        <div class="version-tag">BUILD v4.2</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -347,7 +357,6 @@
     </div>
 
     <script>
-        // Actual test deck (Curated photographic subjects)
         const deck = [
             { url: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=600&q=80", bw: true },
             { url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80", bw: true },
@@ -372,18 +381,15 @@
         const resultsModal = document.getElementById('resultsModal');
 
         window.triggerStartTest = function() {
-            // Hide Splash elements
             startBtn.style.display = 'none';
             sloganEl.classList.add('hidden');
 
-            // Reveal Active Test UI
             buttonRow.style.display = 'flex';
             subInstruction.style.display = 'block';
             progressContainer.style.display = 'block';
             labelLeft.style.display = 'flex';
             labelRight.style.display = 'flex';
 
-            // Start test sequence
             currentIndex = 0;
             likedCount = 0;
             bwLikes = 0;
@@ -432,11 +438,9 @@
             labelRight.style.display = 'none';
             sloganEl.classList.remove('hidden');
             currentIndex = 0;
-            // Revert back to neutral castle teaser image for Splash screen
             cardImg.src = "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80";
         };
 
-        // Touch swipe support
         let startX = 0;
         cardFrame.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
         cardFrame.addEventListener('touchend', e => {
