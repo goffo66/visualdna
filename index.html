@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA (Build v7.2)</title>
+    <title>SNAPSHOT! - Visual DNA (Build v7.3)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -548,7 +548,7 @@
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
-        <div class="version-tag">Build v7.2</div>
+        <div class="version-tag">Build v7.3</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -789,12 +789,24 @@
             }
         };
 
+        // Fisher-Yates Shuffle
+        function shuffleDeck(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
         window.triggerStartTest = function() {
             startBtn.style.display = 'none';
             sloganEl.classList.add('hidden');
             gestureHint.style.opacity = '0';
             cardActive.style.transform = 'none';
             progressContainer.style.display = 'block';
+
+            // Randomize deck on test start
+            shuffleDeck(deck);
 
             currentIndex = 0;
             stats.likedTotal = 0;
@@ -809,10 +821,8 @@
                 showResults();
                 return;
             }
-            // Top card gets current image
             cardImg.src = deck[currentIndex].url;
             
-            // Bottom card gets next image in deck so it's already waiting underneath
             if (currentIndex + 1 < deck.length) {
                 cardStaticImg.src = deck[currentIndex + 1].url;
             } else {
@@ -831,19 +841,15 @@
                 stats.cats[deck[currentIndex].cat]++;
             }
             
-            // Smooth swipe transition out
             cardActive.style.transition = 'transform 0.22s ease, opacity 0.22s ease';
             cardActive.style.transform = liked ? 'translateX(120px) rotate(20deg)' : 'translateX(-120px) rotate(-20deg)';
             cardActive.style.opacity = '0';
 
             setTimeout(() => {
                 currentIndex++;
-                
-                // Snap top card back to center instantly while invisible, then update images
                 cardActive.style.transition = 'none';
                 cardActive.style.transform = 'none';
                 cardActive.style.opacity = '1';
-                
                 loadCard();
             }, 230);
         };
