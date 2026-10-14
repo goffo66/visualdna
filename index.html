@@ -270,6 +270,7 @@
             opacity: 0.7;
         }
 
+        /* Results Modal & Analytics Styles */
         .results-modal {
             position: fixed;
             inset: 0;
@@ -278,46 +279,182 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 24px;
+            overflow-y: auto;
+            padding: 20px 16px;
+        }
+
+        .results-header-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
             text-align: center;
         }
 
-        .results-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: 20px;
-            padding: 24px;
+        .results-header-subtitle {
+            font-size: 0.65rem;
+            color: var(--accent-gold-light);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .toggle-container {
+            display: flex;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 3px;
             width: 100%;
             max-width: 340px;
+            margin-bottom: 16px;
         }
 
-        .results-title {
-            color: var(--accent-gold-light);
-            font-size: 1.4rem;
+        .toggle-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.7rem;
             font-weight: 800;
-            margin-bottom: 12px;
-            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 0;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
         }
 
-        .results-stat {
-            font-size: 0.95rem;
-            color: var(--text-primary);
-            margin: 8px 0;
+        .toggle-btn.active {
+            background: #3B82F6;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .results-card-container {
+            width: 100%;
+            max-width: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 12px 14px;
+        }
+
+        .stat-card-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
         }
 
-        .restart-btn {
-            margin-top: 20px;
+        .stat-card-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .stat-card-value {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
             background: var(--like-color);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
+        .stat-card-desc {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        .feedback-section {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 16px;
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .feedback-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .feedback-subtitle {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .feedback-btns {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .fb-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .fb-btn.selected {
+            border-color: var(--accent-gold-light);
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        .finish-btn {
+            background: #3B82F6;
             color: white;
-            padding: 12px 28px;
+            width: 100%;
+            padding: 12px;
             border-radius: 30px;
             border: none;
             font-weight: 800;
-            cursor: pointer;
+            font-size: 0.8rem;
             letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(59, 130, 246,.4);
         }
     </style>
 </head>
@@ -373,75 +510,94 @@
 
     <div class="footer-link">How we protect your test data</div>
 
+    <!-- Results Modal -->
     <div class="results-modal" id="resultsModal">
-        <div class="results-card">
-            <div class="results-title">Your Visual DNA</div>
-            <div class="results-stat"><span>Primary Style:</span> <strong id="resStyle">High Contrast</strong></div>
-            <div class="results-stat"><span>Monochrome Ratio:</span> <strong id="resBw">0% B&W</strong></div>
-            <div class="results-stat"><span>Liked Images:</span> <strong id="resCount">0 / 50</strong></div>
-            <button class="restart-btn" id="restartBtn" onclick="window.restartTest()">TEST AGAIN</button>
+        <div class="results-header-title">Your Visual DNA Profile</div>
+        <div class="results-header-subtitle">What it means for you...</div>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="viewerTab" onclick="window.setMode('viewer')">AS A VIEWER</button>
+            <button class="toggle-btn" id="photogTab" onclick="window.setMode('photographer')">AS A PHOTOGRAPHER</button>
+        </div>
+
+        <div class="results-card-container" id="resultsContent">
+            <!-- Dynamically generated scorecards inserted here -->
+        </div>
+
+        <div class="feedback-section">
+            <div class="feedback-title">Test Complete</div>
+            <div class="feedback-subtitle">How did you find the experience?</div>
+            <div class="feedback-btns">
+                <div class="fb-btn" onclick="window.setFeedback(this)">✕</div>
+                <div class="fb-btn" onclick="window.setFeedback(this)">–</div>
+                <div class="fb-btn" onclick="window.setFeedback(this)">✓</div>
+            </div>
+            <button class="finish-btn" onclick="window.closeResults()">FINISH & CLOSE</button>
         </div>
     </div>
 
     <script>
-        // Full 50-image curated deck with proper extensions and monochrome flags
         const deck = [
-            { url: "images/Arch_bw_1.jpg", bw: true },
-            { url: "images/Arch_bw_2.jpg", bw: true },
-            { url: "images/Arch_bw_3.jpg", bw: true },
-            { url: "images/Arch_bw_4.jpg", bw: true },
-            { url: "images/Arch_bw_5.jpg", bw: true },
-            { url: "images/Arch_col_1.jpg", bw: false },
-            { url: "images/Arch_col_2.jpg", bw: false },
-            { url: "images/Arch_col_3.jpg", bw: false },
-            { url: "images/Arch_col_4.jpg", bw: false },
-            { url: "images/Arch_col_5.jpg", bw: false },
-            { url: "images/Creative_bw_1.jpg", bw: true },
-            { url: "images/Creative_bw_2.jpg", bw: true },
-            { url: "images/Creative_bw_3.jpg", bw: true },
-            { url: "images/Creative_bw_4.jpg", bw: true },
-            { url: "images/Creative_bw_5.jpg", bw: true },
-            { url: "images/Creative_col_1.jpg", bw: false },
-            { url: "images/Creative_col_2.jpg", bw: false },
-            { url: "images/Creative_col_3.jpg", bw: false },
-            { url: "images/Creative_col_4.jpg", bw: false },
-            { url: "images/Creative_col_5.jpg", bw: false },
-            { url: "images/Human_bw_1.jpg", bw: true },
-            { url: "images/Human_bw_2.jpg", bw: true },
-            { url: "images/Human_bw_3.jpg", bw: true },
-            { url: "images/Human_bw_4.jpg", bw: true },
-            { url: "images/Human_bw_5.jpg", bw: true },
-            { url: "images/Human_col_1.jpg", bw: false },
-            { url: "images/Human_col_2.jpg", bw: false },
-            { url: "images/Human_col_3.jpg", bw: false },
-            { url: "images/Human_col_4.jpg", bw: false },
-            { url: "images/Human_col_5.jpg", bw: false },
-            { url: "images/Nat_bw_1.jpg", bw: true },
-            { url: "images/Nat_bw_2.jpg", bw: true },
-            { url: "images/Nat_bw_3.jpg", bw: true },
-            { url: "images/Nat_bw_4.jpg", bw: true },
-            { url: "images/Nat_bw_5.jpg", bw: true },
-            { url: "images/Nat_col_1.jpg", bw: false },
-            { url: "images/Nat_col_2.jpg", bw: false },
-            { url: "images/Nat_col_3.jpg", bw: false },
-            { url: "images/Nat_col_4.jpg", bw: false },
-            { url: "images/Nat_col_5.jpg", bw: false },
-            { url: "images/Street_bw_1.jpg", bw: true },
-            { url: "images/Street_bw_2.jpg", bw: true },
-            { url: "images/Street_bw_3.jpg", bw: true },
-            { url: "images/Street_bw_4.jpg", bw: true },
-            { url: "images/Street_bw_5.jpg", bw: true },
-            { url: "images/Street_col_1.jpg", bw: false },
-            { url: "images/Street_col_2.jpg", bw: false },
-            { url: "images/Street_col_3.jpg", bw: false },
-            { url: "images/Street_col_4.jpg", bw: false },
-            { url: "images/Street_col_5.jpg", bw: false }
+            { url: "images/Arch_bw_1.jpg", cat: "Arch", bw: true },
+            { url: "images/Arch_bw_2.jpg", cat: "Arch", bw: true },
+            { url: "images/Arch_bw_3.jpg", cat: "Arch", bw: true },
+            { url: "images/Arch_bw_4.jpg", cat: "Arch", bw: true },
+            { url: "images/Arch_bw_5.jpg", cat: "Arch", bw: true },
+            { url: "images/Arch_col_1.jpg", cat: "Arch", bw: false },
+            { url: "images/Arch_col_2.jpg", cat: "Arch", bw: false },
+            { url: "images/Arch_col_3.jpg", cat: "Arch", bw: false },
+            { url: "images/Arch_col_4.jpg", cat: "Arch", bw: false },
+            { url: "images/Arch_col_5.jpg", cat: "Arch", bw: false },
+            { url: "images/Creative_bw_1.jpg", cat: "Creative", bw: true },
+            { url: "images/Creative_bw_2.jpg", cat: "Creative", bw: true },
+            { url: "images/Creative_bw_3.jpg", cat: "Creative", bw: true },
+            { url: "images/Creative_bw_4.jpg", cat: "Creative", bw: true },
+            { url: "images/Creative_bw_5.jpg", cat: "Creative", bw: true },
+            { url: "images/Creative_col_1.jpg", cat: "Creative", bw: false },
+            { url: "images/Creative_col_2.jpg", cat: "Creative", bw: false },
+            { url: "images/Creative_col_3.jpg", cat: "Creative", bw: false },
+            { url: "images/Creative_col_4.jpg", cat: "Creative", bw: false },
+            { url: "images/Creative_col_5.jpg", cat: "Creative", bw: false },
+            { url: "images/Human_bw_1.jpg", cat: "Human", bw: true },
+            { url: "images/Human_bw_2.jpg", cat: "Human", bw: true },
+            { url: "images/Human_bw_3.jpg", cat: "Human", bw: true },
+            { url: "images/Human_bw_4.jpg", cat: "Human", bw: true },
+            { url: "images/Human_bw_5.jpg", cat: "Human", bw: true },
+            { url: "images/Human_col_1.jpg", cat: "Human", bw: false },
+            { url: "images/Human_col_2.jpg", cat: "Human", bw: false },
+            { url: "images/Human_col_3.jpg", cat: "Human", bw: false },
+            { url: "images/Human_col_4.jpg", cat: "Human", bw: false },
+            { url: "images/Human_col_5.jpg", cat: "Human", bw: false },
+            { url: "images/Nat_bw_1.jpg", cat: "Nature", bw: true },
+            { url: "images/Nat_bw_2.jpg", cat: "Nature", bw: true },
+            { url: "images/Nat_bw_3.jpg", cat: "Nature", bw: true },
+            { url: "images/Nat_bw_4.jpg", cat: "Nature", bw: true },
+            { url: "images/Nat_bw_5.jpg", cat: "Nature", bw: true },
+            { url: "images/Nat_col_1.jpg", cat: "Nature", bw: false },
+            { url: "images/Nat_col_2.jpg", cat: "Nature", bw: false },
+            { url: "images/Nat_col_3.jpg", cat: "Nature", bw: false },
+            { url: "images/Nat_col_4.jpg", cat: "Nature", bw: false },
+            { url: "images/Nat_col_5.jpg", cat: "Nature", bw: false },
+            { url: "images/Street_bw_1.jpg", cat: "Street", bw: true },
+            { url: "images/Street_bw_2.jpg", cat: "Street", bw: true },
+            { url: "images/Street_bw_3.jpg", cat: "Street", bw: true },
+            { url: "images/Street_bw_4.jpg", cat: "Street", bw: true },
+            { url: "images/Street_bw_5.jpg", cat: "Street", bw: true },
+            { url: "images/Street_col_1.jpg", cat: "Street", bw: false },
+            { url: "images/Street_col_2.jpg", cat: "Street", bw: false },
+            { url: "images/Street_col_3.jpg", cat: "Street", bw: false },
+            { url: "images/Street_col_4.jpg", cat: "Street", bw: false },
+            { url: "images/Street_col_5.jpg", cat: "Street", bw: false }
         ];
 
         let currentIndex = 0;
-        let likedCount = 0;
-        let bwLikes = 0;
         let active = false;
+        let currentMode = 'viewer';
+        let stats = {
+            likedTotal: 0,
+            bwLikes: 0,
+            cats: { Arch: 0, Creative: 0, Human: 0, Nature: 0, Street: 0 }
+        };
 
         const cardActive = document.getElementById('cardActive');
         const cardImg = document.getElementById('cardImg');
@@ -456,13 +612,13 @@
             startBtn.style.display = 'none';
             sloganEl.classList.add('hidden');
             gestureHint.style.opacity = '0';
-
             cardActive.style.transform = 'none';
             progressContainer.style.display = 'block';
 
             currentIndex = 0;
-            likedCount = 0;
-            bwLikes = 0;
+            stats.likedTotal = 0;
+            stats.bwLikes = 0;
+            stats.cats = { Arch: 0, Creative: 0, Human: 0, Nature: 0, Street: 0 };
             active = true;
             loadCard();
         };
@@ -480,8 +636,9 @@
             if (!active) return;
             
             if (liked) {
-                likedCount++;
-                if (deck[currentIndex].bw) bwLikes++;
+                stats.likedTotal++;
+                if (deck[currentIndex].bw) stats.bwLikes++;
+                stats.cats[deck[currentIndex].cat]++;
             }
             
             cardActive.style.transform = liked ? 'translateX(100px) rotate(15deg)' : 'translateX(-100px) rotate(-15deg)';
@@ -495,24 +652,97 @@
             }, 180);
         };
 
+        const descriptions = {
+            viewer: {
+                Arch: "You enjoy order and design. You appreciate clean lines, bold structures, and the way light plays across a building.",
+                Creative: "You appreciate abstraction and imagination. You enjoy seeing the familiar presented in unexpected ways.",
+                Human: "You enjoy people and their stories. You connect with faces, emotion, and authentic moments.",
+                Nature: "You enjoy calm and wonder. You love sweeping landscapes, close-up wildlife, and weather.",
+                Street: "You enjoy the immediacy of real life unfolding. Fleeting gestures and everyday theatre intrigue you."
+            },
+            photographer: {
+                Arch: "Geometry, perspective, verticals. Look for contrasting materials and dramatic shadows. Explore: Julius Shulman, Berenice Abbott.",
+                Creative: "Playful framing, abstraction, colour experiments. Any lens works; lean into unusual angles or intentional blur. Explore: Ernst Haas, Sarah Moon.",
+                Human: "Patience, empathy, lighting. Fast primes (35mm-85mm) or telephoto candid work best; connect with your subject. Explore: Henri Cartier-Bresson, Annie Leibovitz.",
+                Nature: "Texture, atmosphere, patience. Macro or telephoto (100mm-300mm); early light is your friend. Explore: Sebastião Salgado, Eliot Porter.",
+                Street: "Timing, proximity, instinct. Classic 28mm-35mm; shoot from the hip or move fast. Explore: Garry Winogrand, Daidō Moriyama."
+            }
+        };
+
         function showResults() {
             active = false;
-            document.getElementById('resCount').textContent = `${likedCount} / ${deck.length}`;
-            let bwPercentage = Math.round((bwLikes / (likedCount || 1)) * 100);
-            document.getElementById('resBw').textContent = `${bwPercentage}% B&W`;
-            document.getElementById('resStyle').textContent = bwPercentage > 50 ? 'Monochrome Noir' : 'High Contrast';
+            renderResultsCards();
             resultsModal.style.display = 'flex';
         }
 
-        window.restartTest = function() {
+        window.setMode = function(mode) {
+            currentMode = mode;
+            document.getElementById('viewerTab').classList.toggle('active', mode === 'viewer');
+            document.getElementById('photogTab').classList.toggle('active', mode === 'photographer');
+            renderResultsCards();
+        };
+
+        function renderResultsCards() {
+            const container = document.getElementById('resultsContent');
+            let html = '';
+
+            // Overall Style Card
+            let bwPct = stats.likedTotal > 0 ? Math.round((stats.bwLikes / stats.likedTotal) * 100) : 0;
+            let colPct = 100 - bwPct;
+            html += `
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-card-title">Overall Style (B&W vs Color)</span>
+                        <span class="stat-card-value">B&W: ${bwPct}% | Color: ${colPct}%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-bar-fill" style="width: ${bwPct}%"></div>
+                    </div>
+                    <div class="stat-card-desc">Your overall preference balance across monochrome and chromatic compositions.</div>
+                </div>
+            `;
+
+            // Category cards (Max 10 per category since there are 10 images per category in the 50 deck)
+            const catNames = {
+                Creative: 'Creative',
+                Nature: 'Nature',
+                Street: 'Street',
+                Arch: 'Architecture',
+                Human: 'Human'
+            };
+
+            for (let key in catNames) {
+                let count = stats.cats[key] || 0;
+                let pct = count * 10; // 10 images per category = 10% per image
+                html += `
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">${catNames[key]}</span>
+                            <span class="stat-card-value">${count} / 10 (${pct}%)</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-bar-fill" style="width: ${pct}%"></div>
+                        </div>
+                        <div class="stat-card-desc">${descriptions[currentMode][key]}</div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        window.setFeedback = function(el) {
+            document.querySelectorAll('.fb-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+        };
+
+        window.closeResults = function() {
             resultsModal.style.display = 'none';
             startBtn.style.display = 'block';
             progressContainer.style.display = 'none';
             gestureHint.style.opacity = '0.9';
             sloganEl.classList.remove('hidden');
-            
             cardActive.style.transform = 'rotate(5deg) translateX(12px)';
-            
             currentIndex = 0;
             cardImg.src = "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80";
         };
