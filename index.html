@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA (Build v5.4)</title>
+    <title>SNAPSHOT! - Visual DNA (Build v6.0)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -44,7 +44,7 @@
             text-align: center;
             width: 100%;
             max-width: 400px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .brand-title {
@@ -64,7 +64,7 @@
             color: var(--accent-gold-light);
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             opacity: 0.8;
         }
 
@@ -78,14 +78,14 @@
             letter-spacing: 1.5px;
             text-transform: uppercase;
             color: var(--text-primary);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             backdrop-filter: blur(10px);
         }
 
         .pill-badge span { color: var(--accent-gold-light); font-style: italic; }
 
         .slogan {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -98,7 +98,7 @@
             font-style: italic;
             color: var(--accent-gold-light);
             display: block;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
         }
 
         .progress-bar-container {
@@ -106,7 +106,7 @@
             height: 3px;
             background: rgba(255,255,255,0.1);
             border-radius: 2px;
-            margin-top: 8px;
+            margin-top: 6px;
             display: none;
             overflow: hidden;
         }
@@ -122,17 +122,17 @@
             position: relative;
             width: 100%;
             max-width: 320px;
-            height: 330px;
+            height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .card-stack {
             position: relative;
-            width: 220px;
-            height: 310px;
+            width: 200px;
+            height: 280px;
             touch-action: none;
         }
 
@@ -150,7 +150,7 @@
             transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* Static Background Card (Centered and Vertical) */
+        /* Static Background Card */
         .card-static {
             z-index: 1;
             transform: scale(0.96);
@@ -180,10 +180,10 @@
 
         .gesture-hint {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 180px;
-            height: 180px;
+            top: 15px;
+            left: 15px;
+            width: 160px;
+            height: 160px;
             opacity: 0.9;
             z-index: 3;
             transition: opacity 0.3s ease;
@@ -195,7 +195,7 @@
             height: 100%;
             fill: none;
             stroke: #CCCCCC;
-            stroke-width: 15;
+            stroke-width: 14;
             stroke-linecap: round;
             stroke-linejoin: round;
         }
@@ -206,31 +206,32 @@
             align-items: center;
             width: 100%;
             max-width: 320px;
-            margin-bottom: 16px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
         .primary-start-btn {
             background-color: var(--like-color);
             color: #FFFFFF;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 800;
             letter-spacing: 1.5px;
-            padding: 14px 36px;
+            padding: 12px 32px;
             border-radius: 40px;
             border: none;
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            transition: opacity 0.2s ease;
         }
 
         .button-row {
-            display: none;
-            gap: 28px;
-            margin-bottom: 6px;
+            display: flex; /* Permanent anchor on splash & test */
+            gap: 24px;
         }
 
         .action-btn {
-            width: 56px;
-            height: 56px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             border: none;
             display: flex;
@@ -238,14 +239,17 @@
             justify-content: center;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            transition: transform 0.1s ease, opacity 0.2s ease;
         }
+
+        .action-btn:active { transform: scale(0.92); }
 
         .btn-pass { background-color: var(--pass-color); color: white; }
         .btn-like { background-color: var(--like-color); color: white; }
 
         .action-btn svg {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             fill: none;
             stroke: currentColor;
             stroke-width: 2.5;
@@ -254,19 +258,17 @@
         }
 
         .sub-instruction { 
-            font-size: 0.75rem; 
+            font-size: 0.7rem; 
             color: var(--text-muted); 
-            display: none;
         }
         .sub-instruction strong { color: var(--text-primary); }
 
         .footer-link {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
             text-decoration: underline;
             cursor: pointer;
             opacity: 0.7;
-            margin-top: 4px;
         }
 
         .results-modal {
@@ -324,7 +326,7 @@
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
-        <div class="version-tag">Build v5.4</div>
+        <div class="version-tag">Build v6.0</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -345,12 +347,12 @@
         </div>
 
         <div class="card-stack">
-            <!-- Static Background Card (Centered and Vertical) -->
+            <!-- Static Background Card -->
             <div class="card-frame card-static">
                 <img class="card-image" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Stacked Teaser">
             </div>
 
-            <!-- Active Foreground Card (Fanned to the Right & Tilted) -->
+            <!-- Active Foreground Card -->
             <div class="card-frame card-active" id="cardActive">
                 <img class="card-image" id="cardImg" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Visual Teaser">
             </div>
@@ -360,6 +362,7 @@
     <div class="controls-container">
         <button class="primary-start-btn" id="startBtn" onclick="window.triggerStartTest()">START TEST</button>
 
+        <!-- Action buttons now anchored permanently to balance the screen -->
         <div class="button-row" id="buttonRow">
             <button class="action-btn btn-pass" id="btnPass" onclick="window.handleChoice(false)" aria-label="Skip">
                 <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -384,6 +387,7 @@
     </div>
 
     <script>
+        // Real core photo deck from early versions
         const deck = [
             { url: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=600&q=80", bw: true },
             { url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80", bw: true },
@@ -399,8 +403,6 @@
         const cardActive = document.getElementById('cardActive');
         const cardImg = document.getElementById('cardImg');
         const startBtn = document.getElementById('startBtn');
-        const buttonRow = document.getElementById('buttonRow');
-        const subInstruction = document.getElementById('subInstruction');
         const progressContainer = document.getElementById('progressContainer');
         const progressFill = document.getElementById('progressFill');
         const sloganEl = document.getElementById('sloganEl');
@@ -415,8 +417,6 @@
             // Snap active card back to vertical center for test loop
             cardActive.style.transform = 'none';
 
-            buttonRow.style.display = 'flex';
-            subInstruction.style.display = 'block';
             progressContainer.style.display = 'block';
 
             currentIndex = 0;
@@ -436,7 +436,7 @@
         }
 
         window.handleChoice = function(liked) {
-            if (!active) return;
+            if (!active) return; // Ignore clicks if test hasn't started via START TEST button yet
             
             if (liked) {
                 likedCount++;
@@ -464,8 +464,6 @@
         window.restartTest = function() {
             resultsModal.style.display = 'none';
             startBtn.style.display = 'block';
-            buttonRow.style.display = 'none';
-            subInstruction.style.display = 'none';
             progressContainer.style.display = 'none';
             gestureHint.style.opacity = '1';
             sloganEl.classList.remove('hidden');
