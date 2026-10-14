@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA (v4)</title>
+    <title>SNAPSHOT! - Visual DNA (Onboarding Refined)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -85,7 +85,7 @@
         .pill-badge span { color: var(--accent-gold-light); font-style: italic; }
 
         .slogan {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -94,15 +94,11 @@
             transition: opacity 0.3s ease;
         }
 
-        .slogan.hidden {
-            display: none;
-        }
-
         .slogan .action {
             font-style: italic;
             color: var(--accent-gold-light);
             display: block;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
         }
 
         .progress-bar-container {
@@ -125,49 +121,54 @@
         .stage-container {
             position: relative;
             width: 100%;
-            max-width: 300px;
-            height: 310px;
+            max-width: 320px;
+            height: 330px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 16px;
         }
 
-        .swipe-label {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            z-index: 1;
-            opacity: 0.8;
-        }
-
-        .swipe-label.left { left: -22px; }
-        .swipe-label.right { right: -22px; }
-
-        .swipe-label .arrow {
-            font-size: 1.2rem;
-            margin-bottom: 2px;
-            color: var(--text-primary);
+        /* The Layered Playing Card Fan - Mimicking your Mockup */
+        .card-stack {
+            position: relative;
+            width: 220px;
+            height: 310px;
+            touch-action: none;
         }
 
         .card-frame {
-            width: 200px;
-            height: 290px;
+            position: absolute;
+            inset: 0;
             background: var(--card-bg);
             border-radius: 20px;
             border: 4px solid #1E222D;
             box-shadow: 0 12px 25px rgba(0,0,0,0.8);
             overflow: hidden;
-            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Static base card for the stacked fan effect */
+        .card-static {
+            z-index: 1;
+            transform: scale(0.98);
+            border-color: #171a22;
+        }
+
+        /* Active test card (the one you swipe) */
+        .card-active {
             z-index: 2;
-            touch-action: none;
-            transition: transform 0.2s ease, opacity 0.2s ease;
+            cursor: grab;
+            display: flex; /* Active during test loop */
+        }
+
+        /* Active state during swipe */
+        .card-active.dragging {
+            box-shadow: 0 18px 40px rgba(0,0,0,0.9);
+            cursor: grabbing;
         }
 
         .card-image {
@@ -178,6 +179,30 @@
             display: block;
         }
 
+        /* Gesture Instruction Graphic - The grey curved arrow from your Mockup */
+        .gesture-hint {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 180px;
+            height: 180px;
+            opacity: 0.9;
+            z-index: 3;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .gesture-hint svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: #CCCCCC; /* Grey stroke from mockup */
+            stroke-width: 15;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Controls Section */
         .controls-container {
             display: flex;
             flex-direction: column;
@@ -198,6 +223,9 @@
             border: none;
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .button-row {
@@ -247,6 +275,7 @@
             margin-top: 4px;
         }
 
+        /* Results Modal */
         .results-modal {
             position: fixed;
             inset: 0;
@@ -296,13 +325,16 @@
             cursor: pointer;
             letter-spacing: 1px;
         }
+
+        /* Standard photography subjects for the test loop */
+        .test-image { display: none; }
     </style>
 </head>
 <body>
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
-        <div class="version-tag">BUILD v4.2</div>
+        <div class="version-tag">Build v5.1</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -314,19 +346,24 @@
     </div>
 
     <div class="stage-container">
-        <div class="swipe-label left" id="labelLeft">
-            <span class="arrow">&larr;</span>
-            <span>Skip</span>
+        <!-- Gesture Hint: Curved grey arrow based on your mockup -->
+        <div class="gesture-hint" id="gestureHint">
+            <svg viewBox="0 0 160 160">
+                <path d="M 30,130 C 50,70 110,60 140,80" />
+                <path d="M 120,65 L 140,80 L 125,100" stroke-width="12"/>
+            </svg>
         </div>
 
-        <div class="card-frame" id="cardFrame">
-            <!-- Neutral Castle Teaser for Splash Screen -->
-            <img class="card-image" id="cardImg" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Splash Teaser">
-        </div>
+        <div class="card-stack">
+            <!-- Static Base Card to create layered effect from mockup -->
+            <div class="card-frame card-static">
+                <img class="card-image" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Stacked Teaser">
+            </div>
 
-        <div class="swipe-label right" id="labelRight">
-            <span class="arrow">&rarr;</span>
-            <span>Like it</span>
+            <!-- Active Interaction Card - Starts with neutral castle teaser -->
+            <div class="card-frame card-active" id="cardActive">
+                <img class="card-image test-image" id="cardImg" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Visual Teaser">
+            </div>
         </div>
     </div>
 
@@ -357,6 +394,7 @@
     </div>
 
     <script>
+        // actual test subjects (e.g., standard high-contrast, observational, street)
         const deck = [
             { url: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=600&q=80", bw: true },
             { url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80", bw: true },
@@ -367,8 +405,9 @@
         let currentIndex = 0;
         let likedCount = 0;
         let bwLikes = 0;
+        let active = false; // Test logic active?
 
-        const cardFrame = document.getElementById('cardFrame');
+        const cardActive = document.getElementById('cardActive');
         const cardImg = document.getElementById('cardImg');
         const startBtn = document.getElementById('startBtn');
         const buttonRow = document.getElementById('buttonRow');
@@ -376,23 +415,28 @@
         const progressContainer = document.getElementById('progressContainer');
         const progressFill = document.getElementById('progressFill');
         const sloganEl = document.getElementById('sloganEl');
-        const labelLeft = document.getElementById('labelLeft');
-        const labelRight = document.getElementById('labelRight');
         const resultsModal = document.getElementById('resultsModal');
+        const gestureHint = document.getElementById('gestureHint');
+
+        // Force image display fix for active deck
+        const testImages = document.querySelectorAll('.test-image');
 
         window.triggerStartTest = function() {
+            // Transition UI State
             startBtn.style.display = 'none';
             sloganEl.classList.add('hidden');
+            gestureHint.style.opacity = '0'; // Hide curved arrow
 
             buttonRow.style.display = 'flex';
             subInstruction.style.display = 'block';
             progressContainer.style.display = 'block';
-            labelLeft.style.display = 'flex';
-            labelRight.style.display = 'flex';
+            
+            testImages.forEach(img => img.style.display = 'block'); // Activate image logic
 
             currentIndex = 0;
             likedCount = 0;
             bwLikes = 0;
+            active = true;
             loadCard();
         };
 
@@ -406,23 +450,27 @@
         }
 
         window.handleChoice = function(liked) {
+            if (!active) return; // Prevent choice before start
+            
             if (liked) {
                 likedCount++;
                 if (deck[currentIndex].bw) bwLikes++;
             }
             
-            cardFrame.style.transform = liked ? 'translateX(100px) rotate(15deg)' : 'translateX(-100px) rotate(-15deg)';
-            cardFrame.style.opacity = '0';
+            // Choice Animation (Swipe-out look)
+            cardActive.style.transform = liked ? 'translateX(100px) rotate(15deg)' : 'translateX(-100px) rotate(-15deg)';
+            cardActive.style.opacity = '0';
 
             setTimeout(() => {
                 currentIndex++;
-                cardFrame.style.transform = 'none';
-                cardFrame.style.opacity = '1';
+                cardActive.style.transform = 'none';
+                cardActive.style.opacity = '1';
                 loadCard();
             }, 180);
         };
 
         function showResults() {
+            active = false;
             document.getElementById('resCount').textContent = `${likedCount} / ${deck.length}`;
             document.getElementById('resBw').textContent = `${Math.round((bwLikes / (likedCount || 1)) * 100)}% B&W`;
             resultsModal.style.display = 'flex';
@@ -434,16 +482,25 @@
             buttonRow.style.display = 'none';
             subInstruction.style.display = 'none';
             progressContainer.style.display = 'none';
-            labelLeft.style.display = 'none';
-            labelRight.style.display = 'none';
+            gestureHint.style.opacity = '1';
             sloganEl.classList.remove('hidden');
+            testImages.forEach(img => img.style.display = 'none'); // Reset image display fix
             currentIndex = 0;
+            // Revert back to neutral castle teaser image
             cardImg.src = "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80";
         };
 
+        // Touch swipe support logic (active only during test loop)
         let startX = 0;
-        cardFrame.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
-        cardFrame.addEventListener('touchend', e => {
+        cardActive.addEventListener('touchstart', e => { 
+            if (!active) return;
+            startX = e.touches[0].clientX; 
+            cardActive.classList.add('dragging');
+        });
+
+        cardActive.addEventListener('touchend', e => {
+            if (!active) return;
+            cardActive.classList.remove('dragging');
             let diffX = e.changedTouches[0].clientX - startX;
             if (Math.abs(diffX) > 50) {
                 window.handleChoice(diffX > 0);
