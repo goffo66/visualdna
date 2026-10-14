@@ -312,7 +312,8 @@
         </div>
 
         <div class="card-frame" id="cardFrame">
-            <img class="card-image" id="cardImg" src="https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=600&q=80" alt="Test Photo">
+            <!-- Atmospheric Splash Placeholder Image -->
+            <img class="card-image" id="cardImg" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Splash Teaser">
         </div>
 
         <div class="swipe-label right" id="labelRight">
@@ -348,10 +349,11 @@
     </div>
 
     <script>
+        // Actual test deck (starts fresh with a different image than the splash teaser)
         const deck = [
             { url: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=600&q=80", bw: true },
             { url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80", bw: true },
-            { url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80", bw: false },
             { url: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80", bw: true }
         ];
 
@@ -428,7 +430,8 @@
             labelLeft.classList.remove('active');
             labelRight.classList.remove('active');
             currentIndex = 0;
-            cardImg.src = deck[0].url;
+            // Revert back to splash atmospheric placeholder image
+            cardImg.src = "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80";
         };
 
         // Touch swipe support
