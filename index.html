@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA (Build v6.0)</title>
+    <title>SNAPSHOT! - Visual DNA (Build v6.1)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -44,27 +44,27 @@
             text-align: center;
             width: 100%;
             max-width: 400px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .brand-title {
-            font-size: 2rem;
+            font-size: 1.9rem;
             font-weight: 900;
             letter-spacing: 1px;
             text-transform: uppercase;
             line-height: 1;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .brand-title .snap { color: var(--text-primary); }
         .brand-title .shot { color: var(--accent-gold-light); font-weight: 300; }
 
         .version-tag {
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             color: var(--accent-gold-light);
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             opacity: 0.8;
         }
 
@@ -72,24 +72,24 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(245, 158, 11, 0.3);
             border-radius: 50px;
-            padding: 4px 14px;
-            font-size: 0.65rem;
+            padding: 3px 12px;
+            font-size: 0.6rem;
             font-weight: 700;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             color: var(--text-primary);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             backdrop-filter: blur(10px);
         }
 
         .pill-badge span { color: var(--accent-gold-light); font-style: italic; }
 
         .slogan {
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            line-height: 1.15;
+            line-height: 1.1;
             color: var(--text-primary);
             transition: opacity 0.3s ease;
         }
@@ -98,11 +98,11 @@
             font-style: italic;
             color: var(--accent-gold-light);
             display: block;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
         }
 
         .progress-bar-container {
-            width: 180px;
+            width: 160px;
             height: 3px;
             background: rgba(255,255,255,0.1);
             border-radius: 2px;
@@ -121,18 +121,18 @@
         .stage-container {
             position: relative;
             width: 100%;
-            max-width: 320px;
-            height: 300px;
+            max-width: 300px;
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .card-stack {
             position: relative;
-            width: 200px;
-            height: 280px;
+            width: 180px;
+            height: 250px;
             touch-action: none;
         }
 
@@ -140,9 +140,9 @@
             position: absolute;
             inset: 0;
             background: var(--card-bg);
-            border-radius: 20px;
-            border: 4px solid #1E222D;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.8);
+            border-radius: 16px;
+            border: 3px solid #1E222D;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -150,7 +150,6 @@
             transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* Static Background Card */
         .card-static {
             z-index: 1;
             transform: scale(0.96);
@@ -158,15 +157,14 @@
             opacity: 0.85;
         }
 
-        /* Active Foreground Card (Fanned to the Right & Tilted) */
         .card-active {
             z-index: 2;
-            transform: rotate(6deg) translateX(14px);
+            transform: rotate(5deg) translateX(12px);
             cursor: grab;
         }
 
         .card-active.dragging {
-            box-shadow: 0 18px 40px rgba(0,0,0,0.9);
+            box-shadow: 0 16px 35px rgba(0,0,0,0.9);
             cursor: grabbing;
         }
 
@@ -178,13 +176,14 @@
             display: block;
         }
 
+        /* Smoothed, elegant curved gesture hint */
         .gesture-hint {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            width: 160px;
-            height: 160px;
-            opacity: 0.9;
+            top: 10px;
+            left: 10px;
+            width: 150px;
+            height: 150px;
+            opacity: 0.85;
             z-index: 3;
             transition: opacity 0.3s ease;
             pointer-events: none;
@@ -194,8 +193,8 @@
             width: 100%;
             height: 100%;
             fill: none;
-            stroke: #CCCCCC;
-            stroke-width: 14;
+            stroke: #E2E8F0;
+            stroke-width: 3.5;
             stroke-linecap: round;
             stroke-linejoin: round;
         }
@@ -206,50 +205,34 @@
             align-items: center;
             width: 100%;
             max-width: 320px;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .primary-start-btn {
-            background-color: var(--like-color);
-            color: #FFFFFF;
-            font-size: 0.95rem;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            padding: 12px 32px;
-            border-radius: 40px;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-            transition: opacity 0.2s ease;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .button-row {
-            display: flex; /* Permanent anchor on splash & test */
-            gap: 24px;
+            display: flex;
+            gap: 20px;
         }
 
         .action-btn {
-            width: 52px;
-            height: 52px;
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            transition: transform 0.1s ease, opacity 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            opacity: 0.85;
         }
-
-        .action-btn:active { transform: scale(0.92); }
 
         .btn-pass { background-color: var(--pass-color); color: white; }
         .btn-like { background-color: var(--like-color); color: white; }
 
         .action-btn svg {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             fill: none;
             stroke: currentColor;
             stroke-width: 2.5;
@@ -258,13 +241,28 @@
         }
 
         .sub-instruction { 
-            font-size: 0.7rem; 
+            font-size: 0.65rem; 
             color: var(--text-muted); 
         }
         .sub-instruction strong { color: var(--text-primary); }
 
+        /* START TEST positioned cleanly at the very bottom */
+        .primary-start-btn {
+            background-color: var(--like-color);
+            color: #FFFFFF;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            padding: 12px 32px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            margin-top: 4px;
+        }
+
         .footer-link {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: var(--text-muted);
             text-decoration: underline;
             cursor: pointer;
@@ -326,7 +324,7 @@
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
-        <div class="version-tag">Build v6.0</div>
+        <div class="version-tag">Build v6.1</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -338,11 +336,11 @@
     </div>
 
     <div class="stage-container">
-        <!-- Gesture Hint: Curved grey arrow -->
+        <!-- Sleek, refined thin-line curved arrow -->
         <div class="gesture-hint" id="gestureHint">
-            <svg viewBox="0 0 160 160">
-                <path d="M 30,130 C 50,70 110,60 140,80" />
-                <path d="M 120,65 L 140,80 L 125,100" stroke-width="12"/>
+            <svg viewBox="0 0 120 120">
+                <path d="M 15,95 C 30,35 80,30 105,50" />
+                <path d="M 92,38 L 107,52 L 90,62" />
             </svg>
         </div>
 
@@ -360,9 +358,7 @@
     </div>
 
     <div class="controls-container">
-        <button class="primary-start-btn" id="startBtn" onclick="window.triggerStartTest()">START TEST</button>
-
-        <!-- Action buttons now anchored permanently to balance the screen -->
+        <!-- Action buttons positioned below the card stack -->
         <div class="button-row" id="buttonRow">
             <button class="action-btn btn-pass" id="btnPass" onclick="window.handleChoice(false)" aria-label="Skip">
                 <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -372,6 +368,9 @@
             </button>
         </div>
         <div class="sub-instruction" id="subInstruction">or use <strong>buttons</strong></div>
+
+        <!-- START TEST positioned at the absolute bottom -->
+        <button class="primary-start-btn" id="startBtn" onclick="window.triggerStartTest()">START TEST</button>
     </div>
 
     <div class="footer-link">How we protect your test data</div>
@@ -387,7 +386,6 @@
     </div>
 
     <script>
-        // Real core photo deck from early versions
         const deck = [
             { url: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=600&q=80", bw: true },
             { url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80", bw: true },
@@ -414,9 +412,7 @@
             sloganEl.classList.add('hidden');
             gestureHint.style.opacity = '0';
 
-            // Snap active card back to vertical center for test loop
             cardActive.style.transform = 'none';
-
             progressContainer.style.display = 'block';
 
             currentIndex = 0;
@@ -436,7 +432,7 @@
         }
 
         window.handleChoice = function(liked) {
-            if (!active) return; // Ignore clicks if test hasn't started via START TEST button yet
+            if (!active) return;
             
             if (liked) {
                 likedCount++;
@@ -465,11 +461,10 @@
             resultsModal.style.display = 'none';
             startBtn.style.display = 'block';
             progressContainer.style.display = 'none';
-            gestureHint.style.opacity = '1';
+            gestureHint.style.opacity = '0.85';
             sloganEl.classList.remove('hidden');
             
-            // Re-apply fanned state on splash screen
-            cardActive.style.transform = 'rotate(6deg) translateX(14px)';
+            cardActive.style.transform = 'rotate(5deg) translateX(12px)';
             
             currentIndex = 0;
             cardImg.src = "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80";
