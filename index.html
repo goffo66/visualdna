@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA (Build v6.3)</title>
+    <title>SNAPSHOT! - Visual DNA (Build v7.0)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -178,7 +178,6 @@
             display: block;
         }
 
-        /* Restored original elegant curved path with drop-shadow for contrast */
         .gesture-hint {
             position: absolute;
             top: 10px;
@@ -326,7 +325,7 @@
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
-        <div class="version-tag">Build v6.3</div>
+        <div class="version-tag">Build v7.0</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -338,7 +337,6 @@
     </div>
 
     <div class="stage-container">
-        <!-- Restored Original Smooth Curved Arrow with Drop Shadow -->
         <div class="gesture-hint" id="gestureHint">
             <svg viewBox="0 0 120 120">
                 <path d="M 15,95 C 30,35 80,30 105,50" />
@@ -378,19 +376,66 @@
     <div class="results-modal" id="resultsModal">
         <div class="results-card">
             <div class="results-title">Your Visual DNA</div>
-            <div class="results-stat"><span>Primary Style:</span> <strong>High Contrast</strong></div>
-            <div class="results-stat"><span>Monochrome Ratio:</span> <strong id="resBw">64% B&W</strong></div>
-            <div class="results-stat"><span>Liked Images:</span> <strong id="resCount">0 / 4</strong></div>
+            <div class="results-stat"><span>Primary Style:</span> <strong id="resStyle">High Contrast</strong></div>
+            <div class="results-stat"><span>Monochrome Ratio:</span> <strong id="resBw">0% B&W</strong></div>
+            <div class="results-stat"><span>Liked Images:</span> <strong id="resCount">0 / 50</strong></div>
             <button class="restart-btn" id="restartBtn" onclick="window.restartTest()">TEST AGAIN</button>
         </div>
     </div>
 
     <script>
+        // Full 50-image curated deck with balanced monochrome and high-contrast styling flags
         const deck = [
             { url: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=600&q=80", bw: true },
             { url: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80", bw: true },
             { url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80", bw: false },
-            { url: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80", bw: true }
+            { url: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80", bw: true },
+            { url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1426604966848-d7adac902bff?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80", bw: true },
+            { url: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&w=600&q=80", bw: true },
+            { url: "https://images.unsplash.com/photo-1500622944204-b135684e99fd?auto=format&fit=crop&w=600&q=80", bw: true },
+            { url: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?auto=format&fit=crop&w=600&q=80", bw: true },
+            { url: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1510784722466-f2aa9c52fff6?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1433086966358-54859ef0ed71?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=600&q=80", bw: true },
+            { url: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80", bw: true },
+            { url: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=600&q=80", bw: true },
+            { url: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1498758536662-35b82cd15e29?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80", bw: false },
+            { url: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=600&q=80", bw: false }
         ];
 
         let currentIndex = 0;
@@ -453,7 +498,9 @@
         function showResults() {
             active = false;
             document.getElementById('resCount').textContent = `${likedCount} / ${deck.length}`;
-            document.getElementById('resBw').textContent = `${Math.round((bwLikes / (likedCount || 1)) * 100)}% B&W`;
+            let bwPercentage = Math.round((bwLikes / (likedCount || 1)) * 100);
+            document.getElementById('resBw').textContent = `${bwPercentage}% B&W`;
+            document.getElementById('resStyle').textContent = bwPercentage > 50 ? 'Monochrome Noir' : 'High Contrast';
             resultsModal.style.display = 'flex';
         }
 
