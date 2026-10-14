@@ -13,6 +13,7 @@
             --accent-gold-light: #F59E0B;
             --pass-color: #EF4444;
             --like-color: #10B981;
+            --blue-accent: #3B82F6;
         }
 
         * {
@@ -263,15 +264,17 @@
         }
 
         .footer-link {
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
             text-decoration: underline;
             cursor: pointer;
-            opacity: 0.7;
+            opacity: 0.85;
+            margin-top: 4px;
+            text-transform: lowercase;
         }
 
-        /* Results Modal & Analytics Styles */
-        .results-modal {
+        /* Modal Overlay Base */
+        .modal-overlay {
             position: fixed;
             inset: 0;
             background: var(--bg-color);
@@ -280,9 +283,49 @@
             flex-direction: column;
             align-items: center;
             overflow-y: auto;
-            padding: 20px 16px;
+            padding: 24px 16px;
         }
 
+        /* Pre-Test Privacy Modal (A1) */
+        .panel-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 360px;
+            font-size: 0.75rem;
+            line-height: 1.45;
+            color: var(--text-primary);
+        }
+
+        .panel-card h2 {
+            font-size: 1.1rem;
+            color: var(--accent-gold-light);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .panel-card p { margin-bottom: 10px; color: var(--text-muted); }
+        .panel-card ul { margin: 8px 0 12px 18px; color: var(--text-muted); }
+        .panel-card li { margin-bottom: 4px; }
+
+        .panel-close-btn {
+            background: var(--blue-accent);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 25px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        /* Results Modal & Analytics Styles */
         .results-header-title {
             font-size: 1.2rem;
             font-weight: 900;
@@ -328,7 +371,7 @@
         }
 
         .toggle-btn.active {
-            background: #3B82F6;
+            background: var(--blue-accent);
             color: white;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
         }
@@ -420,7 +463,7 @@
             display: flex;
             justify-content: center;
             gap: 16px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .fb-btn {
@@ -443,7 +486,7 @@
         }
 
         .finish-btn {
-            background: #3B82F6;
+            background: var(--blue-accent);
             color: white;
             width: 100%;
             padding: 12px;
@@ -456,6 +499,46 @@
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(59, 130, 246,.4);
         }
+
+        /* Post-Test Full Privacy Page (A2) */
+        .legal-page {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 380px;
+            font-size: 0.72rem;
+            line-height: 1.45;
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        .legal-page h2 {
+            font-size: 1rem;
+            color: var(--accent-gold-light);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .legal-page .meta-date {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .legal-page h3 {
+            font-size: 0.78rem;
+            color: var(--text-primary);
+            margin: 12px 0 4px 0;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .legal-page ul { margin: 6px 0 8px 16px; }
+        .legal-page a { color: var(--blue-accent); text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -508,10 +591,27 @@
         <button class="primary-start-btn" id="startBtn" onclick="window.triggerStartTest()">START TEST</button>
     </div>
 
-    <div class="footer-link">How we protect your test data</div>
+    <div class="footer-link" onclick="window.openPrePrivacy()">how we protect your test data</div>
+
+    <!-- Pre-Test Privacy Modal (A1) -->
+    <div class="modal-overlay" id="prePrivacyModal">
+        <div class="panel-card">
+            <h2>Privacy - Before You Start</h2>
+            <p>This is an anonymous test. We don't ask for your name, email or account.</p>
+            <p>This preliminary version is hosted on GitHub Pages. When you load the test, GitHub may log technical data such as IP address - see GitHub's Privacy Statement.</p>
+            <p>When you tap Start, we also log:</p>
+            <ul>
+                <li>Your 50 choices (Pass / Like it)</li>
+                <li>A security log: IP address, device/browser type, date/time</li>
+            </ul>
+            <p>Our security log (including IP) is deleted after 30 days. After that your choices are kept in a form that cannot be linked back to you, for research into visual preference.</p>
+            <p>Your choices are stored via Basin in the EU. We don't sell data. Full details are available after the test.</p>
+            <button class="panel-close-btn" onclick="window.closePrePrivacy()">GOT IT</button>
+        </div>
+    </div>
 
     <!-- Results Modal -->
-    <div class="results-modal" id="resultsModal">
+    <div class="modal-overlay" id="resultsModal">
         <div class="results-header-title">Your Visual DNA Profile</div>
         <div class="results-header-subtitle">What it means for you...</div>
 
@@ -532,7 +632,63 @@
                 <div class="fb-btn" onclick="window.setFeedback(this)">–</div>
                 <div class="fb-btn" onclick="window.setFeedback(this)">✓</div>
             </div>
-            <button class="finish-btn" onclick="window.closeResults()">FINISH & CLOSE</button>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px; align-items: center;">
+                <button class="finish-btn" onclick="window.attemptClose()">FINISH & EXIT</button>
+                <button style="background: transparent; border: none; color: var(--text-muted); font-size: 0.65rem; text-decoration: underline; cursor: pointer; text-transform: lowercase; opacity: 0.8;" onclick="window.goToFullPrivacy()">view full privacy notice</button>
+            </div>
+            <div id="exitNoticeResults" style="display: none; margin-top: 10px; font-size: 0.65rem; color: var(--accent-gold-light);">
+                Test complete. You may now safely close this browser tab.
+            </div>
+        </div>
+    </div>
+
+    <!-- Post-Test Full Privacy Page (A2) -->
+    <div class="modal-overlay" id="fullPrivacyModal">
+        <div class="legal-page">
+            <h2>VISUAL DNA - Privacy Notice</h2>
+            <span class="meta-date">Preliminary GitHub Version | Last updated: 12 October 2026<br>Data Controller: Geoff Foster</span>
+
+            <h3>What this test is</h3>
+            <p>A 60-second, 50-image exercise to identify preference across 5 photographic genres: Architecture, Nature, Street, Human Interest, and Creative (abstract imagery).</p>
+
+            <h3>What we collect</h3>
+            <ul>
+                <li>Your 50 Pass / Like it choices</li>
+                <li>Technical data: IP address, approximate location from IP (city level), device/browser type, date/time</li>
+                <li>We do NOT collect name, email, precise location or account details. No tracking cookies.</li>
+            </ul>
+
+            <h3>Legal basis (UK GDPR)</h3>
+            <p>Security and abuse prevention and research into aggregate visual preference - legitimate interests. All published analysis uses only grouped, anonymised data.</p>
+
+            <h3>Where your data goes</h3>
+            <ul>
+                <li><strong>Hosting:</strong> Hosted on GitHub Pages (GitHub, Inc., USA - owned by Microsoft). GitHub may collect IP and technical data in server logs when you load the page. See: docs.github.com</li>
+                <li><strong>Storage:</strong> Your choices and our security log are stored via Basin (processor) in the EU.</li>
+            </ul>
+
+            <h3>How long we keep it</h3>
+            <ul>
+                <li>Our Basin security log including IP: 30 days then deleted</li>
+                <li>After that, your choices are kept in a form that cannot identify you, for research</li>
+                <li>GitHub's own server logs are retained under GitHub's own policy</li>
+            </ul>
+
+            <h3>Your rights</h3>
+            <p>Your IP address is personal data, but we only keep it for 30 days for security, then we delete it. After that, your choices cannot be linked back to you.</p>
+            <p>Because this test is anonymous - we don't ask for your name or email - we have no way to tell which choices are yours if you contact us later, unless you happen to still have your IP address and the exact time you took the test. This protects your anonymity.</p>
+            <p>You have the right to object to our processing for research, and the right to complain to the Information Commissioner's Office (ICO) - <a href="https://www.ico.org.uk" target="_blank">www.ico.org.uk</a> - if you have concerns.</p>
+
+            <h3>Children</h3>
+            <p>General audience - no explicit or sensitive content. We do not knowingly collect data from children.</p>
+
+            <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+                <button class="finish-btn" onclick="window.attemptClose()">FINISH & EXIT</button>
+                <div id="exitNotice" style="display: none; margin-top: 10px; font-size: 0.65rem; color: var(--accent-gold-light);">
+                    Test complete. You may now safely close this browser tab.
+                </div>
+            </div>
         </div>
     </div>
 
@@ -605,8 +761,32 @@
         const progressContainer = document.getElementById('progressContainer');
         const progressFill = document.getElementById('progressFill');
         const sloganEl = document.getElementById('sloganEl');
-        const resultsModal = document.getElementById('resultsModal');
         const gestureHint = document.getElementById('gestureHint');
+
+        const prePrivacyModal = document.getElementById('prePrivacyModal');
+        const resultsModal = document.getElementById('resultsModal');
+        const fullPrivacyModal = document.getElementById('fullPrivacyModal');
+
+        window.openPrePrivacy = function() {
+            prePrivacyModal.style.display = 'flex';
+        };
+
+        window.closePrePrivacy = function() {
+            prePrivacyModal.style.display = 'none';
+        };
+
+        window.goToFullPrivacy = function() {
+            resultsModal.style.display = 'none';
+            fullPrivacyModal.style.display = 'flex';
+        };
+
+        window.attemptClose = function() {
+            window.close();
+            const noticeResults = document.getElementById('exitNoticeResults');
+            const noticeLegal = document.getElementById('exitNotice');
+            if (noticeResults) noticeResults.style.display = 'block';
+            if (noticeLegal) noticeLegal.style.display = 'block';
+        };
 
         window.triggerStartTest = function() {
             startBtn.style.display = 'none';
@@ -702,7 +882,7 @@
                 </div>
             `;
 
-            // Category cards (10 images per category = 10% per image)
+            // Category cards
             const catNames = {
                 Creative: 'Creative',
                 Nature: 'Nature',
@@ -734,17 +914,6 @@
         window.setFeedback = function(el) {
             document.querySelectorAll('.fb-btn').forEach(b => b.classList.remove('selected'));
             el.classList.add('selected');
-        };
-
-        window.closeResults = function() {
-            resultsModal.style.display = 'none';
-            startBtn.style.display = 'block';
-            progressContainer.style.display = 'none';
-            gestureHint.style.opacity = '0.9';
-            sloganEl.classList.remove('hidden');
-            cardActive.style.transform = 'rotate(5deg) translateX(12px)';
-            currentIndex = 0;
-            cardImg.src = "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80";
         };
 
         let startX = 0;
