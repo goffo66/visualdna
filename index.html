@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA (Build v7.0)</title>
+    <title>SNAPSHOT! - Visual DNA (Build v7.1)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -34,8 +34,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            padding: 16px;
+            justify-content: space-between; /* Spreads layout naturally top-to-bottom */
+            padding: 24px 16px 20px 16px;
             overflow-x: hidden;
             touch-action: pan-y;
         }
@@ -47,27 +47,28 @@
             text-align: center;
             width: 100%;
             max-width: 400px;
-            margin-bottom: 6px;
+            margin-top: 8px;
+            margin-bottom: 12px;
         }
 
         .brand-title {
-            font-size: 1.9rem;
+            font-size: 2.1rem;
             font-weight: 900;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             line-height: 1;
-            margin-bottom: 3px;
+            margin-bottom: 6px;
         }
 
         .brand-title .snap { color: var(--text-primary); }
         .brand-title .shot { color: var(--accent-gold-light); font-weight: 300; }
 
         .version-tag {
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             color: var(--accent-gold-light);
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 3px;
+            margin-bottom: 6px;
             opacity: 0.8;
         }
 
@@ -75,24 +76,24 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(245, 158, 11, 0.3);
             border-radius: 50px;
-            padding: 3px 12px;
-            font-size: 0.6rem;
+            padding: 4px 14px;
+            font-size: 0.65rem;
             font-weight: 700;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             color: var(--text-primary);
-            margin-bottom: 3px;
+            margin-bottom: 8px;
             backdrop-filter: blur(10px);
         }
 
         .pill-badge span { color: var(--accent-gold-light); font-style: italic; }
 
         .slogan {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            line-height: 1.1;
+            line-height: 1.2;
             color: var(--text-primary);
             transition: opacity 0.3s ease;
         }
@@ -101,15 +102,15 @@
             font-style: italic;
             color: var(--accent-gold-light);
             display: block;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
         }
 
         .progress-bar-container {
-            width: 160px;
-            height: 3px;
+            width: 180px;
+            height: 4px;
             background: rgba(255,255,255,0.1);
             border-radius: 2px;
-            margin-top: 6px;
+            margin-top: 10px;
             display: none;
             overflow: hidden;
         }
@@ -125,17 +126,17 @@
             position: relative;
             width: 100%;
             max-width: 300px;
-            height: 280px;
+            height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 8px;
+            margin: auto 0; /* Centers stage comfortably in available vertical space */
         }
 
         .card-stack {
             position: relative;
-            width: 180px;
-            height: 250px;
+            width: 195px;
+            height: 270px;
             touch-action: none;
         }
 
@@ -143,9 +144,9 @@
             position: absolute;
             inset: 0;
             background: var(--card-bg);
-            border-radius: 16px;
+            border-radius: 18px;
             border: 3px solid #1E222D;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.85);
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -167,7 +168,7 @@
         }
 
         .card-active.dragging {
-            box-shadow: 0 16px 35px rgba(0,0,0,0.9);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.95);
             cursor: grabbing;
         }
 
@@ -208,34 +209,34 @@
             align-items: center;
             width: 100%;
             max-width: 320px;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 8px;
         }
 
         .button-row {
             display: flex;
-            gap: 20px;
+            gap: 24px;
         }
 
         .action-btn {
-            width: 46px;
-            height: 46px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            opacity: 0.85;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            opacity: 0.9;
         }
 
         .btn-pass { background-color: var(--pass-color); color: white; }
         .btn-like { background-color: var(--like-color); color: white; }
 
         .action-btn svg {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             fill: none;
             stroke: currentColor;
             stroke-width: 2.5;
@@ -244,7 +245,7 @@
         }
 
         .sub-instruction { 
-            font-size: 0.65rem; 
+            font-size: 0.68rem; 
             color: var(--text-muted); 
         }
         .sub-instruction strong { color: var(--text-primary); }
@@ -252,10 +253,10 @@
         .primary-start-btn {
             background-color: var(--like-color);
             color: #FFFFFF;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 800;
             letter-spacing: 1.5px;
-            padding: 12px 32px;
+            padding: 13px 36px;
             border-radius: 40px;
             border: none;
             cursor: pointer;
@@ -269,7 +270,7 @@
             text-decoration: underline;
             cursor: pointer;
             opacity: 0.85;
-            margin-top: 4px;
+            margin-bottom: 6px;
             text-transform: lowercase;
         }
 
@@ -297,6 +298,7 @@
             font-size: 0.75rem;
             line-height: 1.45;
             color: var(--text-primary);
+            margin: auto 0;
         }
 
         .panel-card h2 {
@@ -512,6 +514,7 @@
             line-height: 1.45;
             color: var(--text-muted);
             text-align: left;
+            margin: auto 0;
         }
 
         .legal-page h2 {
@@ -545,7 +548,7 @@
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
-        <div class="version-tag">Build v7.0</div>
+        <div class="version-tag">Build v7.1</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -634,7 +637,7 @@
             </div>
             
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px; align-items: center;">
-                <button class="finish-btn" onclick="window.attemptClose()">FINISH & EXIT</button>
+                <button class="finish-btn" onclick="window.attemptClose(true)">FINISH & EXIT</button>
                 <button style="background: transparent; border: none; color: var(--text-muted); font-size: 0.65rem; text-decoration: underline; cursor: pointer; text-transform: lowercase; opacity: 0.8;" onclick="window.goToFullPrivacy()">view full privacy notice</button>
             </div>
             <div id="exitNoticeResults" style="display: none; margin-top: 10px; font-size: 0.65rem; color: var(--accent-gold-light);">
@@ -684,10 +687,7 @@
             <p>General audience - no explicit or sensitive content. We do not knowingly collect data from children.</p>
 
             <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
-                <button class="finish-btn" onclick="window.attemptClose()">FINISH & EXIT</button>
-                <div id="exitNotice" style="display: none; margin-top: 10px; font-size: 0.65rem; color: var(--accent-gold-light);">
-                    Test complete. You may now safely close this browser tab.
-                </div>
+                <button class="finish-btn" onclick="window.attemptClose(false)">FINISH & EXIT</button>
             </div>
         </div>
     </div>
@@ -780,12 +780,12 @@
             fullPrivacyModal.style.display = 'flex';
         };
 
-        window.attemptClose = function() {
+        window.attemptClose = function(showNoticeOnResults) {
             window.close();
-            const noticeResults = document.getElementById('exitNoticeResults');
-            const noticeLegal = document.getElementById('exitNotice');
-            if (noticeResults) noticeResults.style.display = 'block';
-            if (noticeLegal) noticeLegal.style.display = 'block';
+            if (showNoticeOnResults) {
+                const noticeResults = document.getElementById('exitNoticeResults');
+                if (noticeResults) noticeResults.style.display = 'block';
+            }
         };
 
         window.triggerStartTest = function() {
