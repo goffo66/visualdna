@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA (Build v6.1)</title>
+    <title>SNAPSHOT! - Visual DNA (Build v6.2)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -21,6 +21,7 @@
             padding: 0;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-touch-callout: none;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
@@ -35,6 +36,7 @@
             justify-content: flex-start;
             padding: 16px;
             overflow-x: hidden;
+            touch-action: pan-y;
         }
 
         .header-container {
@@ -176,27 +178,23 @@
             display: block;
         }
 
-        /* Smoothed, elegant curved gesture hint */
+        /* Polished Gesture Hint with high-contrast backing and solid arrowhead */
         .gesture-hint {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 150px;
-            height: 150px;
-            opacity: 0.85;
+            top: 5px;
+            left: 5px;
+            width: 160px;
+            height: 160px;
+            opacity: 0.95;
             z-index: 3;
             transition: opacity 0.3s ease;
             pointer-events: none;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.8));
         }
 
         .gesture-hint svg {
             width: 100%;
             height: 100%;
-            fill: none;
-            stroke: #E2E8F0;
-            stroke-width: 3.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
         }
 
         .controls-container {
@@ -246,7 +244,6 @@
         }
         .sub-instruction strong { color: var(--text-primary); }
 
-        /* START TEST positioned cleanly at the very bottom */
         .primary-start-btn {
             background-color: var(--like-color);
             color: #FFFFFF;
@@ -324,7 +321,7 @@
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
-        <div class="version-tag">Build v6.1</div>
+        <div class="version-tag">Build v6.2</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -336,11 +333,12 @@
     </div>
 
     <div class="stage-container">
-        <!-- Sleek, refined thin-line curved arrow -->
+        <!-- Polished Curved Arrow with Solid Balanced Head & Drop Shadow -->
         <div class="gesture-hint" id="gestureHint">
             <svg viewBox="0 0 120 120">
-                <path d="M 15,95 C 30,35 80,30 105,50" />
-                <path d="M 92,38 L 107,52 L 90,62" />
+                <path d="M 18,90 C 35,25 85,25 102,48" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+                <!-- Solid filled professional arrowhead -->
+                <polygon points="90,42 106,47 98,62" fill="#FFFFFF"/>
             </svg>
         </div>
 
@@ -358,7 +356,6 @@
     </div>
 
     <div class="controls-container">
-        <!-- Action buttons positioned below the card stack -->
         <div class="button-row" id="buttonRow">
             <button class="action-btn btn-pass" id="btnPass" onclick="window.handleChoice(false)" aria-label="Skip">
                 <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -369,7 +366,6 @@
         </div>
         <div class="sub-instruction" id="subInstruction">or use <strong>buttons</strong></div>
 
-        <!-- START TEST positioned at the absolute bottom -->
         <button class="primary-start-btn" id="startBtn" onclick="window.triggerStartTest()">START TEST</button>
     </div>
 
@@ -461,7 +457,7 @@
             resultsModal.style.display = 'none';
             startBtn.style.display = 'block';
             progressContainer.style.display = 'none';
-            gestureHint.style.opacity = '0.85';
+            gestureHint.style.opacity = '0.95';
             sloganEl.classList.remove('hidden');
             
             cardActive.style.transform = 'rotate(5deg) translateX(12px)';
