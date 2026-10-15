@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA (Build v7.5)</title>
+    <title>SNAPSHOT! - Visual DNA (Build v7.6)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -548,7 +548,7 @@
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
-        <div class="version-tag">Build v7.5</div>
+        <div class="version-tag">Build v7.6</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -631,9 +631,9 @@
             <div class="feedback-title">Test Complete</div>
             <div class="feedback-subtitle">How did you find the experience?</div>
             <div class="feedback-btns">
-                <div class="fb-btn" onclick="window.setFeedback(this)">✕</div>
-                <div class="fb-btn" onclick="window.setFeedback(this)">–</div>
-                <div class="fb-btn" onclick="window.setFeedback(this)">✓</div>
+                <div class="fb-btn" onclick="window.setFeedback(this, 'Disliked')">✕</div>
+                <div class="fb-btn" onclick="window.setFeedback(this, 'Neutral')">–</div>
+                <div class="fb-btn" onclick="window.setFeedback(this, 'Liked')">✓</div>
             </div>
             
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px; align-items: center;">
@@ -752,6 +752,8 @@
         let currentIndex = 0;
         let active = false;
         let currentMode = 'viewer';
+        let userFeedbackRating = "Not provided";
+
         let stats = {
             likedTotal: 0,
             bwLikes: 0,
@@ -810,6 +812,7 @@
             shuffleDeck(deck);
 
             currentIndex = 0;
+            userFeedbackRating = "Not provided";
             stats.likedTotal = 0;
             stats.bwLikes = 0;
             stats.cats = { Arch: 0, Creative: 0, Human: 0, Nature: 0, Street: 0 };
@@ -873,9 +876,11 @@
         };
 
         function sendToBasin() {
-            const basinUrl = "https://usebasin.com/f/9192c6e4727d";                        
+            const basinUrl = "https://usebasin.com/f/9192c6e4727d";
+
             const payload = {
                 timestamp: new Date().toISOString(),
+                userRating: userFeedbackRating,
                 totalLikes: stats.likedTotal,
                 bwLikes: stats.bwLikes,
                 colorLikes: stats.likedTotal - stats.bwLikes,
@@ -955,9 +960,11 @@
             container.innerHTML = html;
         }
 
-        window.setFeedback = function(el) {
+        window.setFeedback = function(el, ratingText) {
             document.querySelectorAll('.fb-btn').forEach(b => b.classList.remove('selected'));
             el.classList.add('selected');
+            userFeedbackRating = ratingText;
+            sendToBasin(); // Instantly update Basin with the selected feedback rating
         };
 
         let startX = 0;
