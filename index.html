@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNAPSHOT! - Visual DNA (Build v7.3)</title>
+    <title>SNAPSHOT! - Visual DNA (Build v7.5)</title>
     <style>
         :root {
             --bg-color: #08090C;
@@ -548,7 +548,7 @@
 
     <div class="header-container">
         <h1 class="brand-title"><span class="snap">SNAP</span><span class="shot">SHOT!</span></h1>
-        <div class="version-tag">Build v7.3</div>
+        <div class="version-tag">Build v7.5</div>
         <div class="pill-badge">YOUR <strong>VISUAL DNA</strong> IN <span>60 SECONDS!</span></div>
         <div class="slogan" id="sloganEl">
             IF YOU FEEL IT,
@@ -637,7 +637,7 @@
             </div>
             
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px; align-items: center;">
-                <button class="finish-btn" onclick="window.attemptClose(true)">FINISH & EXIT</button>
+                <button class="finish-btn" onclick="window.attemptClose('exitNoticeResults')">FINISH & EXIT</button>
                 <button style="background: transparent; border: none; color: var(--text-muted); font-size: 0.65rem; text-decoration: underline; cursor: pointer; text-transform: lowercase; opacity: 0.8;" onclick="window.goToFullPrivacy()">view full privacy notice</button>
             </div>
             <div id="exitNoticeResults" style="display: none; margin-top: 10px; font-size: 0.65rem; color: var(--accent-gold-light);">
@@ -686,12 +686,16 @@
             <h3>Children</h3>
             <p>General audience - no explicit or sensitive content. We do not knowingly collect data from children.</p>
 
-            <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
-                <button class="finish-btn" onclick="window.attemptClose(false)">FINISH & EXIT</button>
+            <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                <button class="finish-btn" onclick="window.attemptClose('exitNoticeLegal')">FINISH & EXIT</button>
+                <div id="exitNoticeLegal" style="display: none; font-size: 0.65rem; color: var(--accent-gold-light);">
+                    Test complete. You may now safely close this browser tab.
+                </div>
             </div>
         </div>
     </div>
- <script>
+
+    <script>
         const deck = [
             { url: "images/Arch_bw_1.jpg", cat: "Arch", bw: true },
             { url: "images/Arch_bw_2.jpg", cat: "Arch", bw: true },
@@ -780,11 +784,11 @@
             fullPrivacyModal.style.display = 'flex';
         };
 
-        window.attemptClose = function(showNoticeOnResults) {
+        window.attemptClose = function(targetNoticeId) {
             window.close();
-            if (showNoticeOnResults) {
-                const noticeResults = document.getElementById('exitNoticeResults');
-                if (noticeResults) noticeResults.style.display = 'block';
+            if (targetNoticeId) {
+                const noticeEl = document.getElementById(targetNoticeId);
+                if (noticeEl) noticeEl.style.display = 'block';
             }
         };
 
@@ -868,8 +872,28 @@
             }
         };
 
+        function sendToBasin() {
+            const basinUrl = "YOUR_BASIN_ENDPOINT_URL_HERE"; 
+            if (basinUrl.includes("YOUR_BASIN_ENDPOINT_URL_HERE")) return;
+
+            const payload = {
+                timestamp: new Date().toISOString(),
+                totalLikes: stats.likedTotal,
+                bwLikes: stats.bwLikes,
+                colorLikes: stats.likedTotal - stats.bwLikes,
+                categoryScores: stats.cats
+            };
+
+            fetch(basinUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).catch(err => console.log("Basin sync error:", err));
+        }
+
         function showResults() {
             active = false;
+            sendToBasin();
             renderResultsCards();
             resultsModal.style.display = 'flex';
         }
@@ -908,12 +932,10 @@
                 Human: 'Human'
             };
 
-            // Convert category scores into an array and sort descending by score
             let sortedCats = Object.keys(catNames).map(key => {
                 return { key: key, count: stats.cats[key] || 0 };
             }).sort((a, b) => b.count - a.count);
 
-            // Render category cards in descending order of preference
             sortedCats.forEach(item => {
                 let key = item.key;
                 let count = item.count;
@@ -956,3 +978,5 @@
             }
         });
     </script>
+</body>
+</html>
